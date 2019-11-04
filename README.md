@@ -1,2 +1,2 @@
-# assignment-2-group-41
+# Assignment 2 by Group 41
 Implementation of game designed in assignment 1
