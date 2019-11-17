@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -31,8 +33,8 @@ public class GameController {
 
     @FXML
     void clickRestart(ActionEvent event) {
-    	Game.playerX = 0;
-    	Game.playerY = 0;
+    	Game.playerX = Game.xStart;
+    	Game.playerY = Game.yStart;
     	drawGame();
     }
 
@@ -106,8 +108,31 @@ public class GameController {
                 }
 			}
 		}
+		
+		insertEntitys();
+		
+		for (Entity s : Game.activeEntitys)
+		{
+			s.draw(gc);
+		}
+		
 		// Draw player at centre cell
 		gc.drawImage(Game.player, 3 * Game.GRID_CELL_WIDTH, 3 * Game.GRID_CELL_HEIGHT);			
-	}		
+	}
+    
+	private void insertEntitys() {
+		if (Game.entitysToAdd.isEmpty ()) {
+			return;
+		}
+		
+		Entity current = Game.entitysToAdd.peek ();
+		while (!Game.entitysToAdd.isEmpty ()) {
+			Game.activeEntitys.add(current);
+			Game.entitysToAdd.dequeue();
+			if (!Game.entitysToAdd.isEmpty ()) {
+				current = Game.entitysToAdd.peek();
+			}
+		}
+	}
 
 }

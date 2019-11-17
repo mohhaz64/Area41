@@ -42,12 +42,17 @@ public class Game extends Application {
 	static Image player;
 		
 	// X and Y coordinate of player
-	static int playerX = 0;
-	static int playerY = 0;
-		
+	static int playerX;
+	static int playerY;
+
 	static int width;
 	static int height;
 	static ArrayList<String> map;
+	static int xStart;
+	static int yStart;
+	static Queue<Entity> entitysToAdd;
+	//static ArrayList<Entity> activeEntitys;
+	static ArrayList<Entity> activeEntitys = new ArrayList<>();
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -64,6 +69,11 @@ public class Game extends Application {
 			map = level.map;
 			width = level.getWidth();
 			height = level.getHeight();
+			xStart = level.getXStart();
+			yStart = level.getYStart();
+			playerX = xStart;
+			playerY = yStart;
+			entitysToAdd = level.entityQueue;
 			player = new Image("Idle.png", 70, 70, false, false);
 			
 			GridPane root = (GridPane)FXMLLoader.load(getClass().getResource("GameController.fxml"));
@@ -77,8 +87,6 @@ public class Game extends Application {
 			e.printStackTrace();
 		}
 	}
-	
-	
 		
 	public static void main(String[] args) {
 		launch(args);
