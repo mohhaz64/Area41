@@ -1,4 +1,6 @@
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 	public class Entity {
 		
@@ -14,7 +16,7 @@ import javafx.scene.image.Image;
 		/**
 		 *  The sprite of the Entity.
 		 */
-		protected Image sprite;
+		protected Image sprite = new Image("Idle.png", 60, 60, false, false);
 
 		/**
 		 * Creates a closed Entity object.
@@ -22,10 +24,14 @@ import javafx.scene.image.Image;
 		 * @param y the y position.
 		 * @param sprite The Image of the entity.
 		 */
-		protected Entity (int x, int y, Image sprite) {
+		protected Entity (int x, int y) {
 			this.x = x;
 			this.y = y;
-			this.sprite = sprite;
+		}
+		
+		public String toString () {
+			String result = "Its position is " + x + " " + y;
+			return result;
 		}
 		
 		/**
@@ -61,5 +67,10 @@ import javafx.scene.image.Image;
 		  */
 		 public int getY() {
 		 	return y;
+		 }
+		 
+		 public void draw (GraphicsContext g) {
+			g.setFill(Color.RED);
+		 	g.fillRect((x - Game.playerX + 3) * Game.GRID_CELL_WIDTH, (y - Game.playerY + 3) * Game.GRID_CELL_HEIGHT, Game.GRID_CELL_WIDTH, Game.GRID_CELL_HEIGHT);
 		 }
 	}
