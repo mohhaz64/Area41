@@ -48,15 +48,14 @@ public class Level extends Game {
             
         }
         
-        System.out.println(map);
         
         while(in.hasNextLine()) {
             
             String l = in.nextLine();
-            System.out.println(l);
+            //System.out.println(l);
             
-            Scanner line = new Scanner(l);
-            String shape = line.next();
+            //Scanner line = new Scanner(l);
+            //String shape = line.next();
 
             
         }

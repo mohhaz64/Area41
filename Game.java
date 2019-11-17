@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -38,7 +41,26 @@ public class Game extends Application {
 	int playerX = 0;
 	int playerY = 0;
 	
+	int width;
+	int height;
+	ArrayList<String> map;
+	
+	
 	public void start(Stage primaryStage) {
+		
+		//Temporary file input before menu is created
+		Scanner input = new Scanner (System.in);
+		System.out.println ("Please enter a file to open:");
+		String filename = input.next ();
+		input.close ();
+		
+		Level level = new Level();
+		level.openFile(filename);
+		
+		map = level.map;
+		width = level.getWidth();
+		height = level.getHeight();
+		
 		// Build the GUI 
 		Pane root = buildGUI();
 		
@@ -98,14 +120,32 @@ public class Game extends Application {
 		
 		gc.setStroke(Color.BLACK);
 		gc.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-		for(int k = 0; k <= CANVAS_WIDTH; k++) {
-			for(int i = 0; i <= CANVAS_WIDTH; i++) {
-				gc.strokeRect(i * GRID_CELL_WIDTH, k * GRID_CELL_HEIGHT, GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+
+		for(int k = 0; k < height; k++) {
+			
+			for(int i = 0; i < width; i++) {
+				
+				String instance = map.get((k*width)+i);
+				
+                if (instance.equals("Wall")) {
+                	gc.setStroke(Color.BLACK);
+                	gc.strokeRect((i - playerX + 3) * GRID_CELL_WIDTH, (k - playerY + 3) * GRID_CELL_HEIGHT, GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+                }
+                else if (instance.equals("Ground")) {
+                	gc.setFill(Color.WHITE);
+                	gc.fillRect((i - playerX + 3) * GRID_CELL_WIDTH, (k - playerY + 3) * GRID_CELL_HEIGHT, GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+                }
+                else if (instance.equals("Goal")) {    
+                	gc.setFill(Color.GREEN);
+                	gc.fillRect((i - playerX + 3) * GRID_CELL_WIDTH, (k - playerY + 3) * GRID_CELL_HEIGHT, GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+                }
+                else {
+                    System.out.println("Error: instance not found.");
+                }
 			}
 		}
-		
-		// Draw player at current location
-		gc.drawImage(player, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);			
+		// Draw player at centre cell
+		gc.drawImage(player, 3 * GRID_CELL_WIDTH, 3 * GRID_CELL_HEIGHT);			
 	}
 	
 	public void restartGame() {
