@@ -21,7 +21,6 @@ import javafx.geometry.Insets;
 
 /**
  * The main class for this program.
- * @author Callum Charalambides
  *
  */
 public class Game extends Application {
