@@ -5,12 +5,15 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 public class GameController {
+	
+	private Level levelBeingLoaded;
 
     @FXML private GridPane gridPane;
     @FXML private ImageView Image;
@@ -20,12 +23,54 @@ public class GameController {
     @FXML private Label redCount;
     @FXML private Label yellowCount;
     @FXML private Label blueCount;
+    
+	// The dimensions of the canvas
+	private static final int CANVAS_WIDTH = 420;
+	private static final int CANVAS_HEIGHT = 420;
+	
+	// The size of each cell
+	static int GRID_CELL_WIDTH = 60;
+	static int GRID_CELL_HEIGHT = 60;
+    
+    // Loaded images
+ 	static Image player = new Image("Idle.png", 70, 70, false, false);
+ 		
+ 	// X and Y coordinate of player
+ 	static int playerX;
+ 	static int playerY;
+
+ 	int width;
+ 	int height;
+ 	ArrayList<String> map;
+ 	int xStart;
+ 	int yStart;
+ 	Queue<Entity> entitysToAdd;
+ 	
+ 	ArrayList<Entity> activeEntitys = new ArrayList<>();
 
     public void initialize() {
-    	projectLevel.setText("Level - 1");
     	gridPane.addEventFilter(KeyEvent.KEY_PRESSED, event -> keyPressed(event));
-    	drawGame();
     }
+    
+	public void setLevel(Level levelToLoad) {
+		this.levelBeingLoaded = levelToLoad;
+		
+		String name = levelBeingLoaded.getName();
+		width = levelBeingLoaded.getWidth();
+     	height = levelBeingLoaded.getHeight();
+     	map = levelBeingLoaded.getMap();
+     	xStart = levelBeingLoaded.getXStart();
+     	yStart = levelBeingLoaded.getYStart();
+     	entitysToAdd = levelBeingLoaded.getEntityQueue();
+     	
+     	playerX = xStart;
+     	playerY = yStart;
+     	
+     	projectLevel.setText(name);
+
+     	drawGame();
+	}
+    
     @FXML 
     void clickQuit(ActionEvent event) {
     	System.exit(0);
@@ -33,8 +78,8 @@ public class GameController {
 
     @FXML
     void clickRestart(ActionEvent event) {
-    	Game.playerX = Game.xStart;
-    	Game.playerY = Game.yStart;
+    	playerX = xStart;
+    	playerY = yStart;
     	drawGame();
     }
 
@@ -49,19 +94,19 @@ public class GameController {
 		
 	    case RIGHT:
 	    	// Right key was pressed. So move the player right by one cell.
-        	Game.playerX = Game.playerX + 1;
+        	playerX = playerX + 1;
         	break;	
 	    case LEFT:
 	    	// Right key was pressed. So move the player right by one cell.
-        	Game.playerX = Game.playerX - 1;
+        	playerX = playerX - 1;
         	break;	
 	    case UP:
 	    	// Right key was pressed. So move the player right by one cell.
-        	Game.playerY = Game.playerY - 1;
+        	playerY = playerY - 1;
         	break;	
 	    case DOWN:
 	    	// Right key was pressed. So move the player right by one cell.
-        	Game.playerY = Game.playerY + 1;
+        	playerY = playerY + 1;
         	break;	
         default:
         	// Do nothing
@@ -76,6 +121,7 @@ public class GameController {
     }
     
     public void drawGame() {
+
 		// Get the Graphic Context of the canvas. This is what we draw on.
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
@@ -83,25 +129,25 @@ public class GameController {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		
 		gc.setStroke(Color.BLACK);
-		gc.strokeRect(0, 0, Game.CANVAS_WIDTH, Game.CANVAS_HEIGHT);
+		gc.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-		for(int k = 0; k < Game.height; k++) {
+		for(int k = 0; k < height; k++) {
 			
-			for(int i = 0; i < Game.width; i++) {
+			for(int i = 0; i < width; i++) {
 				
-				String instance = Game.map.get((k*Game.width)+i);
+				String instance = map.get((k*width)+i);
 				
                 if (instance.equals("Wall")) {
                 	gc.setStroke(Color.BLACK);
-                	gc.strokeRect((i - Game.playerX + 3) * Game.GRID_CELL_WIDTH, (k - Game.playerY + 3) * Game.GRID_CELL_HEIGHT, Game.GRID_CELL_WIDTH, Game.GRID_CELL_HEIGHT);
+                	gc.strokeRect((i - playerX + 3) * GRID_CELL_WIDTH, (k - playerY + 3) * GRID_CELL_HEIGHT, GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
                 }
                 else if (instance.equals("Ground")) {
                 	gc.setFill(Color.WHITE);
-                	gc.fillRect((i - Game.playerX + 3) * Game.GRID_CELL_WIDTH, (k - Game.playerY + 3) * Game.GRID_CELL_HEIGHT, Game.GRID_CELL_WIDTH, Game.GRID_CELL_HEIGHT);
+                	gc.fillRect((i - playerX + 3) * GRID_CELL_WIDTH, (k - playerY + 3) * GRID_CELL_HEIGHT, GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
                 }
                 else if (instance.equals("Goal")) {    
                 	gc.setFill(Color.GREEN);
-                	gc.fillRect((i - Game.playerX + 3) * Game.GRID_CELL_WIDTH, (k - Game.playerY + 3) * Game.GRID_CELL_HEIGHT, Game.GRID_CELL_WIDTH, Game.GRID_CELL_HEIGHT);
+                	gc.fillRect((i - playerX + 3) * GRID_CELL_WIDTH, (k - playerY + 3) * GRID_CELL_HEIGHT, GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
                 }
                 else {
                     System.out.println("Error: instance not found.");
@@ -111,26 +157,26 @@ public class GameController {
 		
 		insertEntitys();
 		
-		for (Entity s : Game.activeEntitys)
+		for (Entity s : activeEntitys)
 		{
 			s.draw(gc);
 		}
 		
 		// Draw player at centre cell
-		gc.drawImage(Game.player, 3 * Game.GRID_CELL_WIDTH, 3 * Game.GRID_CELL_HEIGHT);			
+		gc.drawImage(player, 3 * GRID_CELL_WIDTH, 3 * GRID_CELL_HEIGHT);			
 	}
     
 	private void insertEntitys() {
-		if (Game.entitysToAdd.isEmpty ()) {
+		if (entitysToAdd.isEmpty ()) {
 			return;
 		}
 		
-		Entity current = Game.entitysToAdd.peek ();
-		while (!Game.entitysToAdd.isEmpty ()) {
-			Game.activeEntitys.add(current);
-			Game.entitysToAdd.dequeue();
-			if (!Game.entitysToAdd.isEmpty ()) {
-				current = Game.entitysToAdd.peek();
+		Entity current = entitysToAdd.peek ();
+		while (!entitysToAdd.isEmpty ()) {
+			activeEntitys.add(current);
+			entitysToAdd.dequeue();
+			if (!entitysToAdd.isEmpty ()) {
+				current = entitysToAdd.peek();
 			}
 		}
 	}
