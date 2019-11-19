@@ -71,6 +71,6 @@ import javafx.scene.paint.Color;
 		 
 		 public void draw (GraphicsContext g) {
 			g.setFill(Color.RED);
-		 	g.fillRect((x - Game.playerX + 3) * Game.GRID_CELL_WIDTH, (y - Game.playerY + 3) * Game.GRID_CELL_HEIGHT, Game.GRID_CELL_WIDTH, Game.GRID_CELL_HEIGHT);
+		 	g.fillRect((x - GameController.playerX + 3) * GameController.GRID_CELL_WIDTH, (y - GameController.playerY + 3) * GameController.GRID_CELL_HEIGHT, GameController.GRID_CELL_WIDTH, GameController.GRID_CELL_HEIGHT);
 		 }
 	}
