@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -10,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class GameController {
 	
@@ -73,7 +75,8 @@ public class GameController {
     
     @FXML 
     void clickQuit(ActionEvent event) {
-    	System.exit(0);
+    	Stage stage = (Stage) gridPane.getScene().getWindow();
+	    stage.close();
     }
 
     @FXML
