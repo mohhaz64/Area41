@@ -36,10 +36,11 @@ public class Main extends Application {
 			// Load the Menu scene.
 			GridPane root = (GridPane)FXMLLoader.load(getClass().getResource("Menu.fxml"));
 			Scene scene = new Scene(root, MENU_WINDOW_WIDTH, MENU_WINDOW_HEIGHT);
-
+		
 			// Place the Menu scene on stage and show it.
 			primaryStage.setScene(scene);
 			primaryStage.setTitle(WINDOW_TITLE);
+			primaryStage.setResizable(false);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
