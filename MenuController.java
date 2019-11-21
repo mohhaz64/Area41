@@ -343,6 +343,7 @@ public class MenuController {
 			Stage gameStage = new Stage();
 			gameStage.setScene(gameScene);
 			gameStage.setTitle(Main.WINDOW_TITLE);
+			gameStage.setResizable(false);
 			
 			// Make the stage a modal window.
 			gameStage.initModality(Modality.APPLICATION_MODAL);
