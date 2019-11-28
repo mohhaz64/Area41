@@ -1,4 +1,8 @@
 import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -22,6 +26,7 @@ import javafx.stage.Stage;
 public class GameController {
 	
 	private Level levelBeingLoaded;
+	private User currentUser;
 
     @FXML private GridPane gridPane;
     @FXML private ImageView Image;
@@ -48,14 +53,17 @@ public class GameController {
  	static int playerY;
 
  	//Variables that are scanned in from the .txt level file.
+ 	String name;
  	int width;
  	int height;
  	ArrayList<String> map;
  	int xStart;
  	int yStart;
  	Queue<Entity> entitysToAdd;
- 	
  	ArrayList<Entity> activeEntitys = new ArrayList<>();
+ 	
+ 	//User info
+ 	String userSavedGame;
 
  	
 	/**
@@ -74,7 +82,7 @@ public class GameController {
 	public void setLevel(Level levelToLoad) {
 		this.levelBeingLoaded = levelToLoad;
 		
-		String name = levelBeingLoaded.getName();
+		name = levelBeingLoaded.getName();
 		width = levelBeingLoaded.getWidth();
      	height = levelBeingLoaded.getHeight();
      	map = levelBeingLoaded.getMap();
@@ -88,6 +96,17 @@ public class GameController {
      	projectLevel.setText(name);
 
      	drawGame();
+	}
+	
+	/**
+	 * Allows GameController to access the current user's saved game.
+	 * @param currentUser The user currently playing the level
+	 */
+	public void setUser(User selectedUser) {
+		this.currentUser = selectedUser;
+		
+		userSavedGame = currentUser.getSavedFile();
+
 	}
     
     @FXML 
@@ -116,7 +135,36 @@ public class GameController {
 	 * TODO:: SAVES THE GAME
 	 * @param event The ActionEvent being handled when the button 'Save' is pressed
 	 */
-    void clickSave(ActionEvent event) {
+    void clickSave(ActionEvent event) throws IOException {
+    	
+    	File file = new File(userSavedGame);
+    	  
+    	if (file.createNewFile())
+    	{
+    	    System.out.println("Saved Game file is created.");
+    	} else {
+    	    System.out.println("Saved Game file already exists.");
+    	}
+    	
+    	BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+    	writer.write(name);
+    	writer.newLine();
+    	writer.write(width + " " + height);
+    	writer.newLine();
+    	
+    	for(int k = 0; k < height; k++) {
+			for(int i = 0; i < width; i++) {
+				writer.write(map.get((k*width)+i));
+			}
+			writer.newLine();
+		}
+    	writer.write("START " + xStart + " " + yStart);
+    	writer.newLine();
+    	
+    	//Will finish when classes are created
+    	writer.write("Entity classes needed");
+    	
+    	writer.close();
 
     }
 
@@ -178,15 +226,15 @@ public class GameController {
 				
 				String instance = map.get((k*width)+i);
 				
-                if (instance.equals("Wall")) {
+                if (instance.equals("#")) {
                 	gc.setStroke(Color.BLACK);
                 	gc.strokeRect((i - playerX + 3) * GRID_CELL_WIDTH, (k - playerY + 3) * GRID_CELL_HEIGHT, GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
                 }
-                else if (instance.equals("Ground")) {
+                else if (instance.equals(" ")) {
                 	gc.setFill(Color.WHITE);
                 	gc.fillRect((i - playerX + 3) * GRID_CELL_WIDTH, (k - playerY + 3) * GRID_CELL_HEIGHT, GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
                 }
-                else if (instance.equals("Goal")) {    
+                else if (instance.equals("G")) {    
                 	gc.setFill(Color.GREEN);
                 	gc.fillRect((i - playerX + 3) * GRID_CELL_WIDTH, (k - playerY + 3) * GRID_CELL_HEIGHT, GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
                 }
