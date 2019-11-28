@@ -323,6 +323,7 @@ public class MenuController {
 		
 		// Can only get to this line if user has selected a Level
 		Level selectedLevel = levels.get(selectedIndex);
+		User selectedUser = users.get(selectedUserIndex);
 
 		// We use a try-catch block as the loading of the FXML file can fail.
 		try {
@@ -335,6 +336,7 @@ public class MenuController {
 			GameController game = fxmlLoader.<GameController>getController();
 			
 			game.setLevel(selectedLevel);
+			game.setUser(selectedUser);
 	
 			// Create a scene based on the loaded FXML scene graph
 			Scene gameScene = new Scene(gameRoot, Main.GAME_WINDOW_WIDTH, Main.GAME_WINDOW_HEIGHT);
