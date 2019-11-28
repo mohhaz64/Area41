@@ -34,18 +34,7 @@ public class ReadLevelFile {
 
             for (int w = 0; w < width; w++) {
                 String cell = (l.split("")[w]);
-                if (cell.equals("#")) {
-                    map.add("Wall");
-                }
-                else if (cell.equals(" ")) {
-                    map.add("Ground");
-                }
-                else if (cell.equals("G")) {    
-                    map.add("Goal");
-                }
-                else {
-                    System.out.println("Error: char not found.");
-                }
+                map.add(cell);
             }
 
         }
