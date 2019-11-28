@@ -4,8 +4,19 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * This class scans the selected level, and returns the variables
+ * @author Group 41
+ *
+ */
 public class ReadLevelFile {
 
+	/**
+	 * Scans each line within the txt file, and adds it to the designated array.
+	 * @param in The scanner with the txt file.
+	 * @return returns an instance of the level, with the map and entitiy arrays full.
+	 * 
+	 */
 	private static Level readDataFile(Scanner in) {
 		
 		ArrayList<String> map = new ArrayList<>();

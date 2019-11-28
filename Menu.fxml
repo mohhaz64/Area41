@@ -77,7 +77,7 @@
             <Insets bottom="18.0" />
          </GridPane.margin>
       </ComboBox>
-      <Button fx:id="editUserButton" mnemonicParsing="false" text="Edit Users" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Button fx:id="editUserButton" mnemonicParsing="false" text="Edit User" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="30.0" right="5.0" />
          </GridPane.margin>
@@ -85,10 +85,13 @@
             <Font name="Silom" size="13.0" />
          </font>
       </Button>
-      <Label fx:id="messgeOfTheDay" text="----------Message of the day----------" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+      <Label fx:id="messgeOfTheDay" alignment="CENTER" contentDisplay="CENTER" prefHeight="52.0" prefWidth="489.0" text="----------Message of the day----------" textOverrun="CENTER_WORD_ELLIPSIS" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="55.0" />
          </GridPane.margin>
+         <font>
+            <Font size="11.0" />
+         </font>
       </Label>
       <Button fx:id="quitButton" mnemonicParsing="false" text="Quit" textFill="#005114" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <font>

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -10,6 +11,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+/**
+ * The controller for the Menu FXML
+ * @author Group 41
+ *
+ */
 
 public class GameController {
 	
@@ -32,13 +40,14 @@ public class GameController {
 	static int GRID_CELL_WIDTH = 60;
 	static int GRID_CELL_HEIGHT = 60;
     
-    // Loaded images
+    // Loaded image for the players character
  	static Image player = new Image("Idle.png", 70, 70, false, false);
  		
  	// X and Y coordinate of player
  	static int playerX;
  	static int playerY;
 
+ 	//Variables that are scanned in from the .txt level file.
  	int width;
  	int height;
  	ArrayList<String> map;
@@ -48,10 +57,20 @@ public class GameController {
  	
  	ArrayList<Entity> activeEntitys = new ArrayList<>();
 
+ 	
+	/**
+	 * Initialize the controller.
+	 * This method is called automatically and everything within is run IN ORDER.
+	 * Even for the Pane for key presses, if a key is pressed we send the event to the keyPressed method.
+	 */
     public void initialize() {
     	gridPane.addEventFilter(KeyEvent.KEY_PRESSED, event -> keyPressed(event));
     }
     
+	/**
+	 * Setting the scanned in values to the designated variables, and then calling the drawGame method.
+	 * @param levelToLoad The instance of Level which we want to load
+	 */
 	public void setLevel(Level levelToLoad) {
 		this.levelBeingLoaded = levelToLoad;
 		
@@ -72,11 +91,20 @@ public class GameController {
 	}
     
     @FXML 
+	/**
+	 * Closes the stage and returns the user to the Menu interface.
+	 * @param event The ActionEvent being handled when the button 'Quit' is pressed
+	 */
     void clickQuit(ActionEvent event) {
-    	System.exit(0);
+    	Stage stage = (Stage) gridPane.getScene().getWindow();
+	    stage.close();
     }
 
     @FXML
+    /**
+	 * Resets the players X and Y coordinate to starting position.
+	 * @param event The ActionEvent being handled when the button 'Restart' is pressed
+	 */
     void clickRestart(ActionEvent event) {
     	playerX = xStart;
     	playerY = yStart;
@@ -84,11 +112,19 @@ public class GameController {
     }
 
     @FXML
+    /**
+	 * TODO:: SAVES THE GAME
+	 * @param event The ActionEvent being handled when the button 'Save' is pressed
+	 */
     void clickSave(ActionEvent event) {
 
     }
 
     @FXML
+    /**
+	 * Moves the player in the desired direction by changing the X or Y coordinate
+	 * @param event The ActionEvent being handled when a key is pressed
+	 */
     void keyPressed(KeyEvent event) {
     	switch (event.getCode()) {
 		
@@ -97,15 +133,15 @@ public class GameController {
         	playerX = playerX + 1;
         	break;	
 	    case LEFT:
-	    	// Right key was pressed. So move the player right by one cell.
+	    	// Left key was pressed. So move the player Left by one cell.
         	playerX = playerX - 1;
         	break;	
 	    case UP:
-	    	// Right key was pressed. So move the player right by one cell.
+	    	// Up key was pressed. So move the player Up by one cell.
         	playerY = playerY - 1;
         	break;	
 	    case DOWN:
-	    	// Right key was pressed. So move the player right by one cell.
+	    	// Down key was pressed. So move the player Down by one cell.
         	playerY = playerY + 1;
         	break;	
         default:
@@ -116,10 +152,13 @@ public class GameController {
 	// Redraw game as the player may have moved.
 	drawGame();
 	
-	// Consume the event. This means we mark it as dealt with. This stops other GUI nodes (buttons etc) responding to it.
+	// Consume the event, mark is as dealt with.
 	event.consume();
     }
     
+    /**
+	 * Draws the selected level onto the canvas
+	 */
     public void drawGame() {
 
 		// Get the Graphic Context of the canvas. This is what we draw on.
@@ -128,9 +167,11 @@ public class GameController {
 		// Clear canvas
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		
+		//Draw a black rectangle (border) around the canvas.
 		gc.setStroke(Color.BLACK);
 		gc.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
+		// Reading the map array and placing the instances onto the canvas.
 		for(int k = 0; k < height; k++) {
 			
 			for(int i = 0; i < width; i++) {
@@ -162,10 +203,13 @@ public class GameController {
 			s.draw(gc);
 		}
 		
-		// Draw player at centre cell
+		// Draw player at center cell
 		gc.drawImage(player, 3 * GRID_CELL_WIDTH, 3 * GRID_CELL_HEIGHT);			
 	}
     
+    /**
+	 * Inserting queue of entities onto the canvas when the method is called in drawGame();
+	 */
 	private void insertEntitys() {
 		if (entitysToAdd.isEmpty ()) {
 			return;
