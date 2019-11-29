@@ -42,10 +42,18 @@ public class GameController {
 	private static final int CANVAS_HEIGHT = 420;
 	
 	// The size of each cell
-	static int GRID_CELL_WIDTH = 60;
-	static int GRID_CELL_HEIGHT = 60;
+	private static final int GRID_CELL_WIDTH = 60;
+	private static final int GRID_CELL_HEIGHT = 60;
     
-    // Loaded image for the players character
+    public static int getGridCellWidth() {
+		return GRID_CELL_WIDTH;
+	}
+
+	public static int getGridCellHeight() {
+		return GRID_CELL_HEIGHT;
+	}
+
+	// Loaded image for the players character
  	static Image player = new Image("Idle.png", 70, 70, false, false);
  		
  	// X and Y coordinate of player
@@ -56,7 +64,7 @@ public class GameController {
  	String name;
  	int width;
  	int height;
- 	ArrayList<String> map;
+ 	String map[][];
  	int xStart;
  	int yStart;
  	Queue<Entity> entitysToAdd;
@@ -105,7 +113,7 @@ public class GameController {
 	public void setUser(User selectedUser) {
 		this.currentUser = selectedUser;
 		
-		userSavedGame = currentUser.getSavedFile();
+		userSavedGame = currentUser.getName() + "SavedGame.txt";
 
 	}
     
@@ -154,11 +162,11 @@ public class GameController {
     	
     	for(int k = 0; k < height; k++) {
 			for(int i = 0; i < width; i++) {
-				writer.write(map.get((k*width)+i));
+				writer.write(map[i][k]);
 			}
 			writer.newLine();
 		}
-    	writer.write("START " + xStart + " " + yStart);
+    	writer.write("START " + playerX + " " + playerY);
     	writer.newLine();
     	
     	//Will finish when classes are created
@@ -224,7 +232,7 @@ public class GameController {
 			
 			for(int i = 0; i < width; i++) {
 				
-				String instance = map.get((k*width)+i);
+				String instance = map[i][k];
 				
                 if (instance.equals("#")) {
                 	gc.setStroke(Color.BLACK);
@@ -249,6 +257,7 @@ public class GameController {
 		for (Entity s : activeEntitys)
 		{
 			s.draw(gc);
+			s.checkIfTouched(gc);
 		}
 		
 		// Draw player at center cell

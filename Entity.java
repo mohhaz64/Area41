@@ -70,7 +70,12 @@ import javafx.scene.paint.Color;
 		 }
 		 
 		 public void draw (GraphicsContext g) {
+			//System.out.println("Entity method 'draw' needs to be overwritten");
 			g.setFill(Color.RED);
-		 	g.fillRect((x - GameController.playerX + 3) * GameController.GRID_CELL_WIDTH, (y - GameController.playerY + 3) * GameController.GRID_CELL_HEIGHT, GameController.GRID_CELL_WIDTH, GameController.GRID_CELL_HEIGHT);
+		 	g.fillRect((x - GameController.playerX + 3) * GameController.getGridCellWidth(), (y - GameController.playerY + 3) * GameController.getGridCellHeight(), GameController.getGridCellWidth(), GameController.getGridCellHeight());
+		 }
+		 
+		 public void checkIfTouched (GraphicsContext g) {
+			//System.out.println("Entity method 'onTouched' needs to be overwritten");
 		 }
 	}
