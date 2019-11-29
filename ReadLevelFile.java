@@ -1,12 +1,11 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
  * This class scans the selected level, and returns the variables
- * @author Group 41
+ * @author Ben Hyde
  *
  */
 public class ReadLevelFile {
@@ -19,7 +18,6 @@ public class ReadLevelFile {
 	 */
 	private static Level readDataFile(Scanner in) {
 		
-		ArrayList<String> map = new ArrayList<>();
 		Queue<Entity> entityQueue = new Queue<Entity>();
 		
 		String name = in.nextLine();
@@ -27,6 +25,8 @@ public class ReadLevelFile {
 		String size = in.nextLine();
         int width = Integer.parseInt(size.split(" ")[0]);
         int height = Integer.parseInt(size.split(" ")[1]);
+        
+        String[][] map = new String[width][height];
 
         for (int h = 0; h < height; h++) {
 
@@ -34,7 +34,7 @@ public class ReadLevelFile {
 
             for (int w = 0; w < width; w++) {
                 String cell = (l.split("")[w]);
-                map.add(cell);
+                map[w][h] = cell;
             }
 
         }
@@ -49,7 +49,9 @@ public class ReadLevelFile {
             System.out.println(l);
 
             Scanner line = new Scanner(l);
-            String entity = line.next();
+            String ent = line.next().toLowerCase();
+            
+            String entity = ent.substring(0, 1).toUpperCase() + ent.substring(1);
 
             try {
 				Class.forName(entity);
@@ -73,7 +75,7 @@ public class ReadLevelFile {
 				entityQueue.enqueue(readEntity(line));
 			}
 			else if (entity.equalsIgnoreCase("TOKEN")) {
-				entityQueue.enqueue(readEntity(line));
+				entityQueue.enqueue(readToken(line));
 			}
 			else {
 				System.out.println("Error: Entity not found.");
@@ -95,6 +97,17 @@ public class ReadLevelFile {
 	    Entity entity  = new Entity(x, y);
 
 	    return entity;
+
+	}
+	
+	public static Token readToken(Scanner line) {
+
+		int x = Integer.parseInt(line.next());
+		int y = Integer.parseInt(line.next());
+
+	    Token token  = new Token(x, y);
+
+	    return token;
 
 	}
 	
