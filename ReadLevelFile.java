@@ -69,6 +69,13 @@ public class ReadLevelFile {
 
 				entityQueue.enqueue(readEntity(line));
 			}
+			else if (entity.equalsIgnoreCase("FIREBOOTS")) {
+				entityQueue.enqueue(readFireBoots(line));
+			}
+			else if (entity.equalsIgnoreCase("TOKEN")) {
+
+				entityQueue.enqueue(readToken(line));
+			}
 			else if (entity.equalsIgnoreCase("TELEPORTER")) {
 
 				entityQueue.enqueue(readEntity(line));
@@ -76,8 +83,9 @@ public class ReadLevelFile {
 			else if (entity.equalsIgnoreCase("KEY")) {
 				entityQueue.enqueue(readKey(line));
 			}
-			else if (entity.equalsIgnoreCase("TOKEN")) {
-				entityQueue.enqueue(readToken(line));
+			else if (entity.equalsIgnoreCase("FLIPPERS")) {
+
+				entityQueue.enqueue(readFlippers(line));
 			}
 			else {
 				System.out.println("Error: Entity not found.");
@@ -113,6 +121,28 @@ public class ReadLevelFile {
 
 	}
 	
+	public static Fireboots readFireBoots(Scanner line) {
+
+		int x = Integer.parseInt(line.next());
+		int y = Integer.parseInt(line.next());
+
+	    Fireboots fireBoots  = new Fireboots(x, y);
+
+	    return fireBoots;
+
+	}
+	
+	public static Flippers readFlippers(Scanner line) {
+
+		int x = Integer.parseInt(line.next());
+		int y = Integer.parseInt(line.next());
+
+	    Flippers flippers  = new Flippers(x, y);
+
+	    return flippers;
+
+	}
+
 	public static Key readKey(Scanner line) {
 
 		int x = Integer.parseInt(line.next());

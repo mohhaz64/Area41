@@ -73,6 +73,13 @@ public class GameController {
 		collectedBlue = true;
 	}
 	
+	public static void pickupFlippers() {
+		collectedFlippers = true;
+	}
+	public static void pickedUpFireBoots() {
+		collectedFireBoots = true;
+	}
+
 	// Loaded image for the players character
  	static Image player = new Image("Player.png", 70, 70, false, false);
  	static Image wall = new Image("tile5.png", 60, 60, false, false);
@@ -82,15 +89,15 @@ public class GameController {
  	static Image yellowKey = new Image("YellowKey.png", 87, 44, false, false);
  	static Image blueKey = new Image("BlueKey.png", 87, 44, false, false);
  	static Image emptyKey = new Image("emptyKey.png", 87, 44, false, false);
- 	static Image fireBoots = new Image("FireBoots.png", 44, 44, false, false);
- 	static Image flippers = new Image("Flippers.png", 55, 55, false, false);
+ 	static Image flippers = new Image("GroundFlippers.png", 55, 55, false, false);
+ 	static Image fireBoots = new Image("GroundFireBoots.png", 55, 55, false, false);
  	static Image playerPickup = new Image("PlayerPickup.png", 60,60,false,false);
  	
  	private static boolean collectedRed;
  	private static boolean collectedYellow;
  	private static boolean collectedBlue;
- 	private boolean collectedFireBoots = true;
- 	private boolean collectedFlippers = true;
+ 	private static boolean collectedFlippers;
+ 	private static boolean collectedFireBoots;
  		
  	// X and Y coordinate of player
  	static int playerX;
@@ -170,7 +177,7 @@ public class GameController {
 	 * @param event The ActionEvent being handled when the button 'Restart' is pressed
 	 */
     void clickRestart(ActionEvent event) {
-    	playerX = xStart;
+       	playerX = xStart;
     	playerY = yStart;
     	drawGame();
     	drawInventory();
@@ -328,11 +335,11 @@ public class GameController {
     	} else {
     		gc.drawImage(emptyKey, 10, 123);
     	}
-    	if(collectedFireBoots) {
-    		gc.drawImage(fireBoots, 10, 187);
-    	}
     	if(collectedFlippers) {
-    		gc.drawImage(flippers, 55, 187);
+    		gc.drawImage(flippers, 60, 187);
+    	}
+    	if(collectedFireBoots) {
+    		gc.drawImage(fireBoots, 3, 187);
     	}
     	
     	tokenCount.setText(String.valueOf(totalTokens));
