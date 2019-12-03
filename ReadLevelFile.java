@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import javafx.scene.paint.Color;
+
 /**
  * This class scans the selected level, and returns the variables
  * @author Ben Hyde
@@ -72,7 +74,7 @@ public class ReadLevelFile {
 				entityQueue.enqueue(readEntity(line));
 			}
 			else if (entity.equalsIgnoreCase("KEY")) {
-				entityQueue.enqueue(readEntity(line));
+				entityQueue.enqueue(readKey(line));
 			}
 			else if (entity.equalsIgnoreCase("TOKEN")) {
 				entityQueue.enqueue(readToken(line));
@@ -108,6 +110,18 @@ public class ReadLevelFile {
 	    Token token  = new Token(x, y);
 
 	    return token;
+
+	}
+	
+	public static Key readKey(Scanner line) {
+
+		int x = Integer.parseInt(line.next());
+		int y = Integer.parseInt(line.next());
+		String col = line.next();
+
+	    Key key  = new Key(x, y, col);
+
+	    return key;
 
 	}
 	

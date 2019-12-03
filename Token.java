@@ -24,13 +24,13 @@ public class Token extends Entity {
 	public void checkIfTouched (GraphicsContext g) {
 		if ((GameController.playerX == x) && (GameController.playerY == y)) {
 			collected = true;
-			//Setting to a null location
 			x = -100;
 			y = -100;
 			//Redraw cell and player to remove token image
 			g.fillRect(GameController.getGridCellWidth() * 3,  GameController.getGridCellHeight() * 3, GameController.getGridCellWidth(), GameController.getGridCellHeight());
 			g.drawImage(GameController.player, 3 * GameController.getGridCellWidth(), 3 * GameController.getGridCellHeight());
 			System.out.println("Token Collected");
+			GameController.pickupToken();
 		}
 	}
 	

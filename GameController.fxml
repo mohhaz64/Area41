@@ -28,9 +28,9 @@
       <RowConstraints maxHeight="482.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="461.0" minHeight="2.0" prefHeight="17.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="461.0" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="461.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="461.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="461.0" minHeight="10.0" prefHeight="27.0" />
+      <RowConstraints maxHeight="461.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="461.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="461.0" minHeight="10.0" prefHeight="22.0" />
       <RowConstraints maxHeight="265.0" minHeight="10.0" prefHeight="75.0" />
       <RowConstraints maxHeight="265.0" minHeight="10.0" prefHeight="28.0" />
       <RowConstraints maxHeight="265.0" minHeight="10.0" prefHeight="83.0" />
@@ -41,10 +41,11 @@
    <children>
       <ImageView fx:id="Image" fitHeight="600.0" fitWidth="600.0" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
          <image>
-            <Image url="ChipsTemplate.png" />
+            <Image url="ChipsBackgroundV2.png" />
          </image>
       </ImageView>
       <Canvas fx:id="canvas" height="420.0" width="420.0" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="3" GridPane.rowSpan="8" />
+      <Canvas fx:id="invCanvas" height="310.0" width="110.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="5" GridPane.rowSpan="6" />
       <Button maxWidth="85.0" mnemonicParsing="false" onAction="#clickRestart" text="Restart" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
       <Button maxWidth="85.0" mnemonicParsing="false" onAction="#clickSave" text="Save" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="1">
          <GridPane.margin>
@@ -65,32 +66,8 @@
             <Font name="Silom" size="24.0" />
          </font>
          <GridPane.margin>
-            <Insets left="13.0" />
+            <Insets bottom="10.0" left="15.0" />
          </GridPane.margin>
-      </Label>
-      <Label fx:id="redCount" text="0" GridPane.columnIndex="2" GridPane.rowIndex="6">
-         <font>
-            <Font name="Silom" size="24.0" />
-         </font>
-         <GridPane.margin>
-            <Insets left="12.0" />
-         </GridPane.margin>
-      </Label>
-      <Label fx:id="yellowCount" text="0" GridPane.columnIndex="2" GridPane.rowIndex="10">
-         <font>
-            <Font name="Silom" size="24.0" />
-         </font>
-         <GridPane.margin>
-            <Insets bottom="28.0" left="10.0" />
-         </GridPane.margin>
-      </Label>
-      <Label fx:id="blueCount" text="0" GridPane.columnIndex="2" GridPane.rowIndex="8">
-         <font>
-            <Font name="Silom" size="24.0" />
-         </font>
-         <padding>
-            <Insets left="12.0" />
-         </padding>
       </Label>
    </children>
 </GridPane>
