@@ -6,6 +6,7 @@ public class Key extends Entity {
 	protected boolean collected = false;
 	protected int size = 40;
 	protected Image sprite;
+	protected String col = null;
 	
 	public Key (int x, int y, String colour) {
 		super(x, y);
@@ -16,6 +17,7 @@ public class Key extends Entity {
 		} else if (colour.equalsIgnoreCase("yellow")) {
 			sprite = new Image("YellowKey.png", size, size, false, false);
 		}
+		this.col = colour;
 	}
 	
 	public void draw (GraphicsContext g) {
@@ -35,6 +37,15 @@ public class Key extends Entity {
 			g.fillRect(GameController.getGridCellWidth() * 3,  GameController.getGridCellHeight() * 3, GameController.getGridCellWidth(), GameController.getGridCellHeight());
 			g.drawImage(GameController.player, 3 * GameController.getGridCellWidth(), 3 * GameController.getGridCellHeight());
 			System.out.println("Key Collected");
+			if(col.equalsIgnoreCase("red")) {
+				GameController.pickupRedKey();
+			}
+			if(col.equalsIgnoreCase("yellow")) {
+				GameController.pickupYellowKey();
+			}
+			if(col.equalsIgnoreCase("blue")) {
+				GameController.pickupBlueKey();
+			}
 		}
 	}
 	

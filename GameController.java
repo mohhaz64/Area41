@@ -61,8 +61,20 @@ public class GameController {
 		totalTokens = totalTokens + 1;
 	}
 	
+	public static void pickupRedKey() {
+		collectedRed = true;
+	}
+	
+	public static void pickupYellowKey() {
+		collectedYellow = true;
+	}
+
+	public static void pickupBlueKey() {
+		collectedBlue = true;
+	}
+	
 	// Loaded image for the players character
- 	static Image player = new Image("Idle.png", 70, 70, false, false);
+ 	static Image player = new Image("Player.png", 70, 70, false, false);
  	static Image wall = new Image("tile5.png", 60, 60, false, false);
  	static Image ground = new Image("Grass.png", 60, 60, false, false);
  	static Image finish = new Image("Grass2.png", 60, 60, false, false);
@@ -72,10 +84,11 @@ public class GameController {
  	static Image emptyKey = new Image("emptyKey.png", 87, 44, false, false);
  	static Image fireBoots = new Image("FireBoots.png", 44, 44, false, false);
  	static Image flippers = new Image("Flippers.png", 55, 55, false, false);
+ 	static Image playerPickup = new Image("PlayerPickup.png", 60,60,false,false);
  	
- 	private boolean collectedRed;
- 	private boolean collectedYellow = true;
- 	private boolean collectedBlue = true;
+ 	private static boolean collectedRed;
+ 	private static boolean collectedYellow;
+ 	private static boolean collectedBlue;
  	private boolean collectedFireBoots = true;
  	private boolean collectedFlippers = true;
  		

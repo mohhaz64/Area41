@@ -28,7 +28,7 @@ public class Token extends Entity {
 			y = -100;
 			//Redraw cell and player to remove token image
 			g.fillRect(GameController.getGridCellWidth() * 3,  GameController.getGridCellHeight() * 3, GameController.getGridCellWidth(), GameController.getGridCellHeight());
-			g.drawImage(GameController.player, 3 * GameController.getGridCellWidth(), 3 * GameController.getGridCellHeight());
+			g.drawImage(GameController.ground,3 * GameController.getGridCellWidth(), 3 * GameController.getGridCellHeight());
 			System.out.println("Token Collected");
 			GameController.pickupToken();
 		}

@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
 		/**
 		 *  The sprite of the Entity.
 		 */
-		protected Image sprite = new Image("Idle.png", 60, 60, false, false);
+		protected Image sprite = new Image("Player.png", 60, 60, false, false);
 
 		/**
 		 * Creates a closed Entity object.
