@@ -80,6 +80,10 @@ public class Enemy extends Entity {
 	return nextYPosition;
     }
 
+    public int getNextXPosition() {
+	return nextXPosition;
+    }
+
     public void setNextYPosition(int nextYPosition) {
 	this.nextYPosition = nextYPosition;
     }
