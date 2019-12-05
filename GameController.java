@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -135,7 +136,7 @@ public class GameController {
 	gridPane.addEventFilter(KeyEvent.KEY_PRESSED,
 		event -> keyPressed(event));
     }
-
+  
     /**
      * Setting the scanned in values to the designated variables, and then
      * calling the drawGame method.
@@ -182,8 +183,10 @@ public class GameController {
      *              pressed
      */
     void clickQuit(ActionEvent event) {
-	Stage stage = (Stage) gridPane.getScene().getWindow();
-	stage.close();
+
+    	MenuController.mediaPlayer.setAutoPlay(false); 
+    	Stage stage = (Stage) gridPane.getScene().getWindow();
+	    stage.close();
     }
 
     @FXML
@@ -194,10 +197,10 @@ public class GameController {
      *              pressed
      */
     void clickRestart(ActionEvent event) {
-	playerX = xStart;
-	playerY = yStart;
-	drawGame();
-	drawInventory();
+      
+      setLevel(levelBeingLoaded);
+    	resetInventory();
+    	drawInventory();
     }
 
     @FXML
@@ -238,6 +241,30 @@ public class GameController {
 	writer.close();
 
     }
+    
+    public boolean checkSpace(int spaceToCheckX, int spaceToCheckY) {
+    	// if space is not floor, player or out of array's bounds then true,
+    	// else false
+    	if (spaceToCheckX < 0) {
+    	    return false;
+    	}
+    	if (spaceToCheckY < 0) {
+    	    return false;
+    	}
+    	if (spaceToCheckX > width) {
+    	    return false;
+    	}
+    	if (spaceToCheckY > height) {
+    	    return false;
+    	}
+    	if (map[spaceToCheckX][spaceToCheckY].equalsIgnoreCase("#")) {
+    	    return false;
+    	}
+    	if (map[spaceToCheckX][spaceToCheckY].equalsIgnoreCase("G")) {
+    	    return false;
+    	}
+    	return true;
+        }
 
     @FXML
     /**
@@ -247,27 +274,47 @@ public class GameController {
      * @param event The ActionEvent being handled when a key is pressed
      */
     void keyPressed(KeyEvent event) {
-	switch (event.getCode()) {
-
-	case RIGHT:
-	    // Right key was pressed. So move the player right by one cell.
-	    playerX = playerX + 1;
-	    break;
-	case LEFT:
-	    // Left key was pressed. So move the player Left by one cell.
-	    playerX = playerX - 1;
-	    break;
-	case UP:
-	    // Up key was pressed. So move the player Up by one cell.
-	    playerY = playerY - 1;
-	    break;
-	case DOWN:
-	    // Down key was pressed. So move the player Down by one cell.
-	    playerY = playerY + 1;
-	    break;
-	default:
-	    // Do nothing
-	    break;
+    	switch (event.getCode()) {
+		
+	    case RIGHT:
+	    	// Right key was pressed. So move the player right by one cell.
+	    	if(checkSpace(playerX + 1, playerY)) {
+	    		player = new Image("PlayerRight.png",70,70,false,false);
+	        	playerX = playerX + 1;
+	    	} else {
+	    		break;
+	    	}
+        	break;	
+	    case LEFT:
+	    	// Left key was pressed. So move the player Left by one cell.
+	    	if(checkSpace(playerX - 1, playerY)) {
+		    	player = new Image("PlayerLeft.png",70,70,false,false);
+	        	playerX = playerX - 1;
+	    	} else {
+	    		break;
+	    	}
+        	break;	
+	    case UP:
+	    	// Up key was pressed. So move the player Up by one cell.
+	    	if(checkSpace(playerX, playerY - 1)) {
+		    	player = new Image("PlayerUp.png",70,70,false,false);
+	        	playerY = playerY - 1;
+	    	} else {
+	        		break;
+	        }
+        	break;	
+	    case DOWN:
+	    	// Down key was pressed. So move the player Down by one cell.
+	    	if(checkSpace(playerX, playerY + 1)) {
+		    	player = new Image("PlayerDown.png",70,70,false,false);
+	        	playerY = playerY + 1;
+	    	} else {
+	    		break;
+	    	}
+        	break;
+        default:
+        	// Do nothing
+        	break;
 	}
 
 	// Redraw game as the player may have moved.
@@ -370,6 +417,18 @@ public class GameController {
 	}
 
 	tokenCount.setText(String.valueOf(totalTokens));
+    }
+  
+  public void resetInventory() {
+    	
+    	collectedRed = false;;
+     	collectedYellow = false;
+     	collectedBlue = false;;
+     	collectedFlippers = false;
+     	collectedFireBoots = false;
+     	totalTokens = 0;
+     	tokenCount.setText(String.valueOf(totalTokens));
+    	
     }
 
     /**

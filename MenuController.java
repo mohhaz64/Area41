@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -12,6 +13,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.net.HttpURLConnection;
@@ -41,6 +44,8 @@ public class MenuController {
     //Lists to hold game Levels as well as all the created Users.
     private ArrayList<User> users = new ArrayList<User>();
     private ArrayList<Level> levels = new ArrayList<Level>();
+    
+    static MediaPlayer mediaPlayer;
     
     
 	/**
@@ -334,6 +339,17 @@ public class MenuController {
 			GridPane gameRoot = (GridPane)fxmlLoader.load();          
 			// Access the controller that was created by the FXML loader
 			GameController game = fxmlLoader.<GameController>getController();
+			
+			String path = "ChipsMusic2.mp3";  
+	          
+	        //Instantiating Media class  
+	        Media media = new Media(new File(path).toURI().toString());  
+	          
+	        //Instantiating MediaPlayer class   
+	        mediaPlayer = new MediaPlayer(media);  
+	          
+	        //by setting this property to true, the audio will be played   
+	        mediaPlayer.setAutoPlay(true);  
 			
 			game.setLevel(selectedLevel);
 			game.setUser(selectedUser);
