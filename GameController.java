@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -81,7 +82,7 @@ public class GameController {
 	}
 
 	// Loaded image for the players character
- 	static Image player = new Image("Player.png", 70, 70, false, false);
+ 	static Image player;
  	static Image wall = new Image("tile5.png", 60, 60, false, false);
  	static Image ground = new Image("Grass.png", 60, 60, false, false);
  	static Image finish = new Image("Grass2.png", 60, 60, false, false);
@@ -124,9 +125,11 @@ public class GameController {
 	 */
     public void initialize() {
     	gridPane.addEventFilter(KeyEvent.KEY_PRESSED, event -> keyPressed(event));
+    	
+    	
     }
     
-	/**
+	/**	
 	 * Setting the scanned in values to the designated variables, and then calling the drawGame method.
 	 * @param levelToLoad The instance of Level which we want to load
 	 */
@@ -145,7 +148,8 @@ public class GameController {
      	playerY = yStart;
      	
      	projectLevel.setText(name);
-
+     	
+     	player = new Image("Player.png", 70, 70, false, false);
      	drawGame();
      	drawInventory();
 	}
@@ -167,6 +171,7 @@ public class GameController {
 	 * @param event The ActionEvent being handled when the button 'Quit' is pressed
 	 */
     void clickQuit(ActionEvent event) {
+    	MenuController.mediaPlayer.setAutoPlay(false); 
     	Stage stage = (Stage) gridPane.getScene().getWindow();
 	    stage.close();
     }
@@ -177,9 +182,8 @@ public class GameController {
 	 * @param event The ActionEvent being handled when the button 'Restart' is pressed
 	 */
     void clickRestart(ActionEvent event) {
-       	playerX = xStart;
-    	playerY = yStart;
-    	drawGame();
+       	setLevel(levelBeingLoaded);
+    	resetInventory();
     	drawInventory();
     }
 
@@ -220,6 +224,30 @@ public class GameController {
     	writer.close();
 
     }
+    
+    public boolean checkSpace(int spaceToCheckX, int spaceToCheckY) {
+    	// if space is not floor, player or out of array's bounds then true,
+    	// else false
+    	if (spaceToCheckX < 0) {
+    	    return false;
+    	}
+    	if (spaceToCheckY < 0) {
+    	    return false;
+    	}
+    	if (spaceToCheckX > width) {
+    	    return false;
+    	}
+    	if (spaceToCheckY > height) {
+    	    return false;
+    	}
+    	if (map[spaceToCheckX][spaceToCheckY].equalsIgnoreCase("#")) {
+    	    return false;
+    	}
+    	if (map[spaceToCheckX][spaceToCheckY].equalsIgnoreCase("G")) {
+    	    return false;
+    	}
+    	return true;
+        }
 
     @FXML
     /**
@@ -231,20 +259,40 @@ public class GameController {
 		
 	    case RIGHT:
 	    	// Right key was pressed. So move the player right by one cell.
-        	playerX = playerX + 1;
+	    	if(checkSpace(playerX + 1, playerY)) {
+	    		player = new Image("PlayerRight.png",70,70,false,false);
+	        	playerX = playerX + 1;
+	    	} else {
+	    		break;
+	    	}
         	break;	
 	    case LEFT:
 	    	// Left key was pressed. So move the player Left by one cell.
-        	playerX = playerX - 1;
+	    	if(checkSpace(playerX - 1, playerY)) {
+		    	player = new Image("PlayerLeft.png",70,70,false,false);
+	        	playerX = playerX - 1;
+	    	} else {
+	    		break;
+	    	}
         	break;	
 	    case UP:
 	    	// Up key was pressed. So move the player Up by one cell.
-        	playerY = playerY - 1;
+	    	if(checkSpace(playerX, playerY - 1)) {
+		    	player = new Image("PlayerUp.png",70,70,false,false);
+	        	playerY = playerY - 1;
+	    	} else {
+	        		break;
+	        }
         	break;	
 	    case DOWN:
 	    	// Down key was pressed. So move the player Down by one cell.
-        	playerY = playerY + 1;
-        	break;	
+	    	if(checkSpace(playerX, playerY + 1)) {
+		    	player = new Image("PlayerDown.png",70,70,false,false);
+	        	playerY = playerY + 1;
+	    	} else {
+	    		break;
+	    	}
+        	break;
         default:
         	// Do nothing
         	break;
@@ -343,6 +391,18 @@ public class GameController {
     	}
     	
     	tokenCount.setText(String.valueOf(totalTokens));
+    }
+    
+    public void resetInventory() {
+    	
+    	collectedRed = false;;
+     	collectedYellow = false;
+     	collectedBlue = false;;
+     	collectedFlippers = false;
+     	collectedFireBoots = false;
+     	totalTokens = 0;
+     	tokenCount.setText(String.valueOf(totalTokens));
+    	
     }
     
     /**
