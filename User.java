@@ -66,7 +66,7 @@ public class User {
 			}
 			reader.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Error: 'users.txt' not yet created.");
 		}
 
 		if (userName.equals("")){

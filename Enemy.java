@@ -1,12 +1,11 @@
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 
 public class Enemy extends Entity {
     protected int nextXPosition;
     protected int nextYPosition;
 
-    public Enemy(int x, int y) {
-	super(x, y);
+    public Enemy(Image sprite, int x, int y) {
+	super(sprite, x, y);
 	nextXPosition = x;
 	nextYPosition = y;
     }
@@ -58,18 +57,6 @@ public class Enemy extends Entity {
 	    return true;
 	}
 	return false;
-    }
-
-    public void draw(GraphicsContext g) {
-	// System.out.println("Entity method 'draw' needs to be overwritten");
-	g.setFill(Color.RED);
-	g.drawImage(sprite,
-		(x - GameController.playerX + 3)
-			* GameController.getGridCellWidth(),
-		(y - GameController.playerY + 3)
-			* GameController.getGridCellHeight(),
-		GameController.getGridCellWidth(),
-		GameController.getGridCellHeight());
     }
 
     public void setNextXPosition(int nextXPosition) {

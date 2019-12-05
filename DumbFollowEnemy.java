@@ -1,7 +1,8 @@
+import javafx.scene.image.Image;
 
 public class DumbFollowEnemy extends Enemy {
-    public DumbFollowEnemy(int xPosition, int yPosition) {
-	super(xPosition, yPosition);
+    public DumbFollowEnemy(Image sprite, int xPosition, int yPosition) {
+	super(sprite, xPosition, yPosition);
     }
 
     public void getNextMove() {

@@ -1,11 +1,12 @@
+import javafx.scene.image.Image;
 
 public class StraightLineEnemy extends Enemy {
     private boolean moveInX;
     private boolean positiveDirection;
 
-    public StraightLineEnemy(int x, int y, boolean moveInX,
+    public StraightLineEnemy(Image sprite, int x, int y, boolean moveInX,
 	    boolean positiveDirection) {
-	super(x, y);
+	super(sprite, x, y);
 	this.moveInX = moveInX;
 	this.positiveDirection = positiveDirection;
     }

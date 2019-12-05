@@ -4,28 +4,11 @@ import javafx.scene.image.Image;
 public class Key extends Entity {
 	
 	protected boolean collected = false;
-	protected int size = 40;
-	protected Image sprite;
 	protected String col = null;
 	
-	public Key (int x, int y, String colour) {
-		super(x, y);
-		if (colour.equalsIgnoreCase("blue")) {
-			sprite = new Image("BlueKey.png", size, size, false, false);
-		} else if (colour.equalsIgnoreCase("red")) {
-			sprite = new Image("RedKey.png", size, size, false, false);
-		} else if (colour.equalsIgnoreCase("yellow")) {
-			sprite = new Image("YellowKey.png", size, size, false, false);
-		}
+	public Key (Image sprite, int x, int y, String colour) {
+		super(sprite, x, y);
 		this.col = colour;
-	}
-	
-	public void draw (GraphicsContext g) {
-		if (collected == false) {
-			g.drawImage(sprite, (x - GameController.playerX + 3) * GameController.getGridCellWidth()
-		              + (GameController.getGridCellWidth() - size)/2,
-		            (y - GameController.playerY + 3) * GameController.getGridCellHeight()
-		              + (GameController.getGridCellHeight() - size)/2);		}
 	}
 	
 	public void checkIfTouched (GraphicsContext g) {

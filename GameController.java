@@ -90,8 +90,8 @@ public class GameController {
 
     // Loaded image for the players character
     static Image player = new Image("Player.png", 70, 70, false, false);
-    static Image wall = new Image("tile5.png", 60, 60, false, false);
-    static Image ground = new Image("Grass.png", 60, 60, false, false);
+    static Image wall = new Image("WallISO.png", 60, 60, false, false);
+    static Image ground = new Image("GrassISO.png", 60, 60, false, false);
     static Image finish = new Image("Grass2.png", 60, 60, false, false);
     static Image redKey = new Image("RedKey.png", 87, 44, false, false);
     static Image yellowKey = new Image("YellowKey.png", 87, 44, false, false);
@@ -346,22 +346,31 @@ public class GameController {
 	    for (int i = 0; i < width; i++) {
 
 		String instance = map[i][k];
+		
+		double offsetX = 4.75;
+		double offsetY = 2.5;
+		
+		double X = (i - playerX + offsetX) * GRID_CELL_WIDTH;
+		double Y = (k - playerY + offsetY) * GRID_CELL_WIDTH;
+		
+		double XIso = xToIso(X,Y);
+		double YIso = yToIso(X,Y);
+		
+		int isoWidth = GRID_CELL_WIDTH * 2;
+		int isoHeight = GRID_CELL_WIDTH * 2;
 
 		if (instance.equals("#")) {
-		    gc.setStroke(Color.BLACK);
-		    gc.drawImage(wall, (i - playerX + 3) * GRID_CELL_WIDTH,
-			    (k - playerY + 3) * GRID_CELL_HEIGHT,
-			    GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+			
+		    gc.drawImage(wall, XIso, YIso - 30, isoWidth, isoHeight);
+		    
 		} else if (instance.equals(" ")) {
-		    gc.setFill(Color.WHITE);
-		    gc.drawImage(ground, (i - playerX + 3) * GRID_CELL_WIDTH,
-			    (k - playerY + 3) * GRID_CELL_HEIGHT,
-			    GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+			
+		    gc.drawImage(ground, XIso, YIso, isoWidth, isoHeight);
+		    
 		} else if (instance.equals("G")) {
-		    gc.setFill(Color.GREEN);
-		    gc.drawImage(finish, (i - playerX + 3) * GRID_CELL_WIDTH,
-			    (k - playerY + 3) * GRID_CELL_HEIGHT,
-			    GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+
+		    gc.drawImage(finish, XIso, YIso, isoWidth, isoHeight);
+		    
 		} else {
 		    System.out.println("Error: instance not found.");
 		}
@@ -371,8 +380,8 @@ public class GameController {
 	insertEntitys();
 
 	for (Entity s : activeEntitys) {
-
-	    s.draw(gc);
+		
+	    s.draw(gc, s.getSprite());
 	    if (s instanceof Enemy) {
 		((Enemy) s).getNextMove();
 		((Enemy) s).makeMove();
@@ -450,4 +459,12 @@ public class GameController {
 	}
     }
 
+    private double xToIso(double X, double Y) {
+    	return X - Y;
+    }
+    
+    private double yToIso(double X, double Y) {
+    	return (X + Y) / 2;
+    }
+    
 }

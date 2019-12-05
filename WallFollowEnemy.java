@@ -1,11 +1,13 @@
+/*
+import javafx.scene.image.Image;
 
 public class WallFollowEnemy extends Enemy {
     private boolean positiveDirection;
     private int lastX;
     private int lastY;
 
-    public WallFollowEnemy(int xPosition, int yPosition) {
-	super(xPosition, yPosition);
+    public WallFollowEnemy(Image sprite, int xPosition, int yPosition) {
+	super(sprite, xPosition, yPosition);
 	positiveDirection = true;
     }
 
@@ -77,3 +79,4 @@ public class WallFollowEnemy extends Enemy {
 	lastY = yPosition;
     }
 }
+*/
