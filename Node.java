@@ -10,6 +10,10 @@ public class Node {
 	this.parent = parent;
     }
 
+    public String toString() {
+	return "Position: " + x + "," + y;
+    }
+
     public int getX() {
 	return x;
     }

@@ -1,13 +1,14 @@
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
-public class Enemy {
-    protected int xPosition;
-    protected int yPosition;
+public class Enemy extends Entity {
     protected int nextXPosition;
     protected int nextYPosition;
 
-    public Enemy(int xPosition, int yPosition) {
-	this.xPosition = xPosition;
-	this.yPosition = yPosition;
+    public Enemy(int x, int y) {
+	super(x, y);
+	nextXPosition = x;
+	nextYPosition = y;
     }
 
     public boolean checkSpace(int spaceToCheckX, int spaceToCheckY) {
@@ -19,19 +20,21 @@ public class Enemy {
 	if (spaceToCheckY < 0) {
 	    return false;
 	}
-	if (spaceToCheckX > game.width) {
+	if (spaceToCheckX > GameController.width) {
 	    return false;
 	}
-	if (spaceToCheckY > game.height) {
+	if (spaceToCheckY > GameController.height) {
 	    return false;
 	}
-	if (game.map[spaceToCheckX][spaceToCheckY] = '#') {
+	if (GameController.map[spaceToCheckX][spaceToCheckY]
+		.equalsIgnoreCase("#")) {
 	    return false;
 	}
-	if (game.map[spaceToCheckX][spaceToCheckY] = 'G') {
+	if (GameController.map[spaceToCheckX][spaceToCheckY]
+		.equalsIgnoreCase("G")) {
 	    return false;
 	}
-	for (Entity entity : game.activeEntitys) {
+	for (Entity entity : GameController.activeEntitys) {
 	    if (entity.getX() == spaceToCheckX
 		    && entity.getY() == spaceToCheckY) {
 		return false;
@@ -41,16 +44,32 @@ public class Enemy {
     }
 
     public void makeMove() {
-	xPosition = nextXPosition;
-	yPosition = nextYPosition;
-	getNextMove();
+	x = nextXPosition;
+	y = nextYPosition;
+    }
+
+    public void getNextMove() {
+	nextXPosition = x;
+	nextYPosition = y;
     }
 
     public boolean hasKilledPlayer() {
-	if (game.playerX == xPosition && game.playerY == yPosition) {
+	if (GameController.playerX == x && GameController.playerY == y) {
 	    return true;
 	}
 	return false;
+    }
+
+    public void draw(GraphicsContext g) {
+	// System.out.println("Entity method 'draw' needs to be overwritten");
+	g.setFill(Color.RED);
+	g.drawImage(sprite,
+		(x - GameController.playerX + 3)
+			* GameController.getGridCellWidth(),
+		(y - GameController.playerY + 3)
+			* GameController.getGridCellHeight(),
+		GameController.getGridCellWidth(),
+		GameController.getGridCellHeight());
     }
 
     public void setNextXPosition(int nextXPosition) {
@@ -65,19 +84,4 @@ public class Enemy {
 	this.nextYPosition = nextYPosition;
     }
 
-    public int getxPosition() {
-	return xPosition;
-    }
-
-    public void setxPosition(int xPosition) {
-	this.xPosition = xPosition;
-    }
-
-    public int getyPosition() {
-	return yPosition;
-    }
-
-    public void setyPosition(int yPosition) {
-	this.yPosition = yPosition;
-    }
 }

@@ -5,10 +5,10 @@ public class DumbFollowEnemy extends Enemy {
     }
 
     public void getNextMove() {
-	if (Math.abs(game.playerX - xPosition) > Math
-		.abs(game.playerY - yPosition)) {
+	if (Math.abs(GameController.playerX - x) > Math
+		.abs(GameController.playerY - y)) {
 	    // Player is closer in X direction
-	    if (game.playerX - xPosition == 0) {
+	    if (GameController.playerX - x == 0) {
 		// Player is on the same vertical plane as enemy
 		movingInY();
 	    } else {
@@ -16,7 +16,7 @@ public class DumbFollowEnemy extends Enemy {
 	    }
 	} else {
 	    // Player is closer in Y direction
-	    if (game.playerY - yPosition == 0) {
+	    if (GameController.playerY - y == 0) {
 		movingInX();
 	    } else {
 		movingInY();
@@ -25,37 +25,37 @@ public class DumbFollowEnemy extends Enemy {
     }
 
     public void movingInX() {
-	if (game.playerX > xPosition) {
+	if (GameController.playerX > x) {
 	    // Player is right of enemy
-	    if (checkSpace(xPosition++, yPosition)) {
-		nextXPosition = xPosition++;
+	    if (checkSpace(x + 1, y)) {
+		nextXPosition = x + 1;
 	    } else {
-		nextXPosition = xPosition;
+		nextXPosition = x;
 	    }
 	} else {
 	    // Player is left of enemy
-	    if (checkSpace(xPosition--, yPosition)) {
-		nextXPosition = xPosition--;
+	    if (checkSpace(x - 1, y)) {
+		nextXPosition = x - 1;
 	    } else {
-		nextXPosition = xPosition;
+		nextXPosition = x;
 	    }
 	}
     }
 
     public void movingInY() {
-	if (game.playerY > yPosition) {
+	if (GameController.playerY > y) {
 	    // Player is below enemy
-	    if (checkSpace(xPosition, yPosition--)) {
-		nextYPosition = yPosition--;
+	    if (checkSpace(x, y - 1)) {
+		nextYPosition = y - 1;
 	    } else {
-		nextYPosition = yPosition;
+		nextYPosition = y;
 	    }
 	} else {
 	    // Player is above enemy
-	    if (checkSpace(xPosition, yPosition++)) {
-		nextYPosition = yPosition++;
+	    if (checkSpace(x, y + 1)) {
+		nextYPosition = y + 1;
 	    } else {
-		nextYPosition = yPosition;
+		nextYPosition = y;
 	    }
 	}
     }

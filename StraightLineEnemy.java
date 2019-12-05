@@ -3,9 +3,9 @@ public class StraightLineEnemy extends Enemy {
     private boolean moveInX;
     private boolean positiveDirection;
 
-    public StraightLineEnemy(int xPosition, int yPosition, boolean moveInX,
+    public StraightLineEnemy(int x, int y, boolean moveInX,
 	    boolean positiveDirection) {
-	super(xPosition, yPosition);
+	super(x, y);
 	this.moveInX = moveInX;
 	this.positiveDirection = positiveDirection;
     }
@@ -14,8 +14,8 @@ public class StraightLineEnemy extends Enemy {
 	if (moveInX) {
 	    if (positiveDirection) {
 		// Moves right
-		if (checkSpace(xPosition + 1, yPosition)) {
-		    nextXPosition = xPosition++;
+		if (checkSpace(x + 1, y)) {
+		    nextXPosition = x + 1;
 		} else {
 		    // Turn around
 		    positiveDirection = !positiveDirection;
@@ -23,8 +23,8 @@ public class StraightLineEnemy extends Enemy {
 		}
 	    } else {
 		// Moves left
-		if (checkSpace(xPosition - 1, yPosition)) {
-		    nextXPosition = xPosition--;
+		if (checkSpace(x - 1, y)) {
+		    nextXPosition = x - 1;
 		} else {
 		    // Turn around
 		    positiveDirection = !positiveDirection;
@@ -34,8 +34,8 @@ public class StraightLineEnemy extends Enemy {
 	} else {
 	    if (positiveDirection) {
 		// Moves up
-		if (checkSpace(xPosition, yPosition + 1)) {
-		    nextYPosition = yPosition++;
+		if (checkSpace(x, y - 1)) {
+		    nextYPosition = y - 1;
 		} else {
 		    // Turn around
 		    positiveDirection = !positiveDirection;
@@ -43,8 +43,8 @@ public class StraightLineEnemy extends Enemy {
 		}
 	    } else {
 		// Moves down
-		if (checkSpace(xPosition, yPosition - 1)) {
-		    nextYPosition = yPosition--;
+		if (checkSpace(x, y + 1)) {
+		    nextYPosition = y + 1;
 		} else {
 		    // Turn around
 		    positiveDirection = !positiveDirection;
