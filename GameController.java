@@ -41,6 +41,7 @@ public class GameController {
     private Label projectLevel;
     @FXML
     private Label tokenCount;
+    @FXML
 
     // The dimensions of the canvas
     private static final int CANVAS_WIDTH = 420;
@@ -109,6 +110,8 @@ public class GameController {
     private static boolean collectedBlue;
     private static boolean collectedFlippers;
     private static boolean collectedFireBoots;
+    
+    private boolean isMute = true;
 
     // X and Y coordinate of player
     static int playerX;
@@ -184,9 +187,21 @@ public class GameController {
      */
     void clickQuit(ActionEvent event) {
 
-    	MenuController.mediaPlayer.setAutoPlay(false); 
+    	MenuController.mediaPlayer.stop();
     	Stage stage = (Stage) gridPane.getScene().getWindow();
 	    stage.close();
+    }
+    
+    @FXML
+    void clickMute(ActionEvent event) {
+    	
+    	if(isMute) {
+    		MenuController.mediaPlayer.setVolume(0);
+    		isMute =! isMute;
+    	} else if(!isMute) {
+    		MenuController.mediaPlayer.setVolume(0.7);
+    		isMute =! isMute;
+    	}
     }
 
     @FXML

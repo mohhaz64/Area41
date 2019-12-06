@@ -2,6 +2,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import java.awt.event.ActionEvent;
 import java.io.FileReader;
@@ -18,9 +19,12 @@ import java.io.InputStreamReader;
 
 public class EditUserController {
 
+	@FXML private GridPane gridPane;
     @FXML private Button cancelButton;
     @FXML private Button confirmButton;
+    @FXML private Button deleteUserButton;
     @FXML private TextField userNameText;
+    
     private MenuController parentController;
     private String currentUserName;
 
@@ -29,8 +33,23 @@ public class EditUserController {
         confirmButton.setOnAction(e -> {
             updateUser();
         });
+        cancelButton.setOnAction(e -> {
+        	closeWindow();
+        });
+        deleteUserButton.setOnAction(e -> {
+        	deleteUser();
+        });
     }
 
+    public void closeWindow() {
+    	Stage stage = (Stage) gridPane.getScene().getWindow();
+	    stage.close();
+    }
+    
+    public void deleteUser() {
+    	//Delete user code here
+    }
+    
     public void setParentController(MenuController parentController) {
         this.parentController = parentController;
     }
