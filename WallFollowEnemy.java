@@ -1,92 +1,82 @@
+/*
 import javafx.scene.image.Image;
 
-/**
- * Enemy class that allows enemies to follow a wall.
- * @author Ben Hyde
- */
 public class WallFollowEnemy extends Enemy {
-    private boolean preferRight;
-    private int direction;
-    private boolean foundMove;
-    /* 
-    direction = 0 is up
-    direction = 1 is right   
-    direction = 2 is down
-    direction = 3 is left
-    */
+    private boolean positiveDirection;
+    private int lastX;
+    private int lastY;
 
-    public WallFollowEnemy(Image sprite, int x, int y, boolean preferRight) {
-	super(sprite, x, y);
-	this.preferRight = preferRight;
-    }
-    
-    public void turnRight() {
-    	if (direction == 3) {
-    		direction = 0;
-    	}
-    	else {
-    		direction = direction + 1;
-    	}
-    }
-    
-    public void turnLeft() {
-    	if (direction == 0) {
-    		direction = 3;
-    	}
-    	else {
-    		direction = direction - 1;
-    	}
-    }
-    
-    public int newX() {
-    	if (direction == 1) {
-    		return x+1;
-    	}
-    	else if (direction == 3) {
-    		return x-1;
-    	}
-    	else {
-    		return x;
-    	}
-    }
-    
-    public int newY() {
-    	if (direction == 0) {
-    		return y-1;
-    	}
-    	else if (direction == 2) {
-    		return y+1;
-    	}
-    	else {
-    		return y;
-    	}
+    public WallFollowEnemy(Image sprite, int xPosition, int yPosition) {
+	super(sprite, xPosition, yPosition);
+	positiveDirection = true;
     }
 
     public void getNextMove() {
-    	foundMove = false;
-		if (preferRight) {
-			turnRight();
-			for (int i = 0; i < 4 && foundMove == false; i++) {
-			    if (checkSpace(newX(), newY())) {
-			    	nextXPosition = newX();
-			    	nextYPosition = newY();
-			    	foundMove = true;
-			    } else {
-			    	turnLeft();
-			    }
-			}
-		} else {
-			turnLeft();
-			for (int i = 0; i < 4 && foundMove == false; i++) {
-			    if (checkSpace(newX(), newY())) {
-			    	nextXPosition = newX();
-			    	nextYPosition = newY();
-			    	foundMove = true;
-			    } else {
-			    	turnRight();
-			    }
-			}
-		}
+	if (!checkSpace(xPosition + 1, yPosition)
+		&& !checkSpace(xPosition - 1, yPosition)
+		&& !checkSpace(xPosition, yPosition + 1)
+		&& !checkSpace(xPosition, yPosition - 1)) {
+	    // Nowhere for enemy to go
+	    setLastPosition();
+	    nextXPosition = xPosition;
+	    nextYPosition = yPosition;
+	} else if (!checkSpace(xPosition - 1, yPosition)
+		&& !checkSpace(xPosition, yPosition + 1)
+		&& !checkSpace(xPosition, yPosition - 1)) {
+	    // Enemy can only move right
+	    setLastPosition();
+	    nextXPosition = xPosition + 1;
+	    nextYPosition = yPosition;
+	} else if (!checkSpace(xPosition + 1, yPosition)
+		&& !checkSpace(xPosition, yPosition + 1)
+		&& !checkSpace(xPosition, yPosition - 1)) {
+	    // Enemy can only move left
+	    setLastPosition();
+	    nextXPosition = xPosition - 1;
+	    nextYPosition = yPosition;
+	} else if (!checkSpace(xPosition + 1, yPosition)
+		&& !checkSpace(xPosition - 1, yPosition)
+		&& !checkSpace(xPosition, yPosition - 1)) {
+	    // Enemy can only move down
+	    setLastPosition();
+	    nextXPosition = xPosition;
+	    nextYPosition = yPosition + 1;
+	} else if (!checkSpace(xPosition + 1, yPosition)
+		&& !checkSpace(xPosition - 1, yPosition)
+		&& !checkSpace(xPosition, yPosition + 1)) {
+	    // Enemy can only move up
+	    setLastPosition();
+	    nextXPosition = xPosition;
+	    nextYPosition = yPosition - 1;
+	} else if (checkSpace(xPosition + 1, yPosition)
+		&& checkSpace(xPosition - 1, yPosition)) {
+	    // Enemy can only move left or right
+	    if (lastX == xPosition + 1) {
+		setLastPosition();
+		nextXPosition = xPosition - 1;
+	    } else {
+		setLastPosition();
+		nextXPosition = xPosition + 1;
+	    }
+	} else if (checkSpace(xPosition, yPosition + 1)
+		&& checkSpace(xPosition, yPosition - 1)) {
+	    // Enemy can only move up or down
+	    if (lastY == yPosition + 1) {
+		setLastPosition();
+		nextYPosition = yPosition - 1;
+	    } else {
+		setLastPosition();
+		nextYPosition = yPosition + 1;
+	    }
+	}
+	// TODO Need fresh eyes on if there's a better way to do this, if not
+	// then need to add behaviour for remaining possibilities
+
     }
 
+    public void setLastPosition() {
+	lastX = xPosition;
+	lastY = yPosition;
+    }
 }
+*/

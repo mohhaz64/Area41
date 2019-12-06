@@ -37,7 +37,7 @@ public class MenuController {
 
     //Lists to hold game Levels as well as all the created Users.
     private ArrayList<User> users = new ArrayList<User>();
-    private ArrayList<Level> levels = new ArrayList<Level>();
+    private static ArrayList<Level> levels = new ArrayList<Level>();
 	
 	static MediaPlayer mediaPlayer;
 	
@@ -45,6 +45,8 @@ public class MenuController {
 
     //Instantiating Media class  
     Media media = new Media(new File(path).toURI().toString());  
+    
+    static Level selectedLevel;
     
 
 	/**
@@ -54,14 +56,7 @@ public class MenuController {
     public void initialize() {
 
     	addUsesrsToList();
-
-		// Level .txt files are read in and added to the list of levels
-		Level level1 = ReadLevelFile.readDataFile("Level1.txt");
-		Level level2 = ReadLevelFile.readDataFile("Level2.txt");
-		Level level3 = ReadLevelFile.readDataFile("Level3.txt");
-		levels.add(level1);
-		levels.add(level2);
-		levels.add(level3);
+    	readLevels();
 
 
 		// Setup actions on buttons
@@ -86,6 +81,16 @@ public class MenuController {
 		refreshLevelList();
 		messageOfTheDay();
 	}
+    
+    public static void readLevels() {
+		// Level .txt files are read in and added to the list of levels
+		Level level1 = ReadLevelFile.readDataFile("Level1.txt");
+		Level level2 = ReadLevelFile.readDataFile("Level2.txt");
+		Level level3 = ReadLevelFile.readDataFile("Level3.txt");
+		levels.add(level1);
+		levels.add(level2);
+		levels.add(level3);
+    }
 
 	private void addUsesrsToList() {
 		BufferedReader reader;
@@ -139,17 +144,6 @@ public class MenuController {
 		for (Level c : levels) {
 			levelList.getItems().add(c.getName());
 		}
-	}
-
-	public void removeUser(String userName) {
-		User userToRemove = null;
-		for (User user : users) {
-			if (user.getName().equals(userName)){
-				userToRemove = user;
-			}
-		}
-		users.remove(userToRemove);
-		refreshUserList();
 	}
 
 	private void messageOfTheDay(){
@@ -386,7 +380,7 @@ public class MenuController {
 		}
 
 		// Can only get to this line if user has selected a Level
-		Level selectedLevel = levels.get(selectedIndex);
+		selectedLevel = levels.get(selectedIndex);
 		User selectedUser = users.get(selectedUserIndex);
 
 		// We use a try-catch block as the loading of the FXML file can fail.
@@ -403,6 +397,7 @@ public class MenuController {
 			mediaPlayer = new MediaPlayer(media);  
 
 	        //by setting this property to true, the audio will be played   
+			mediaPlayer.setVolume(0.1);
 	        mediaPlayer.setAutoPlay(true);  
 
 			game.setLevel(selectedLevel);
@@ -426,5 +421,17 @@ public class MenuController {
 			System.exit(-1);
 		}
 	}
-
+	
+	public static String getSelectedLevel() {
+		String level = selectedLevel.getName();
+		String returnString = null;
+		if(level.equalsIgnoreCase("Level 1")) {
+			returnString = "Level1.txt";
+		} else if(level.equalsIgnoreCase("Level 2")) {
+			returnString = "Level2.txt";
+		} else if(level.equalsIgnoreCase("Level 3")) {
+			returnString = "Level3.txt";
+		}
+		return returnString;
+	}
 }

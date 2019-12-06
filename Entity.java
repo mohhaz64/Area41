@@ -16,6 +16,8 @@ public class Entity {
      * The sprite of the Entity.
      */
     protected Image sprite = new Image("Player.png", 60, 60, false, false);
+    
+    protected String type = "basic";
 
     /**
      * Creates a closed Entity object.
@@ -92,6 +94,10 @@ public class Entity {
     }
 
     public boolean checkIfTouched() {
+    	return false;
+    }
+    
+    public boolean hasKilledPlayer() {
     	return false;
     }
     
