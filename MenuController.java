@@ -40,6 +40,12 @@ public class MenuController {
     private ArrayList<Level> levels = new ArrayList<Level>();
 	
 	static MediaPlayer mediaPlayer;
+	
+	String path = "ChipsMusic2.mp3";  
+
+    //Instantiating Media class  
+    Media media = new Media(new File(path).toURI().toString());  
+    
 
 	/**
 	 * Initialize the controller.
@@ -381,14 +387,9 @@ public class MenuController {
 			GridPane gameRoot = (GridPane)fxmlLoader.load();
 			// Access the controller that was created by the FXML loader
 			GameController game = fxmlLoader.<GameController>getController();
-			
-			String path = "ChipsMusic2.mp3";  
-
-	        //Instantiating Media class  
-	        Media media = new Media(new File(path).toURI().toString());  
 
 	        //Instantiating MediaPlayer class   
-	        mediaPlayer = new MediaPlayer(media);  
+			mediaPlayer = new MediaPlayer(media);  
 
 	        //by setting this property to true, the audio will be played   
 	        mediaPlayer.setAutoPlay(true);  
@@ -404,12 +405,7 @@ public class MenuController {
 			gameStage.setScene(gameScene);
 			gameStage.setTitle(Main.WINDOW_TITLE);
 			gameStage.setResizable(false);
-
-			// Make the stage a modal window.
-			gameStage.initModality(Modality.APPLICATION_MODAL);
-
-			// Show the game scene and wait for it to be closed
-			gameStage.showAndWait();
+			gameStage.show();
 
 			refreshLevelList();
 
