@@ -141,6 +141,17 @@ public class MenuController {
 		}
 	}
 
+	public void removeUser(String userName) {
+		User userToRemove = null;
+		for (User user : users) {
+			if (user.getName().equals(userName)){
+				userToRemove = user;
+			}
+		}
+		users.remove(userToRemove);
+		refreshUserList();
+	}
+
 	private void messageOfTheDay(){
 		// Create buffer reader for getting connection response
 		// Create line string for each line of buffer reader

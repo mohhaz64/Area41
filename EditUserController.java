@@ -47,7 +47,55 @@ public class EditUserController {
     }
     
     public void deleteUser() {
-    	//Delete user code here
+        BufferedReader reader;
+        ArrayList<String> userList = new ArrayList<>();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Delete");
+        alert.setHeaderText(null);
+        alert.setContentText("Change Username to Delete the User?");
+        alert.showAndWait();
+
+        if (alert.getResult().getButtonData().isDefaultButton()) {
+            try {
+                reader = new BufferedReader(new FileReader("users.txt"));
+                String line = reader.readLine();
+                while (line != null) {
+                    userList.add(line);
+                    line = reader.readLine();
+                }
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            for (int i = 0; i < userList.size(); i++) {
+                if (userList.get(i).equals(currentUserName)) {
+                    userList.remove(i);
+                    i--;
+                }
+            }
+
+            try {
+                FileWriter fileWriter = new FileWriter("users.txt", false); //Set true for append mode
+                PrintWriter printWriter = new PrintWriter(fileWriter);
+                for (String user : userList) {
+                    printWriter.println(user);
+                }
+                printWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            parentController.removeUser(currentUserName);
+            Stage stage = (Stage) deleteUserButton.getScene().getWindow();
+            stage.close();
+
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success!");
+            alert.setContentText("User Deleted!");
+            alert.showAndWait();
+        }
     }
     
     public void setParentController(MenuController parentController) {
@@ -92,6 +140,7 @@ public class EditUserController {
                         userList.set(i, newUserName);
                     }
                 }
+
                 try {
                     FileWriter fileWriter = new FileWriter("users.txt", false); //Set true for append mode
                     PrintWriter printWriter = new PrintWriter(fileWriter);
