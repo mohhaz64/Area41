@@ -15,7 +15,7 @@ public class Entity {
     /**
      * The sprite of the Entity.
      */
-    protected Image sprite = new Image("tile5.png", 60, 60, false, false);
+    protected Image sprite = new Image("Player.png", 60, 60, false, false);
 
     /**
      * Creates a closed Entity object.
@@ -80,7 +80,7 @@ public class Entity {
     public void draw(GraphicsContext g, Image image) {
 
     	double offsetX = 4.75;
-		double offsetY = 2.5;
+		double offsetY = 2;
 		
 		double X = (x - GameController.playerX + offsetX) * GameController.getGridCellWidth();
 		double Y = (y - GameController.playerY + offsetY) * GameController.getGridCellHeight();
@@ -91,9 +91,8 @@ public class Entity {
 		g.drawImage(image, XIso, YIso, GameController.getGridCellWidth(), GameController.getGridCellHeight());
     }
 
-    public void checkIfTouched(GraphicsContext g) {
-	// System.out.println("Entity method 'onTouched' needs to be
-	// overwritten");
+    public boolean checkIfTouched() {
+    	return false;
     }
     
     private double xToIso(double X, double Y) {

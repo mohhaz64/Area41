@@ -1,4 +1,3 @@
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Key extends Entity {
@@ -11,14 +10,11 @@ public class Key extends Entity {
 		this.col = colour;
 	}
 	
-	public void checkIfTouched (GraphicsContext g) {
+	public boolean checkIfTouched () {
 		if ((GameController.playerX == x) && (GameController.playerY == y)) {
 			collected = true;
 			x = -100;
 			y = -100;
-			//Redraw cell and player to remove token image
-			g.fillRect(GameController.getGridCellWidth() * 3,  GameController.getGridCellHeight() * 3, GameController.getGridCellWidth(), GameController.getGridCellHeight());
-			g.drawImage(GameController.ground,3 * GameController.getGridCellWidth(), 3 * GameController.getGridCellHeight());
 			System.out.println("Key Collected");
 			if(col.equalsIgnoreCase("red")) {
 				GameController.pickupRedKey();
@@ -29,6 +25,10 @@ public class Key extends Entity {
 			if(col.equalsIgnoreCase("blue")) {
 				GameController.pickupBlueKey();
 			}
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 	

@@ -41,6 +41,7 @@ public class GameController {
     private Label projectLevel;
     @FXML
     private Label tokenCount;
+    @FXML
 
     // The dimensions of the canvas
     private static final int CANVAS_WIDTH = 420;
@@ -84,7 +85,7 @@ public class GameController {
 	collectedFlippers = true;
     }
 
-    public static void pickedUpFireBoots() {
+    public static void pickUpFireboots() {
 	collectedFireBoots = true;
     }
 
@@ -92,14 +93,14 @@ public class GameController {
     static Image player = new Image("Player.png", 70, 70, false, false);
     static Image wall = new Image("WallISO.png", 60, 60, false, false);
     static Image ground = new Image("GrassISO.png", 60, 60, false, false);
-    static Image finish = new Image("Grass2.png", 60, 60, false, false);
+    static Image finish = new Image("Goal.png", 60, 60, false, false);
     static Image redKey = new Image("RedKey.png", 87, 44, false, false);
     static Image yellowKey = new Image("YellowKey.png", 87, 44, false, false);
     static Image blueKey = new Image("BlueKey.png", 87, 44, false, false);
     static Image emptyKey = new Image("emptyKey.png", 87, 44, false, false);
-    static Image flippers = new Image("GroundFlippers.png", 55, 55, false,
+    static Image flippers = new Image("Flippers.png", 55, 55, false,
 	    false);
-    static Image fireBoots = new Image("GroundFireBoots.png", 55, 55, false,
+    static Image fireBoots = new Image("FireBoots.png", 55, 55, false,
 	    false);
     static Image playerPickup = new Image("PlayerPickup.png", 60, 60, false,
 	    false);
@@ -109,6 +110,8 @@ public class GameController {
     private static boolean collectedBlue;
     private static boolean collectedFlippers;
     private static boolean collectedFireBoots;
+    
+    private boolean isMute = true;
 
     // X and Y coordinate of player
     static int playerX;
@@ -184,9 +187,21 @@ public class GameController {
      */
     void clickQuit(ActionEvent event) {
 
-    	MenuController.mediaPlayer.setAutoPlay(false); 
+    	MenuController.mediaPlayer.stop();
     	Stage stage = (Stage) gridPane.getScene().getWindow();
 	    stage.close();
+    }
+    
+    @FXML
+    void clickMute(ActionEvent event) {
+
+    	if(isMute) {
+    		MenuController.mediaPlayer.setVolume(0);
+    		isMute =! isMute;
+    	} else if(!isMute) {
+    		MenuController.mediaPlayer.setVolume(0.7);
+    		isMute =! isMute;
+    	}
     }
 
     @FXML
@@ -369,7 +384,7 @@ public class GameController {
 		    
 		} else if (instance.equals("G")) {
 
-		    gc.drawImage(finish, XIso, YIso, isoWidth, isoHeight);
+		    gc.drawImage(finish, XIso, YIso - 15, isoWidth, isoHeight);
 		    
 		} else {
 		    System.out.println("Error: instance not found.");
@@ -387,7 +402,9 @@ public class GameController {
 		((Enemy) s).makeMove();
 		((Enemy) s).hasKilledPlayer();
 	    } else {
-		s.checkIfTouched(gc);
+	    	if (s.checkIfTouched()) {
+	    		drawGame();
+	    	}
 	    }
 	}
 

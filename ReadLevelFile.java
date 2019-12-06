@@ -13,9 +13,9 @@ import javafx.scene.image.Image;
  */
 public class ReadLevelFile {
 	
-	static Image fireBootsSprite = new Image("GroundFireBoots.png", 40, 40, false, false);
+	static Image fireBootsSprite = new Image("FireBoots.png", 40, 40, false, false);
     static Image tokenSprite = new Image("Token.png", 40, 40, false, false);
-    static Image flippersSprite = new Image("GroundFlippers.png", 40, 40, false, false);
+    static Image flippersSprite = new Image("Flippers.png", 40, 40, false, false);
     static Image keySprite;
     static Image enemySprite = new Image("Golem.png", 40, 40, false, false);
 
