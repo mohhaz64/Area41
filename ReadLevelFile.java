@@ -98,6 +98,9 @@ public class ReadLevelFile {
 	    } else if (entity.equalsIgnoreCase("STRAIGHT")) {
 		entityQueue.enqueue(readStraight(line));
 		
+	    } else if (entity.equalsIgnoreCase("WALL")) {
+			entityQueue.enqueue(readWall(line));
+		
 	    } else {
 		System.out.println("Error: Entity not found.");
 	    }
@@ -133,6 +136,14 @@ public class ReadLevelFile {
 	int y = Integer.parseInt(line.next());
 	SmartFollowEnemy smartEnemy = new SmartFollowEnemy(enemySprite, x, y);
 	return smartEnemy;
+    }
+    
+    public static Entity readWall(Scanner line) {
+	int x = Integer.parseInt(line.next());
+	int y = Integer.parseInt(line.next());
+	boolean preferRight = Boolean.parseBoolean(line.next());
+	WallFollowEnemy wallEnemy = new WallFollowEnemy(enemySprite, x, y, preferRight);
+	return wallEnemy;
     }
 
     public static Token readToken(Scanner line) {
