@@ -807,11 +807,10 @@ public class GameController {
     }
 
     private void victory() {
-	// TODO Add popup to show player has completed the level
-	if (currentUser.getMaxCompletedLevel() < levelBeingLoaded.getName()
-		.charAt(levelBeingLoaded.getName().length() - 1)) {
-	    currentUser.setMaxCompletedLevel(levelBeingLoaded.getName()
-		    .charAt(levelBeingLoaded.getName().length() - 1));
+	String levelNum = Character
+		.toString(levelBeingLoaded.getName().charAt(6));
+	if (currentUser.getMaxCompletedLevel() < Integer.parseInt(levelNum)) {
+	    currentUser.setMaxCompletedLevel(Integer.parseInt(levelNum));
 	    currentUser.updateTextFile();
 	}
     }
