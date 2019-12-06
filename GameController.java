@@ -646,6 +646,17 @@ public class GameController {
 	    // Do nothing
 	    break;
 	}
+	
+	for (Entity s : activeEntitys) {
+
+	    if (s instanceof Enemy) {
+	    	((Enemy) s).getNextMove();
+	    	((Enemy) s).makeMove();
+	    	((Enemy) s).hasKilledPlayer();
+	    } else {
+	    	s.doTouched();
+	    }
+	}
 
 	// Redraw game as the player may have moved.
 	drawGame();
@@ -712,9 +723,6 @@ public class GameController {
 	for (Entity s : activeEntitys) {
 
 	    if (s instanceof Enemy) {
-	    	((Enemy) s).getNextMove();
-	    	((Enemy) s).makeMove();
-	    	((Enemy) s).hasKilledPlayer();
 	    	s.draw(gc, s.getSprite());
 	    } else {
 	    	if (!s.checkIfTouched()) {

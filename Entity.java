@@ -92,8 +92,17 @@ public class Entity {
     }
 
     public boolean checkIfTouched() {
-    	return false;
-    }
+    	if ((GameController.playerX == x) && (GameController.playerY == y)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+    
+    public void doTouched() {
+
+	}
     
     private double xToIso(double X, double Y) {
     	return X - Y;

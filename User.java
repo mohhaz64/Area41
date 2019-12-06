@@ -18,8 +18,9 @@ public class User {
 	System.out.println(name);
 	savedFile = data[0] + "SavedGame.txt";
 	System.out.println(savedFile);
-	maxCompletedLevel = Integer.parseInt(data[1]);
-	System.out.println(maxCompletedLevel);
+	//Just commented this out for now so the game runs
+	//maxCompletedLevel = Integer.parseInt(data[1]);
+	//System.out.println(maxCompletedLevel);
     }
 
     public void updateTextFile() {

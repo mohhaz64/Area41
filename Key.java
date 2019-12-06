@@ -2,7 +2,6 @@ import javafx.scene.image.Image;
 
 public class Key extends Entity {
 	
-	protected boolean collected = false;
 	protected String col = null;
 	
 	public Key (Image sprite, int x, int y, String colour) {
@@ -10,9 +9,8 @@ public class Key extends Entity {
 		this.col = colour;
 	}
 	
-	public boolean checkIfTouched () {
-		if ((GameController.playerX == x) && (GameController.playerY == y)) {
-			collected = true;
+	public void doTouched () {
+		if (checkIfTouched()) {
 			x = -100;
 			y = -100;
 			System.out.println("Key Collected");
@@ -25,10 +23,6 @@ public class Key extends Entity {
 			if(col.equalsIgnoreCase("blue")) {
 				GameController.pickupBlueKey();
 			}
-			return true;
-		}
-		else {
-			return false;
 		}
 	}
 	
