@@ -11,7 +11,7 @@ Level 2
 #             #
 ######G########
 ###############
-START 5 1
+START 1 1
+ENEMY 1 7 STRAIGHT
 DOOR 13 6 BLUE
 KEY 6 1 BLUE
-SMART 9 3

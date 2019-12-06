@@ -1,9 +1,8 @@
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,13 +12,17 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+/**
+ * The controller for the Menu FXML
+ * @author Group 41
+ *
+ */
 
 public class MenuController {
 
@@ -32,29 +35,24 @@ public class MenuController {
     @FXML private Label messgeOfTheDay;
     @FXML private Button quitButton;
     @FXML private ComboBox<String> userList;
-
+    
     private static HttpURLConnection connection;
-
+    
     //Lists to hold game Levels as well as all the created Users.
     private ArrayList<User> users = new ArrayList<User>();
     private ArrayList<Level> levels = new ArrayList<Level>();
-	
-	static MediaPlayer mediaPlayer;
-	
-	String path = "ChipsMusic2.mp3";  
-
-    //Instantiating Media class  
-    Media media = new Media(new File(path).toURI().toString());  
     
-
+    
 	/**
 	 * Initialize the controller.
 	 * This method is called automatically and everything within is run IN ORDER.
 	 */
     public void initialize() {
 
-    	addUsesrsToList();
-
+    	//TODO:: Remove the hard coded users and only use users created
+		users.add(new User("Link"));
+		users.add(new User("Zelda"));
+		
 		// Level .txt files are read in and added to the list of levels
 		Level level1 = ReadLevelFile.readDataFile("Level1.txt");
 		Level level2 = ReadLevelFile.readDataFile("Level2.txt");
@@ -62,97 +60,58 @@ public class MenuController {
 		levels.add(level1);
 		levels.add(level2);
 		levels.add(level3);
-
-
-		// Setup actions on buttons
+		
+    	
+		// Setup actions on button press
 		quitButton.setOnAction(e -> {
 			handleQuitButtonAction();
 		});
-
+		
 		editUserButton.setOnAction(e -> {
 			handleEditButtonAction();
 		});
-
+		
 		startGameButton.setOnAction(e -> {
 			startGame();
 		});
-
+		
 		createNewUserButton.setOnAction(e -> {
 			handleNewUserButton();
 		});
-
+		
 		// Refreshing the User and Level lists in case of any changes (added, edited or deleted)
 		refreshUserList();
 		refreshLevelList();
 		messageOfTheDay();
 	}
-
-	private void addUsesrsToList() {
-		BufferedReader reader;
-		try {
-			reader = new BufferedReader(new FileReader("users.txt"));
-			String line = reader.readLine();
-			while (line != null) {
-				users.add(new User(line));
-				line = reader.readLine();
-			}
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void addUser(String userName) {
-    	users.add(new User(userName));
-	}
-
-	public void editUser(String currentUserName, String newUserName) {
-    	for (User user : users) {
-    		if (user.getName().equals(currentUserName)){
-    			user.setName(newUserName);
-			}
-			user.updateSavedFile();
-		}
-	}
-
+    
     /**
 	 * Refreshes the User List
 	 */
-    public void refreshUserList() {
+    private void refreshUserList() {
 		// Clear the displayed list
 		userList.getItems().clear();
-
+		
 		// Add each User to the displayed List
 		for (User c : users) {
 			userList.getItems().add(c.getName());
 		}
 	}
-	
-	/**
+    
+    /**
 	 * Refreshes the Level List
 	 */
-	public void refreshLevelList() {
+    private void refreshLevelList() {
 		// Clear the displayed list
 		levelList.getItems().clear();
-
+		
 		// Add each Level to the displayed list
 		for (Level c : levels) {
 			levelList.getItems().add(c.getName());
 		}
 	}
-
-	public void removeUser(String userName) {
-		User userToRemove = null;
-		for (User user : users) {
-			if (user.getName().equals(userName)){
-				userToRemove = user;
-			}
-		}
-		users.remove(userToRemove);
-		refreshUserList();
-	}
-
-	private void messageOfTheDay(){
+    
+    private void messageOfTheDay(){
 		// Create buffer reader for getting connection response
 		// Create line string for each line of buffer reader
 		// Create string buffer to hold response text
@@ -179,6 +138,7 @@ public class MenuController {
 		try {
 			// Connect to URL
 			URL url = new URL("http://cswebcat.swan.ac.uk/message?solution=" + solution);
+			System.out.println(url.toString());
 			connection = (HttpURLConnection) url.openConnection();
 
 			// Setup request
@@ -223,7 +183,7 @@ public class MenuController {
 	private String getPuzzle() {
 		BufferedReader reader;
 		String line;
-		StringBuilder responseContent = new StringBuilder();
+		StringBuffer responseContent = new StringBuffer();
 
 		try {
 			URL url = new URL("http://cswebcat.swan.ac.uk/puzzle");
@@ -259,47 +219,41 @@ public class MenuController {
 		return responseContent.toString();
 
 	}
-
-
-	/**
+    
+    /**
 	 * Exits the program the  the 'Quit' button is selected
 	 */
     public void handleQuitButtonAction() {
     	System.exit(0);
     }
-
+    
 	/**
 	 * Handle the Create New User button.
 	 * This will display a window allowing the user to create a new user with their desired name.
 	 * After the creation is complete, the displayed User list will be updated.
 	 */
-	public void handleNewUserButton() {
-		try {
-			// Create a FXML loader for loading the Edit User FXML file.
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CreateUser.fxml"));
-			GridPane newUserRoot = (GridPane) fxmlLoader.load();
-
-			CreateUserController createUserController = fxmlLoader.<CreateUserController>getController();
-			createUserController.setParentController(this);
+    public void handleNewUserButton() {
+    	try {
+			// Create a FXML loader for loading the CreateUser FXML file.
+			GridPane newUserRoot = (GridPane)FXMLLoader.load(getClass().getResource("CreateUser.fxml"));        
 
 			Scene newUserScene = new Scene(newUserRoot, Main.CREATE_USER_WINDOW_WIDTH, Main.CREATE_USER_WINDOW_HEIGHT);
-
+		    
 			// Create a new stage based on the NewUser scene
 			Stage newUserStage = new Stage();
 			newUserStage.setScene(newUserScene);
 			newUserStage.setTitle(Main.WINDOW_TITLE);
-			newUserStage.setResizable(false);
-
+			
 			// Make the stage a modal window.
 			// This means that it must be closed before you can interact with any other window from this application.
 			newUserStage.initModality(Modality.APPLICATION_MODAL);
-
+			
 			// Show the Create New User scene and wait for it to be closed
 			newUserStage.showAndWait();
-
+			
 			// Refresh the User List in order to add the created user to the list
 			refreshUserList();
-
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			// Quit the program (with an error code)
@@ -313,67 +267,49 @@ public class MenuController {
 	 * After the edit is complete, the displayed User list will be updated.
 	 */
     public void handleEditButtonAction() {
-		int selectedUserIndex = userList.getSelectionModel().getSelectedIndex();
+    	try {
+    		
+    		// Create a FXML loader for loading the CreateUser FXML file.
+    		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditUser.fxml"));     
 
-		if (selectedUserIndex < 0) {
-			// Show a message
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error");
-			alert.setHeaderText(null);
-			alert.setContentText("Please Select a User");
-			alert.showAndWait();
+			// Run the loader
+			GridPane editUserRoot = (GridPane)fxmlLoader.load();          
+			// Access the controller that was created by the FXML loader
+			EditUserController editUserController = fxmlLoader.<EditUserController>getController();
 
-		} else {
-
-			try {
-
-				// Create a FXML loader for loading the CreateUser FXML file.
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditUser.fxml"));
-
-				// Run the loader
-				GridPane editUserRoot = (GridPane) fxmlLoader.load();
-				// Access the controller that was created by the FXML loader
-				EditUserController editUserController = fxmlLoader.<EditUserController>getController();
-				editUserController.changeUserNameText(userList.getItems().get(selectedUserIndex));
-				editUserController.setParentController(this);
-
-				Scene editUserScene = new Scene(editUserRoot, Main.EDIT_USER_WINDOW_WIDTH, Main.EDIT_USER_WINDOW_HEIGHT);
-
-				// Create a new stage based on the editUser scene
-				Stage editUserStage = new Stage();
-				editUserStage.setScene(editUserScene);
-				editUserStage.setTitle(Main.WINDOW_TITLE);
-				editUserStage.setResizable(false);
-
-				// Make the stage a modal window.
-				// This means that it must be closed before you can interact with any other window from this application.
-				editUserStage.initModality(Modality.APPLICATION_MODAL);
-
-				// Show the edit scene and wait for it to be closed
-				editUserStage.showAndWait();
-
-				// Refresh the user list to update any changes/deletes.
-				refreshUserList();
-
-
-
-			} catch (IOException e) {
-				e.printStackTrace();
-				// Quit the program with an error code
-				System.exit(-1);
-			}
+			Scene editUserScene = new Scene(editUserRoot, Main.EDIT_USER_WINDOW_WIDTH, Main.EDIT_USER_WINDOW_HEIGHT);
+		    
+			// Create a new stage based on the editUser scene
+			Stage editUserStage = new Stage();
+			editUserStage.setScene(editUserScene);
+			editUserStage.setTitle(Main.WINDOW_TITLE);
+			
+			// Make the stage a modal window.
+			// This means that it must be closed before you can interact with any other window from this application.
+			editUserStage.initModality(Modality.APPLICATION_MODAL);
+			
+			// Show the edit scene and wait for it to be closed
+			editUserStage.showAndWait();
+			
+			// Refresh the user list to update any changes/deletes.
+			refreshUserList();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			// Quit the program with an error code
+			System.exit(-1);
 		}
-	}
-	
-	/**
+    }
+    
+    /**
 	 * Handle the Start Game button.
 	 * This will display a window allowing the user to play the game with the selected level.
 	 */
-	private void startGame() {
+    private void startGame() {
 		// Get the index of the selected level & User in the displayed list
 		int selectedIndex = levelList.getSelectionModel().getSelectedIndex();
 		int selectedUserIndex = userList.getSelectionModel().getSelectedIndex();
-
+		
 		// Check if user selected an level
 		if (selectedIndex < 0 || selectedUserIndex < 0) {
 			// Show a message
@@ -384,42 +320,41 @@ public class MenuController {
 			alert.showAndWait();
 			return;
 		}
-
+		
 		// Can only get to this line if user has selected a Level
 		Level selectedLevel = levels.get(selectedIndex);
 		User selectedUser = users.get(selectedUserIndex);
 
 		// We use a try-catch block as the loading of the FXML file can fail.
 		try {
-
+			
 			// Create a FXML loader for loading the GameController FXML file.
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GameController.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GameController.fxml"));     
 			// Run the loader
-			GridPane gameRoot = (GridPane)fxmlLoader.load();
+			GridPane gameRoot = (GridPane)fxmlLoader.load();          
 			// Access the controller that was created by the FXML loader
 			GameController game = fxmlLoader.<GameController>getController();
-
-	        //Instantiating MediaPlayer class   
-			mediaPlayer = new MediaPlayer(media);  
-
-	        //by setting this property to true, the audio will be played   
-	        mediaPlayer.setAutoPlay(true);  
-
+			
 			game.setLevel(selectedLevel);
 			game.setUser(selectedUser);
-
+	
 			// Create a scene based on the loaded FXML scene graph
 			Scene gameScene = new Scene(gameRoot, Main.GAME_WINDOW_WIDTH, Main.GAME_WINDOW_HEIGHT);
-
+		    
 			// Create a new stage for the game
 			Stage gameStage = new Stage();
 			gameStage.setScene(gameScene);
 			gameStage.setTitle(Main.WINDOW_TITLE);
 			gameStage.setResizable(false);
-			gameStage.show();
-
+			
+			// Make the stage a modal window.
+			gameStage.initModality(Modality.APPLICATION_MODAL);
+			
+			// Show the game scene and wait for it to be closed
+			gameStage.showAndWait();
+			
 			refreshLevelList();
-
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			// Quit the program (with an error code)

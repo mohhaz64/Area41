@@ -29,7 +29,7 @@ public class Main extends Application {
 	public static final int CREATE_USER_WINDOW_HEIGHT = 150;
 	
 	public static final int EDIT_USER_WINDOW_WIDTH = 400;
-	public static final int EDIT_USER_WINDOW_HEIGHT = 200;
+	public static final int EDIT_USER_WINDOW_HEIGHT = 500;
 	
 	public void start(Stage primaryStage) {
 		try {

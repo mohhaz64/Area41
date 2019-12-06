@@ -10,44 +10,40 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="gridPane" maxHeight="200.0" maxWidth="400.0" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="EditUserController">
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="EditUserController">
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="215.0" minWidth="10.0" prefWidth="136.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.0" minWidth="10.0" prefWidth="264.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="215.0" minWidth="10.0" prefWidth="156.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="245.0" minWidth="10.0" prefWidth="244.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="11.0" minHeight="10.0" prefHeight="11.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="124.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="123.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="123.0" minHeight="10.0" prefHeight="123.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <ImageView fitHeight="200.0" fitWidth="400.0" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
+      <ImageView fitHeight="500.0" fitWidth="400.0" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
          <image>
             <Image url="MenuBackGround.png" />
          </image>
       </ImageView>
-      <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+      <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <GridPane.margin>
-            <Insets bottom="40.0" right="70.0" />
+            <Insets right="150.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="confirmButton" mnemonicParsing="false" text="Confirm" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+      <Button fx:id="confirmButton" mnemonicParsing="false" text="Confirm" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <GridPane.margin>
-            <Insets bottom="40.0" left="70.0" />
+            <Insets left="50.0" />
          </GridPane.margin>
       </Button>
-      <Label text="Edit Name" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-      <TextField fx:id="userNameText" maxWidth="-Infinity" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <Label text="Edit Name" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+      <TextField fx:id="userNameText" maxWidth="-Infinity" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </TextField>
-      <Button fx:id="deleteUserButton" mnemonicParsing="false" prefWidth="130.0" text="Delete User" textFill="#833d3d" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
-      </Button>
    </children>
 </GridPane>

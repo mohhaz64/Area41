@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Level {
 
@@ -6,10 +7,10 @@ public class Level {
 	private int height;
 	private int xStart;
 	private int yStart;
-	private String map[][];
+	private ArrayList<String> map;
 	private Queue<Entity> entityQueue;
 	
-	public Level(String name, int width, int height, int xStart, int yStart, String map[][], Queue<Entity> entityQueue) {
+	public Level(String name, int width, int height, int xStart, int yStart, ArrayList<String> map, Queue<Entity> entityQueue) {
 		this.name = name;
 		this.width = width;
 		this.height = height;
@@ -39,7 +40,7 @@ public class Level {
 		return yStart;
 	}
 	
-	public String[][] getMap() {
+	public ArrayList<String> getMap() {
 		return map;
 	}
 
