@@ -711,15 +711,15 @@ public class GameController {
 
 	for (Entity s : activeEntitys) {
 
-	    s.draw(gc, s.getSprite());
 	    if (s instanceof Enemy) {
-		((Enemy) s).getNextMove();
-		((Enemy) s).makeMove();
-		((Enemy) s).hasKilledPlayer();
+	    	((Enemy) s).getNextMove();
+	    	((Enemy) s).makeMove();
+	    	((Enemy) s).hasKilledPlayer();
+	    	s.draw(gc, s.getSprite());
 	    } else {
-		if (s.checkIfTouched()) {
-		    drawGame();
-		}
+	    	if (!s.checkIfTouched()) {
+	    		s.draw(gc, s.getSprite());
+			}
 	    }
 	}
 
