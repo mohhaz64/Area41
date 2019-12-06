@@ -725,6 +725,9 @@ public class GameController {
 
 	// Draw player at center cell
 	gc.drawImage(player, 3 * GRID_CELL_WIDTH, 3 * GRID_CELL_HEIGHT);
+	if (map[playerX][playerY].equalsIgnoreCase("G")) {
+	    victory();
+	}
     }
 
     public void drawInventory() {
@@ -801,6 +804,15 @@ public class GameController {
 
     private double yToIso(double X, double Y) {
 	return (X + Y) / 2;
+    }
+
+    private void victory() {
+	String levelNum = Character
+		.toString(levelBeingLoaded.getName().charAt(6));
+	if (currentUser.getMaxCompletedLevel() < Integer.parseInt(levelNum)) {
+	    currentUser.setMaxCompletedLevel(Integer.parseInt(levelNum));
+	    currentUser.updateTextFile();
+	}
     }
 
 }
