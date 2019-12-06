@@ -12,10 +12,12 @@ import javafx.scene.image.Image;
  *
  */
 public class ReadLevelFile {
-	
-	static Image fireBootsSprite = new Image("FireBoots.png", 40, 40, false, false);
+
+    static Image fireBootsSprite = new Image("FireBoots.png", 40, 40, false,
+	    false);
     static Image tokenSprite = new Image("Token.png", 40, 40, false, false);
-    static Image flippersSprite = new Image("Flippers.png", 40, 40, false, false);
+    static Image flippersSprite = new Image("Flippers.png", 40, 40, false,
+	    false);
     static Image keySprite;
     static Image enemySprite = new Image("Golem.png", 40, 40, false, false);
 
@@ -32,6 +34,7 @@ public class ReadLevelFile {
 	Queue<Entity> entityQueue = new Queue<Entity>();
 
 	String name = in.nextLine();
+	System.out.println("Level Name: " + name);
 
 	String size = in.nextLine();
 	int width = Integer.parseInt(size.split(" ")[0]);
@@ -73,31 +76,29 @@ public class ReadLevelFile {
 
 	    if (entity.equalsIgnoreCase("DUMB")) {
 		entityQueue.enqueue(readDumb(line));
-		
+
 	    } else if (entity.equalsIgnoreCase("DOOR")) {
-	    	
-		
+
 	    } else if (entity.equalsIgnoreCase("FIREBOOTS")) {
 		entityQueue.enqueue(readFireBoots(line));
-		
+
 	    } else if (entity.equalsIgnoreCase("TOKEN")) {
 		entityQueue.enqueue(readToken(line));
-		
+
 	    } else if (entity.equalsIgnoreCase("TELEPORTER")) {
-	    	
-	    	
+
 	    } else if (entity.equalsIgnoreCase("KEY")) {
 		entityQueue.enqueue(readKey(line));
-		
+
 	    } else if (entity.equalsIgnoreCase("FLIPPERS")) {
 		entityQueue.enqueue(readFlippers(line));
-		
+
 	    } else if (entity.equalsIgnoreCase("SMART")) {
 		entityQueue.enqueue(readSmart(line));
-		
+
 	    } else if (entity.equalsIgnoreCase("STRAIGHT")) {
 		entityQueue.enqueue(readStraight(line));
-		
+
 	    } else {
 		System.out.println("Error: Entity not found.");
 	    }
@@ -123,8 +124,8 @@ public class ReadLevelFile {
 	int y = Integer.parseInt(line.next());
 	boolean moveInX = Boolean.parseBoolean(line.next());
 	boolean positiveDirection = Boolean.parseBoolean(line.next());
-	StraightLineEnemy straightEnemy = new StraightLineEnemy(enemySprite, x, y, moveInX,
-		positiveDirection);
+	StraightLineEnemy straightEnemy = new StraightLineEnemy(enemySprite, x,
+		y, moveInX, positiveDirection);
 	return straightEnemy;
     }
 
@@ -173,13 +174,13 @@ public class ReadLevelFile {
 	int x = Integer.parseInt(line.next());
 	int y = Integer.parseInt(line.next());
 	String col = line.next();
-	
+
 	if (col.equalsIgnoreCase("blue")) {
-		keySprite = new Image("BlueKey.png", 40, 40, false, false);
+	    keySprite = new Image("BlueKey.png", 40, 40, false, false);
 	} else if (col.equalsIgnoreCase("red")) {
-		keySprite = new Image("RedKey.png", 40, 40, false, false);
+	    keySprite = new Image("RedKey.png", 40, 40, false, false);
 	} else if (col.equalsIgnoreCase("yellow")) {
-		keySprite = new Image("YellowKey.png", 40, 40, false, false);
+	    keySprite = new Image("YellowKey.png", 40, 40, false, false);
 	}
 
 	Key key = new Key(keySprite, x, y, col);

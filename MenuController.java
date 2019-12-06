@@ -405,9 +405,11 @@ public class MenuController {
 	// Can only get to this line if user has selected a Level
 	Level selectedLevel = levels.get(selectedIndex);
 	User selectedUser = users.get(selectedUserIndex);
-	int levelNum = selectedLevel.getName()
-		.charAt(selectedLevel.getName().length() - 1);
-	if (selectedUser.getMaxCompletedLevel() < levelNum) {
+	String levelNum = Character.toString(selectedLevel.getName().charAt(6));
+	if (selectedUser.getMaxCompletedLevel() < Integer.parseInt(levelNum)) {
+	    System.out.println("Max Completed Level: "
+		    + selectedUser.getMaxCompletedLevel() + " , Level Number: "
+		    + levelNum);
 	    Alert alert = new Alert(AlertType.ERROR);
 	    alert.setTitle("Error");
 	    alert.setHeaderText(null);

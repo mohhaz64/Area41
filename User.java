@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,8 +15,35 @@ public class User {
     public User(String line) {
 	String[] data = line.split(" ");
 	name = data[0];
+	System.out.println(name);
 	savedFile = data[0] + "SavedGame.txt";
+	System.out.println(savedFile);
 	maxCompletedLevel = Integer.parseInt(data[1]);
+	System.out.println(maxCompletedLevel);
+    }
+
+    public void updateTextFile() {
+	BufferedReader reader;
+	FileOutputStream fileOut;
+	try {
+	    reader = new BufferedReader(new FileReader("users.txt"));
+	    fileOut = new FileOutputStream("users.txt");
+	    String line = reader.readLine();
+	    while (line != null) {
+		String[] userInfo = line.split(" ");
+		if (userInfo[0] == name) {
+		    userInfo[1] = Integer.toString(maxCompletedLevel);
+		    String newline = userInfo[0] + userInfo[1];
+		    fileOut.write(newline.getBytes());
+		} else {
+		    fileOut.write(line.getBytes());
+		}
+	    }
+	    reader.close();
+	    fileOut.close();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
     }
 
     public int getMaxCompletedLevel() {
