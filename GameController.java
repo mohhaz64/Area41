@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -14,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -526,6 +529,7 @@ public class GameController {
 	setLevel(levelBeingLoaded);
 	resetInventory();
 	drawInventory();
+	
     }
 
     @FXML
@@ -595,6 +599,38 @@ public class GameController {
 	}
 	return true;
     }
+    
+    public void playerDead() {
+    	activeEntitys.clear();
+    	try {
+			// Create a FXML loader for loading the Edit User FXML file.
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Dead.fxml"));
+			GridPane deadUserRoot = (GridPane) fxmlLoader.load();
+
+			DeadController deadController = fxmlLoader.<DeadController>getController();
+			deadController.setParentController(this);
+
+			Scene deadUser = new Scene(deadUserRoot, Main.CREATE_USER_WINDOW_WIDTH, Main.CREATE_USER_WINDOW_HEIGHT);
+
+			// Create a new stage based on the NewUser scene
+			Stage deadUserStage = new Stage();
+			deadUserStage.setScene(deadUser);
+			deadUserStage.setTitle("Wasted");
+			deadUserStage.setResizable(false);
+
+			// Make the stage a modal window.
+			// This means that it must be closed before you can interact with any other window from this application.
+			deadUserStage.initModality(Modality.APPLICATION_MODAL);
+
+			// Show the Create New User scene and wait for it to be closed
+			deadUserStage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			// Quit the program (with an error code)
+			System.exit(-1);
+		}
+    }
 
     @FXML
     /**
@@ -611,6 +647,7 @@ public class GameController {
 	    if (checkSpace(playerX + 1, playerY)) {
 		player = new Image("PlayerRight.png", 70, 70, false, false);
 		playerX = playerX + 1;
+		checkIfDead();
 	    } else {
 		break;
 	    }
@@ -620,6 +657,7 @@ public class GameController {
 	    if (checkSpace(playerX - 1, playerY)) {
 		player = new Image("PlayerLeft.png", 70, 70, false, false);
 		playerX = playerX - 1;
+		checkIfDead();
 	    } else {
 		break;
 	    }
@@ -629,6 +667,7 @@ public class GameController {
 	    if (checkSpace(playerX, playerY - 1)) {
 		player = new Image("PlayerUp.png", 70, 70, false, false);
 		playerY = playerY - 1;
+		checkIfDead();
 	    } else {
 		break;
 	    }
@@ -638,6 +677,7 @@ public class GameController {
 	    if (checkSpace(playerX, playerY + 1)) {
 		player = new Image("PlayerDown.png", 70, 70, false, false);
 		playerY = playerY + 1;
+		checkIfDead();
 	    } else {
 		break;
 	    }
@@ -661,9 +701,24 @@ public class GameController {
 	// Redraw game as the player may have moved.
 	drawGame();
 	drawInventory();
+	
+	checkIfDead();
+	
 
 	// Consume the event, mark is as dealt with.
 	event.consume();
+    }
+    
+    public void checkIfDead() {
+    	boolean clearActiveEntities = false;
+    	for (Entity entity : GameController.activeEntitys) {
+    	    if (entity.hasKilledPlayer() == true) {
+    	    	clearActiveEntities = true;
+    	    }
+    	}
+    	if (clearActiveEntities) {
+    		playerDead();
+    	}
     }
 
     /**
