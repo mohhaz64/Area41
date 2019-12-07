@@ -565,8 +565,9 @@ public class GameController {
 	writer.newLine();
 
 	// Will finish when classes are created
-	writer.write("Entity classes needed");
-
+	for (Entity s : activeEntitys) {
+		writer.write(s.toString());
+	}
 	writer.close();
 
     }
@@ -867,8 +868,19 @@ public class GameController {
 		int levelNum = Integer.parseInt(Character.toString(name.charAt(6)));
 		System.out.println(levelNum);
 		if (currentUser.getMaxCompletedLevel() < levelNum) {
+			currentUser.updateTextFile();
 		    currentUser.setMaxCompletedLevel(levelNum);
-		    currentUser.updateTextFile();
+		}
+		if (levelNum < MenuController.noOfLevels) {
+			
+			Level selectedLevel = ReadLevelFile.readDataFile("Level" + (levelNum + 1) + ".txt");
+	    	activeEntitys.clear();
+			resetInventory();
+			drawInventory();
+			setLevel(selectedLevel);
+			
+		}  else {
+			System.out.println("All levels completed");
 		}
     }
     

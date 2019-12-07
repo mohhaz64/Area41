@@ -16,36 +16,35 @@ public class User {
     System.out.println(line);
 	String[] data = line.split(" ");
 	name = data[0];
-	System.out.println(name);
 	savedFile = data[0] + "SavedGame.txt";
-	System.out.println(savedFile);
-	//Just commented this out for now so the game runs
 	maxCompletedLevel = Integer.parseInt(data[1]);
-	System.out.println(maxCompletedLevel);
     }
 
     public void updateTextFile() {
-	BufferedReader reader;
-	FileOutputStream fileOut;
-	try {
-	    reader = new BufferedReader(new FileReader("users.txt"));
-	    fileOut = new FileOutputStream("users.txt");
-	    String line = reader.readLine();
-	    while (line != null) {
-		String[] userInfo = line.split(" ");
-		if (userInfo[0] == name) {
-		    userInfo[1] = Integer.toString(maxCompletedLevel);
-		    String newline = userInfo[0] + userInfo[1];
-		    fileOut.write(newline.getBytes());
-		} else {
-		    fileOut.write(line.getBytes());
-		}
-	    }
-	    reader.close();
-	    fileOut.close();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
+    	try {
+    		
+            BufferedReader file = new BufferedReader(new FileReader("users.txt"));
+            StringBuffer inputBuffer = new StringBuffer();
+            String line;
+
+            while ((line = file.readLine()) != null) {
+                inputBuffer.append(line);
+                inputBuffer.append('\n');
+            }
+            file.close();
+            String inputStr = inputBuffer.toString();
+
+
+            inputStr = inputStr.replace(name + " " + maxCompletedLevel, name + " " + (maxCompletedLevel + 1)); 
+
+            FileOutputStream fileOut = new FileOutputStream("users.txt");
+            fileOut.write(inputStr.getBytes());
+            fileOut.close();
+
+        } catch (Exception e) {
+            System.out.println("Error: Can't find users.txt file");
+        }
+    	
     }
 
     public int getMaxCompletedLevel() {

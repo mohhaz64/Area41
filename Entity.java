@@ -31,7 +31,7 @@ public class Entity {
     }
 
     public String toString() {
-	String result = "Its position is " + x + " " + y;
+	String result = "Entity " + x + " " + y + "\n";
 	return result;
     }
 
@@ -101,12 +101,12 @@ public class Entity {
 	}
     
     public void doTouched() {
-    	
+
 	}
     
     public boolean hasKilledPlayer() {
     	return false;
-        }
+    }
     
     private double xToIso(double X, double Y) {
     	return X - Y;

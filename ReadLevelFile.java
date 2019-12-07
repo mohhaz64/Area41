@@ -152,6 +152,10 @@ public class ReadLevelFile {
 
 	int x = Integer.parseInt(line.next());
 	int y = Integer.parseInt(line.next());
+	
+	if (x == -100 && y ==-100) {
+		GameController.pickupToken();
+	}
 
 	Token token = new Token(tokenSprite, x, y);
 
@@ -163,6 +167,10 @@ public class ReadLevelFile {
 
 	int x = Integer.parseInt(line.next());
 	int y = Integer.parseInt(line.next());
+	
+	if (x == -100 && y ==-100) {
+		GameController.pickUpFireboots();
+	}
 
 	Fireboots fireBoots = new Fireboots(fireBootsSprite, x, y);
 
@@ -174,6 +182,10 @@ public class ReadLevelFile {
 
 	int x = Integer.parseInt(line.next());
 	int y = Integer.parseInt(line.next());
+	
+	if (x == -100 && y ==-100) {
+		GameController.pickupFlippers();
+	}
 
 	Flippers flippers = new Flippers(flippersSprite, x, y);
 
@@ -188,10 +200,19 @@ public class ReadLevelFile {
 	String col = line.next();
 	
 	if (col.equalsIgnoreCase("blue")) {
+		if (x == -100 && y ==-100) {
+			GameController.pickupBlueKey();
+		}
 		keySprite = new Image("BlueKey.png", 40, 40, false, false);
 	} else if (col.equalsIgnoreCase("red")) {
+		if (x == -100 && y ==-100) {
+			GameController.pickupRedKey();
+		}
 		keySprite = new Image("RedKey.png", 40, 40, false, false);
 	} else if (col.equalsIgnoreCase("yellow")) {
+		if (x == -100 && y ==-100) {
+			GameController.pickupYellowKey();
+		}
 		keySprite = new Image("YellowKey.png", 40, 40, false, false);
 	}
 
