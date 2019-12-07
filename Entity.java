@@ -101,8 +101,12 @@ public class Entity {
 	}
     
     public void doTouched() {
-
+    	
 	}
+    
+    public boolean hasKilledPlayer() {
+    	return false;
+        }
     
     private double xToIso(double X, double Y) {
     	return X - Y;
