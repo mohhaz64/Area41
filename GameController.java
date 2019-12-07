@@ -499,10 +499,12 @@ public class GameController {
      *              pressed
      */
     void clickQuit(ActionEvent event) {
-
-	MenuController.mediaPlayer.stop();
-	Stage stage = (Stage) gridPane.getScene().getWindow();
-	stage.close();
+    	activeEntitys.clear();
+		resetInventory();
+		drawInventory();
+		MenuController.mediaPlayer.stop();
+		Stage stage = (Stage) gridPane.getScene().getWindow();
+		stage.close();
     }
 
     @FXML
@@ -525,10 +527,8 @@ public class GameController {
      *              pressed
      */
     void clickRestart(ActionEvent event) {
-
-	setLevel(levelBeingLoaded);
-	resetInventory();
-	drawInventory();
+    	
+    	reloadLevel();
 	
     }
 
@@ -587,9 +587,6 @@ public class GameController {
 	    return false;
 	}
 	if (map[spaceToCheckX][spaceToCheckY].equalsIgnoreCase("#")) {
-	    return false;
-	}
-	if (map[spaceToCheckX][spaceToCheckY].equalsIgnoreCase("G")) {
 	    return false;
 	}
 	for (Entity checkEntity : activeEntitys) {
@@ -687,6 +684,10 @@ public class GameController {
 	    break;
 	}
 	
+	if (map[playerX][playerY].equalsIgnoreCase("G")) {
+	    victory();
+	}
+	
 	for (Entity s : activeEntitys) {
 
 	    if (s instanceof Enemy) {
@@ -703,7 +704,6 @@ public class GameController {
 	drawInventory();
 	
 	checkIfDead();
-	
 
 	// Consume the event, mark is as dealt with.
 	event.consume();
@@ -776,21 +776,14 @@ public class GameController {
 	insertEntitys();
 
 	for (Entity s : activeEntitys) {
-
-	    if (s instanceof Enemy) {
-	    	s.draw(gc, s.getSprite());
-	    } else {
-	    	if (!s.checkIfTouched()) {
-	    		s.draw(gc, s.getSprite());
-			}
-	    }
+		
+		s.draw(gc, s.getSprite());
+		
 	}
 
 	// Draw player at center cell
 	gc.drawImage(player, 3 * GRID_CELL_WIDTH, 3 * GRID_CELL_HEIGHT);
-	if (map[playerX][playerY].equalsIgnoreCase("G")) {
-	    victory();
-	}
+
     }
 
     public void drawInventory() {
@@ -870,12 +863,24 @@ public class GameController {
     }
 
     private void victory() {
-	String levelNum = Character
-		.toString(levelBeingLoaded.getName().charAt(6));
-	if (currentUser.getMaxCompletedLevel() < Integer.parseInt(levelNum)) {
-	    currentUser.setMaxCompletedLevel(Integer.parseInt(levelNum));
-	    currentUser.updateTextFile();
-	}
+    	System.out.println("Victory!");
+		int levelNum = Integer.parseInt(Character.toString(name.charAt(6)));
+		System.out.println(levelNum);
+		if (currentUser.getMaxCompletedLevel() < levelNum) {
+		    currentUser.setMaxCompletedLevel(levelNum);
+		    currentUser.updateTextFile();
+		}
+    }
+    
+    public void reloadLevel() {
+    	
+    	Level selectedLevel = ReadLevelFile.readDataFile(levelBeingLoaded.getFilename());
+    	
+    	activeEntitys.clear();
+		resetInventory();
+		drawInventory();
+		setLevel(selectedLevel);
+    	
     }
 
 }

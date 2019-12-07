@@ -18,6 +18,8 @@ public class ReadLevelFile {
     static Image flippersSprite = new Image("Flippers.png", 40, 40, false, false);
     static Image keySprite;
     static Image enemySprite = new Image("Golem.png", 40, 40, false, false);
+    
+    static String levelFilename;
 
     /**
      * Scans each line within the txt file, and adds it to the designated array.
@@ -107,7 +109,7 @@ public class ReadLevelFile {
 
 	}
 
-	Level level = new Level(name, width, height, xStart, yStart, map,
+	Level level = new Level(levelFilename, name, width, height, xStart, yStart, map,
 		entityQueue);
 
 	return level;
@@ -199,9 +201,9 @@ public class ReadLevelFile {
 
     }
 
-    public static Level readDataFile(String filename)
-	    throws NoSuchElementException {
-
+    public static Level readDataFile(String filename) throws NoSuchElementException {
+    	
+    levelFilename = filename;
 	Scanner in = null;
 
 	// Checks that the file exists.

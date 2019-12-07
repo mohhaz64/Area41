@@ -1,6 +1,7 @@
 
 public class Level {
 
+	private String filename;
 	private String name;
 	private int width;
 	private int height;
@@ -9,7 +10,8 @@ public class Level {
 	private String map[][];
 	private Queue<Entity> entityQueue;
 	
-	public Level(String name, int width, int height, int xStart, int yStart, String map[][], Queue<Entity> entityQueue) {
+	public Level(String filename, String name, int width, int height, int xStart, int yStart, String map[][], Queue<Entity> entityQueue) {
+		this.filename = filename;
 		this.name = name;
 		this.width = width;
 		this.height = height;
@@ -17,6 +19,10 @@ public class Level {
 		this.yStart = yStart;
 		this.map = map;
 		this.entityQueue = entityQueue;
+	}
+	
+	public String getFilename() {
+		return filename;
 	}
 	
 	public String getName() {

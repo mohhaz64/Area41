@@ -36,13 +36,13 @@ public class CreateUserController {
             try {
                 FileWriter fileWriter = new FileWriter("users.txt", true); //Set true for append mode
                 PrintWriter printWriter = new PrintWriter(fileWriter);
-                printWriter.print(userName + "\n");
+                printWriter.print(userName + " 0\n");
                 printWriter.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            parentController.addUser(userName);
+            parentController.addUser(userName + " 0");
 
             Stage stage = (Stage) createUserButton.getScene().getWindow();
             stage.close();

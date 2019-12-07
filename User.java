@@ -10,17 +10,18 @@ import javafx.scene.control.Alert;
 public class User {
     private String name;
     private String savedFile;
-    private int maxCompletedLevel;
+    private int maxCompletedLevel = 0;
 
     public User(String line) {
+    System.out.println(line);
 	String[] data = line.split(" ");
 	name = data[0];
 	System.out.println(name);
 	savedFile = data[0] + "SavedGame.txt";
 	System.out.println(savedFile);
 	//Just commented this out for now so the game runs
-	//maxCompletedLevel = Integer.parseInt(data[1]);
-	//System.out.println(maxCompletedLevel);
+	maxCompletedLevel = Integer.parseInt(data[1]);
+	System.out.println(maxCompletedLevel);
     }
 
     public void updateTextFile() {
