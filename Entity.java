@@ -70,6 +70,14 @@ public class Entity {
 	return y;
     }
     
+    public String getType() {
+    	return null;
+    }
+    
+    public int getTokensRequired() {
+    	return 0;
+    }
+    
     /**
      * @return The sprite image.
      */
