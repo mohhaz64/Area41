@@ -339,4 +339,27 @@ public class ReadLevelFile {
 
     }
 
+	Key key = new Key(keySprite, x, y, col);
+
+	return key;
+
+    }
+
+    public static Level readDataFile(String filename) throws NoSuchElementException {
+    	
+    levelFilename = filename;
+	Scanner in = null;
+
+	// Checks that the file exists.
+	try {
+	    in = new Scanner(new File(filename));
+	    System.out.println("File found.\n");
+	} catch (FileNotFoundException e) {
+	    e.printStackTrace();
+	}
+
+	return ReadLevelFile.readDataFile(in);
+
+    }
+
 }

@@ -31,7 +31,9 @@ public class Entity {
     }
 
     public String toString() {
+
 	String result = this.getClass().getName() + " " + x + " " + y + "\n";
+
 	return result;
     }
 

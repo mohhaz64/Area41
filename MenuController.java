@@ -4,7 +4,12 @@ import java.io.IOException;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Scanner;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,6 +23,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -33,6 +40,7 @@ public class MenuController {
     @FXML private Label messgeOfTheDay;
     @FXML private Button quitButton;
     @FXML private ComboBox<String> userList;
+    @FXML private Button leaderBoardButton;
 
     private static HttpURLConnection connection;
 
@@ -82,6 +90,10 @@ public class MenuController {
 
 		createNewUserButton.setOnAction(e -> {
 			handleNewUserButton();
+		});
+		
+		leaderBoardButton.setOnAction(e -> {
+			handleLeaderBoardButton();
 		});
 
 		// Refreshing the User and Level lists in case of any changes (added, edited or deleted)
@@ -270,7 +282,52 @@ public class MenuController {
     public void handleQuitButtonAction() {
     	System.exit(0);
     }
+    public void handleLeaderBoardButton() {
+    	int selectedLevelIndex = levelList.getSelectionModel().getSelectedIndex();
 
+		if (selectedLevelIndex < 0) {
+			// Show a message
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText(null);
+			alert.setContentText("Please Select a level");
+			alert.showAndWait();
+
+		} else {
+
+			try {
+
+				// Create a FXML loader for loading the CreateUser FXML file.
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LeaderBoard.fxml"));
+
+				// Run the loader
+				GridPane leaderBoardRoot = (GridPane) fxmlLoader.load();
+				// Access the controller that was created by the FXML loader
+				LeaderBoardController leaderBoardController = fxmlLoader.<LeaderBoardController>getController();
+
+				Scene leaderBoardScene = new Scene(leaderBoardRoot, 300, 300);
+
+				// Create a new stage based on the editUser scene
+				Stage leaderBoardStage = new Stage();
+				leaderBoardStage.setScene(leaderBoardScene);
+				leaderBoardStage.setTitle("LeaderBoard");
+				leaderBoardStage.setResizable(false);
+
+				// Make the stage a modal window.
+				// This means that it must be closed before you can interact with any other window from this application.
+				leaderBoardStage.initModality(Modality.APPLICATION_MODAL);
+
+				// Show the edit scene and wait for it to be closed
+				leaderBoardStage.showAndWait();
+
+
+			} catch (IOException e) {
+				e.printStackTrace();
+				// Quit the program with an error code
+				System.exit(-1);
+			}
+		}
+    }
 	/**
 	 * Handle the Create New User button.
 	 * This will display a window allowing the user to create a new user with their desired name.

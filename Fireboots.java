@@ -14,10 +14,12 @@ public class Fireboots extends Entity {
 			GameController.pickUpFireboots();
 		}
 	}
+
 	
     public String toString() {
     	String result = "FIREBOOTS " + x + " " + y + "\n";
     	return result;
     }
+
 
 }
