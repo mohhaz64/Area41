@@ -302,6 +302,7 @@ public class MenuController {
 				GridPane leaderBoardRoot = (GridPane) fxmlLoader.load();
 				// Access the controller that was created by the FXML loader
 				LeaderBoardController leaderBoardController = fxmlLoader.<LeaderBoardController>getController();
+				leaderBoardController.setLevel(ReadLevelFile.readDataFile("Level" + (selectedLevelIndex + 1) + ".txt"));
 
 				Scene leaderBoardScene = new Scene(leaderBoardRoot, 300, 300);
 

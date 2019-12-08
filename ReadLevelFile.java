@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -22,6 +23,7 @@ public class ReadLevelFile {
     static Image nullSprite;
     
     static String levelFilename;
+    
 
     /**
      * Scans each line within the txt file, and adds it to the designated array.
@@ -31,7 +33,8 @@ public class ReadLevelFile {
      *         full.
      * 
      */
-    private static Level readDataFile(Scanner in) {
+	private static Level readDataFile(Scanner in) {
+    	
 
 	Queue<Entity> entityQueue = new Queue<Entity>();
 
@@ -57,6 +60,9 @@ public class ReadLevelFile {
 	String startLine = in.nextLine();
 	int xStart = Integer.parseInt(startLine.split(" ")[1]);
 	int yStart = Integer.parseInt(startLine.split(" ")[2]);
+	
+    ArrayList<String> users = new ArrayList<String>();
+    ArrayList<Double> times = new ArrayList<Double>();
 
 	while (in.hasNextLine()) {
 
@@ -126,7 +132,8 @@ public class ReadLevelFile {
 			entityQueue.enqueue(readWall(line));
 		
 	    } else {
-		System.out.println("Error: Entity not found.");
+	    	users.add(readUser(lineString));
+	    	times.add(readTime(lineString));
 	    }
 	    
 	    newline.close();
@@ -135,7 +142,7 @@ public class ReadLevelFile {
 	
 
 	Level level = new Level(levelFilename, name, width, height, xStart, yStart, map,
-		entityQueue);
+		entityQueue, users, times);
 
 	return level;
 
@@ -156,6 +163,17 @@ public class ReadLevelFile {
     public static String readType(String line) {
     	String[] data = line.split(" ");
     	return data[3];
+    }
+    
+    public static String readUser(String line) {
+    	String[] data = line.split(" ");
+    	return data[0];
+    }
+    
+    public static double readTime(String line) {
+    	String[] data = line.split(" ");
+    	double time = Double.parseDouble(data[1]);
+    	return time;
     }
 
     public static Entity readDumb(Scanner line) {

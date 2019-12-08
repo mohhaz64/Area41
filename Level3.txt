@@ -21,6 +21,10 @@ Level 3
 #                  #
 ####################
 START 9 9
-ENEMY 9 16 STRAIGHT
+STRAIGHT 9 16 FALSE FALSE
 DOOR 17 2 BLUE
 KEY 1 1 BLUE
+Ben 16.3
+Cal 62.4
+hahaha 13.9
+OnlyTwentyCharacters 14.1
