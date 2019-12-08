@@ -607,10 +607,10 @@ public class GameController {
 	if (spaceToCheckY < 0) {
 	    return false;
 	}
-	if (spaceToCheckX > width) {
+	if (spaceToCheckX > width - 1) {
 	    return false;
 	}
-	if (spaceToCheckY > height) {
+	if (spaceToCheckY > height - 1) {
 	    return false;
 	}
 	if (map[spaceToCheckX][spaceToCheckY].equalsIgnoreCase("#")) {
