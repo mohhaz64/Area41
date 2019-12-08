@@ -106,7 +106,16 @@ public class GameController {
     static Image fireBoots = new Image("FireBoots.png", 55, 55, false, false);
     static Image playerPickup = new Image("PlayerPickup.png", 60, 60, false, false);
     static Image teleporter = new Image("Teleporter.png", 60, 60, false, false);
-
+    
+    static Image blueDoor = new Image("BlueDoor.png", 60, 60, false, false);
+    static Image redDoor = new Image("RedDoor.png", 60, 60, false, false);
+    static Image yellowDoor = new Image("YellowDoor.png", 60, 60, false, false);
+    static Image tokenDoor = new Image("TokenDoor.png", 60, 60, false, false);
+   
+    private static boolean redOpen;
+    private static boolean yellowOpen;
+    private static boolean blueOpen;
+    private static boolean tokenOpen;
     private static boolean collectedRed;
     private static boolean collectedYellow;
     private static boolean collectedBlue;
@@ -593,8 +602,29 @@ public class GameController {
 	    return false;
 	}
 	for (Entity checkEntity : activeEntitys) {
-	    if (checkEntity instanceof Door) {
-		return ((Door) checkEntity).checkIfTouched();
+	    if (checkEntity instanceof Door && (checkEntity.getX() == spaceToCheckX && checkEntity.getY() == spaceToCheckY)) {
+	    	if (checkEntity.getType().equalsIgnoreCase("blue") && isCollectedBlue()) {
+	    		blueOpen = true;
+	    		collectedBlue = false;
+	    		return true;
+	    	} else if (checkEntity.getType().equalsIgnoreCase("red") && isCollectedRed()) {
+	    		redOpen = true;
+	    		collectedRed = false;
+	    		return true;
+	    	} else if (checkEntity.getType().equalsIgnoreCase("yellow") && isCollectedYellow()) {
+	    		yellowOpen = true;
+	    		collectedYellow = false;
+	    		return true;
+	    	} else {
+	    		return false;
+	    	}
+	    } else if (checkEntity instanceof TokenDoor && (checkEntity.getX() == spaceToCheckX && checkEntity.getY() == spaceToCheckY)) {
+	    	if (getTotalTokens() >= checkEntity.getTokensRequired()) {
+	    		tokenOpen = true;
+	    		return true;
+	    	} else {
+	    		return false;
+	    	}
 	    }
 	}
 	return true;
@@ -767,7 +797,7 @@ public class GameController {
 
 		} else if (instance.equals("G")) {
 
-		    gc.drawImage(finish, XIso, YIso - 15, isoWidth, isoHeight);
+		    gc.drawImage(finish, XIso, YIso, isoWidth, isoHeight);
 		    
 		} else if (instance.equals("W")) {
 
@@ -776,12 +806,44 @@ public class GameController {
 		} else if (instance.equals("F")) {
 
 		    gc.drawImage(fire, XIso, YIso + 4, isoWidth, isoHeight);
-
+		
 		} else if (instance.equals("T")) {
 
 		    gc.drawImage(teleporter, XIso, YIso, isoWidth, isoWidth);
+		    
+		} else if (instance.equals("B")) {
+			
+			if (blueOpen) {
+				gc.drawImage(blueDoor, XIso, YIso, isoWidth, isoHeight);
+			} else {
+				gc.drawImage(blueDoor, XIso, YIso - 30, isoWidth, isoHeight);
+			}
+		    
+		} else if (instance.equals("R")) {
 
-        } else {
+			if (redOpen) {
+				gc.drawImage(redDoor, XIso, YIso, isoWidth, isoHeight);
+			} else {
+				gc.drawImage(redDoor, XIso, YIso - 30, isoWidth, isoHeight);
+			}
+		    
+		} else if (instance.equals("Y")) {
+
+			if (yellowOpen) {
+				gc.drawImage(yellowDoor, XIso, YIso, isoWidth, isoHeight);
+			} else {
+				gc.drawImage(yellowDoor, XIso, YIso - 30, isoWidth, isoHeight);
+			}
+			
+		} else if (instance.equals("D")) {
+
+			if (tokenOpen) {
+				gc.drawImage(tokenDoor, XIso, YIso, isoWidth, isoHeight);
+			} else {
+				gc.drawImage(tokenDoor, XIso, YIso - 30, isoWidth, isoHeight);
+			}
+
+		} else {
 		    System.out.println("Error: instance not found.");
 		}
 	    }
@@ -836,10 +898,12 @@ public class GameController {
     public void resetInventory() {
 
 	collectedRed = false;
-	;
 	collectedYellow = false;
 	collectedBlue = false;
-	;
+	redOpen = false;
+	yellowOpen = false;
+	blueOpen = false;
+	tokenOpen = false;
 	collectedFlippers = false;
 	collectedFireBoots = false;
 	totalTokens = 0;
