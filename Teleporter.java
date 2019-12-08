@@ -24,3 +24,4 @@ public class Teleporter extends Entity {
 		return result;
 	}
 }
+

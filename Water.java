@@ -1,3 +1,4 @@
+
 import javafx.scene.image.Image;
 
 public class Water extends Entity {
@@ -19,3 +20,4 @@ public class Water extends Entity {
 		return result;
 	}
 }
+

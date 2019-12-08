@@ -14,10 +14,12 @@ public class Flippers extends Entity {
 			GameController.pickupFlippers();
 		}
 	}
+
 	
     public String toString() {
     	String result = "FLIPPERS " + x + " " + y + "\n";
     	return result;
     }
+
 
 }

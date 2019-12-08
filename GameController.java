@@ -4,7 +4,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * The controller for the Menu FXML
@@ -43,7 +49,16 @@ public class GameController {
     private Label projectLevel;
     @FXML
     private Label tokenCount;
-    @FXML
+    @FXML 
+    private Label timerLabel;
+    
+    private Timeline timeline;
+    private DoubleProperty timeSeconds = new SimpleDoubleProperty();
+    private Duration time = Duration.ZERO;
+    private boolean hasStarted = false;
+    
+    double levelTime;
+
 
     // The dimensions of the canvas
     private static final int CANVAS_WIDTH = 420;
@@ -463,7 +478,7 @@ public class GameController {
 	gridPane.addEventFilter(KeyEvent.KEY_PRESSED,
 		event -> keyPressed(event));
     }
-
+  
     /**
      * Setting the scanned in values to the designated variables, and then
      * calling the drawGame method.
@@ -631,6 +646,10 @@ public class GameController {
     }
     
     public void playerDead() {
+      
+    	timeline.pause();
+		System.out.println("Time was: " + timerLabel.getText() + " seconds");
+		levelTime = Double.parseDouble(timerLabel.getText());
     	drawGame();
     	activeEntitys.clear();
     	try {
@@ -713,12 +732,19 @@ public class GameController {
 	    // Do nothing
 	    break;
 	}
-	
-	checkIfDead();
 
-	
+	if(hasStarted == false) {
+		startTimer();
+		timeline.play();
+		hasStarted =! hasStarted;
+	}
+	//TODO::
 	if (map[playerX][playerY].equalsIgnoreCase("G")) {
+		timeline.pause();
+		System.out.println("Time was: " + timerLabel.getText() + " seconds");
+		levelTime = Double.parseDouble(timerLabel.getText());
 	    victory();
+	    
 	}
 	
 	for (Entity s : activeEntitys) {
@@ -763,6 +789,8 @@ public class GameController {
 
 	// Clear canvas
 	gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+	gc.setFill(Color.GREY);
+	gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
 	// Draw a black rectangle (border) around the canvas.
 	gc.setStroke(Color.BLACK);
@@ -949,11 +977,12 @@ public class GameController {
 		    currentUser.setMaxCompletedLevel(levelNum);
 		}
 		if (levelNum < MenuController.noOfLevels) {
-			
+		
 			Level selectedLevel = ReadLevelFile.readDataFile("Level" + (levelNum + 1) + ".txt");
 	    	activeEntitys.clear();
 			resetInventory();
 			drawInventory();
+			hasStarted =! hasStarted;
 			setLevel(selectedLevel);
 			
 		}  else {
@@ -969,7 +998,31 @@ public class GameController {
 		resetInventory();
 		drawInventory();
 		setLevel(selectedLevel);
+		hasStarted = false;
     	
     }
 
+    public void startTimer() {
+    	timerLabel.textProperty().bind(timeSeconds.asString());
+
+        if (timeline != null) {
+            time = Duration.ZERO;
+            timeSeconds.set(time.toSeconds());
+        } else {
+            timeline = new Timeline(
+                new KeyFrame(Duration.millis(100),
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent t) {
+                        Duration duration = ((KeyFrame)t.getSource()).getTime();
+                        time = time.add(duration);
+                        timeSeconds.set(time.toSeconds());
+                    }
+                })
+            );
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.play();
+        }
+    }
+    
 }
