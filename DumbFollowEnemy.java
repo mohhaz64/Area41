@@ -46,15 +46,15 @@ public class DumbFollowEnemy extends Enemy {
     public void movingInY() {
 	if (GameController.playerY > y) {
 	    // Player is below enemy
-	    if (checkSpace(x, y - 1)) {
-		nextYPosition = y - 1;
+	    if (checkSpace(x, y + 1)) {
+		nextYPosition = y + 1;
 	    } else {
 		nextYPosition = y;
 	    }
 	} else {
 	    // Player is above enemy
-	    if (checkSpace(x, y + 1)) {
-		nextYPosition = y + 1;
+	    if (checkSpace(x, y - 1)) {
+		nextYPosition = y - 1;
 	    } else {
 		nextYPosition = y;
 	    }
