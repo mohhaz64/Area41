@@ -732,7 +732,9 @@ public class GameController {
 	    // Do nothing
 	    break;
 	}
-
+	
+	checkIfDead();
+	
 	if(hasStarted == false) {
 		startTimer();
 		timeline.play();
@@ -789,6 +791,8 @@ public class GameController {
 
 	// Clear canvas
 	gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+	gc.setFill(Color.GREY);
+	gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
 	// Draw a black rectangle (border) around the canvas.
 	gc.setStroke(Color.BLACK);

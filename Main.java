@@ -17,7 +17,7 @@ public class Main extends Application {
 	//Constants for the Menu window
 	private static final int MENU_WINDOW_WIDTH = 600;
 	private static final int MENU_WINDOW_HEIGHT = 400;
-	public static final String WINDOW_TITLE = "Chips Challenge";
+	public static final String WINDOW_TITLE = "AREA41";
 
 	// Constants for the Game window, Create User window, and Edit User window.
 	// We make them public and allow the controllers to access these,

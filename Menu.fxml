@@ -32,7 +32,7 @@
             <Image url="MenuBackGround.png" />
          </image>
       </ImageView>
-      <Text fill="#1a7000" strokeType="OUTSIDE" strokeWidth="0.0" text="CHIPS CHALLENGE" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3">
+      <Text fill="#1a7000" strokeType="OUTSIDE" strokeWidth="0.0" text="AREA 41" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <font>
             <Font name="Silom" size="55.0" />
          </font>
@@ -106,7 +106,7 @@
             <Insets top="15.0" />
          </GridPane.margin>
       </ComboBox>
-      <Button fx:id="leaderBoardButton" mnemonicParsing="false" text="LeaderBoard" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <Button fx:id="leaderBoard" mnemonicParsing="false" text="LeaderBoard" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <font>
             <Font name="Silom" size="13.0" />
          </font>
