@@ -48,7 +48,7 @@ public class MenuController {
     private ArrayList<User> users = new ArrayList<User>();
     private ArrayList<String> levels = new ArrayList<String>();
     
-    static int noOfLevels = 3;
+    static int noOfLevels = 5;
 	
 	static MediaPlayer mediaPlayer;
 	
