@@ -732,7 +732,9 @@ public class GameController {
 	    // Do nothing
 	    break;
 	}
-
+	
+	checkIfDead();
+	
 	if(hasStarted == false) {
 		startTimer();
 		timeline.play();

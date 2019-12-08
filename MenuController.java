@@ -40,7 +40,7 @@ public class MenuController {
     @FXML private Label messgeOfTheDay;
     @FXML private Button quitButton;
     @FXML private ComboBox<String> userList;
-    @FXML private Button leaderBoardButton;
+    @FXML private Button leaderBoard;
 
     private static HttpURLConnection connection;
 
@@ -49,9 +49,7 @@ public class MenuController {
     private ArrayList<String> levels = new ArrayList<String>();
     
     static int noOfLevels = 5;
-	
 	static MediaPlayer mediaPlayer;
-	
 	String path = "ChipsMusic2.mp3";  
 
     //Instantiating Media class  
@@ -92,7 +90,7 @@ public class MenuController {
 			handleNewUserButton();
 		});
 		
-		leaderBoardButton.setOnAction(e -> {
+		leaderBoard.setOnAction(e -> {
 			handleLeaderBoardButton();
 		});
 

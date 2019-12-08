@@ -39,9 +39,9 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <ImageView fx:id="Image" fitHeight="600.0" fitWidth="600.0" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
+      <ImageView fitHeight="600.0" fitWidth="600.0" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
          <image>
-            <Image url="ChipsBackgroundV2.png" />
+            <Image url="ChipsBackgroundV4.png" />
          </image>
       </ImageView>
       <Canvas fx:id="canvas" height="420.0" width="420.0" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="3" GridPane.rowSpan="8" />
@@ -52,7 +52,10 @@
             <Insets left="30.0" />
          </GridPane.margin>
       </Button>
-      <Button maxWidth="85.0" mnemonicParsing="false" onAction="#clickQuit" text="Quit" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+      <Button maxWidth="85.0" mnemonicParsing="false" onAction="#clickQuit" text="Quit" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+         <font>
+            <Font name="Silom" size="13.0" />
+         </font></Button>
       <Label fx:id="projectLevel" alignment="CENTER" contentDisplay="CENTER" text="Level: X" textAlignment="CENTER" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <font>
             <Font name="Silom" size="24.0" />
@@ -66,21 +69,26 @@
             <Font name="Silom" size="24.0" />
          </font>
          <GridPane.margin>
-            <Insets bottom="10.0" left="15.0" />
+            <Insets bottom="10.0" left="15.0" top="40.0" />
          </GridPane.margin>
       </Label>
-      <Button mnemonicParsing="false" onAction="#clickMute" text="MUTE" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="10">
-         <font>
-            <Font size="17.0" />
-         </font>
+      <Label fx:id="timerLabel" text="0.0" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <GridPane.margin>
-            <Insets left="25.0" />
+            <Insets left="6.0" top="5.0" />
+         </GridPane.margin>
+         <font>
+            <Font name="Silom" size="17.0" />
+         </font>
+      </Label>
+      <Label text="AREA 41" textFill="#016b06" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.halignment="CENTER">
+         <font>
+            <Font name="Silom" size="63.0" />
+         </font>
+      </Label>
+      <Button mnemonicParsing="false" onAction="#clickMute" text="Mute" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets right="40.0" />
          </GridPane.margin>
       </Button>
-      <Label fx:id="timerLabel" text="0.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="BOTTOM">
-         <GridPane.margin>
-            <Insets right="25.0" />
-         </GridPane.margin>
-      </Label>
    </children>
 </GridPane>
