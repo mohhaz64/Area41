@@ -98,7 +98,8 @@ public class ReadLevelFile {
 		entityQueue.enqueue(readToken(line));
 		
 	    } else if (entity.equalsIgnoreCase("TELEPORTER")) {
-	    	
+			map[readX(lineString)][readY(lineString)] = "T";
+			entityQueue.enqueue(readTeleporter(line));
 	    	
 	    } else if (entity.equalsIgnoreCase("KEY")) {
 		entityQueue.enqueue(readKey(line));
@@ -271,6 +272,17 @@ public class ReadLevelFile {
 	return key;
 
     }
+
+    public static Teleporter readTeleporter(Scanner line) {
+    	int x = Integer.parseInt(line.next());
+    	int y = Integer.parseInt(line.next());
+    	int xToGo = Integer.parseInt(line.next());
+    	int yToGo = Integer.parseInt(line.next());
+
+    	Teleporter teleporter = new Teleporter(nullSprite, x, y, xToGo, yToGo);
+
+    	return teleporter;
+	}
 
     public static Level readDataFile(String filename) throws NoSuchElementException {
     	

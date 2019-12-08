@@ -105,6 +105,7 @@ public class GameController {
     static Image flippers = new Image("Flippers.png", 55, 55, false, false);
     static Image fireBoots = new Image("FireBoots.png", 55, 55, false, false);
     static Image playerPickup = new Image("PlayerPickup.png", 60, 60, false, false);
+    static Image teleporter = new Image("Teleporter.png", 60, 60, false, false);
 
     private static boolean collectedRed;
     private static boolean collectedYellow;
@@ -776,7 +777,11 @@ public class GameController {
 
 		    gc.drawImage(fire, XIso, YIso + 4, isoWidth, isoHeight);
 
-		} else {
+		} else if (instance.equals("T")) {
+
+		    gc.drawImage(teleporter, XIso, YIso, isoWidth, isoWidth);
+
+        } else {
 		    System.out.println("Error: instance not found.");
 		}
 	    }
