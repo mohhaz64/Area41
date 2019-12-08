@@ -15,4 +15,9 @@ public class Token extends Entity {
 		}
 	}
 	
+    public String toString() {
+    	String result = "TOKEN " + x + " " + y + "\n";
+    	return result;
+    }
+	
 }

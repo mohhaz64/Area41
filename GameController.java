@@ -59,6 +59,7 @@ public class GameController {
     
     double levelTime;
 
+
     // The dimensions of the canvas
     private static final int CANVAS_WIDTH = 420;
     private static final int CANVAS_HEIGHT = 420;
@@ -109,6 +110,8 @@ public class GameController {
     static Image player = new Image("Player.png", 70, 70, false, false);
     static Image wall = new Image("WallISO.png", 60, 60, false, false);
     static Image ground = new Image("GrassISO.png", 60, 60, false, false);
+    static Image water = new Image("Water.png", 60, 60, false, false);
+    static Image fire = new Image("Fire.png", 60, 60, false, false);
     static Image finish = new Image("Goal.png", 60, 60, false, false);
     static Image redKey = new Image("RedKey.png", 87, 44, false, false);
     static Image yellowKey = new Image("YellowKey.png", 87, 44, false, false);
@@ -116,9 +119,18 @@ public class GameController {
     static Image emptyKey = new Image("emptyKey.png", 87, 44, false, false);
     static Image flippers = new Image("Flippers.png", 55, 55, false, false);
     static Image fireBoots = new Image("FireBoots.png", 55, 55, false, false);
-    static Image playerPickup = new Image("PlayerPickup.png", 60, 60, false,
-	    false);
-
+    static Image playerPickup = new Image("PlayerPickup.png", 60, 60, false, false);
+    static Image teleporter = new Image("Teleporter.png", 60, 60, false, false);
+    
+    static Image blueDoor = new Image("BlueDoor.png", 60, 60, false, false);
+    static Image redDoor = new Image("RedDoor.png", 60, 60, false, false);
+    static Image yellowDoor = new Image("YellowDoor.png", 60, 60, false, false);
+    static Image tokenDoor = new Image("TokenDoor.png", 60, 60, false, false);
+   
+    private static boolean redOpen;
+    private static boolean yellowOpen;
+    private static boolean blueOpen;
+    private static boolean tokenOpen;
     private static boolean collectedRed;
     private static boolean collectedYellow;
     private static boolean collectedBlue;
@@ -463,10 +475,10 @@ public class GameController {
      * a key is pressed we send the event to the keyPressed method.
      */
     public void initialize() {
-    	gridPane.addEventFilter(KeyEvent.KEY_PRESSED,
-    			event -> keyPressed(event));
+	gridPane.addEventFilter(KeyEvent.KEY_PRESSED,
+		event -> keyPressed(event));
     }
-
+  
     /**
      * Setting the scanned in values to the designated variables, and then
      * calling the drawGame method.
@@ -605,18 +617,41 @@ public class GameController {
 	    return false;
 	}
 	for (Entity checkEntity : activeEntitys) {
-	    if (checkEntity instanceof Door) {
-		return ((Door) checkEntity).checkIfTouched();
+	    if (checkEntity instanceof Door && (checkEntity.getX() == spaceToCheckX && checkEntity.getY() == spaceToCheckY)) {
+	    	if (checkEntity.getType().equalsIgnoreCase("blue") && isCollectedBlue()) {
+	    		blueOpen = true;
+	    		collectedBlue = false;
+	    		return true;
+	    	} else if (checkEntity.getType().equalsIgnoreCase("red") && isCollectedRed()) {
+	    		redOpen = true;
+	    		collectedRed = false;
+	    		return true;
+	    	} else if (checkEntity.getType().equalsIgnoreCase("yellow") && isCollectedYellow()) {
+	    		yellowOpen = true;
+	    		collectedYellow = false;
+	    		return true;
+	    	} else {
+	    		return false;
+	    	}
+	    } else if (checkEntity instanceof TokenDoor && (checkEntity.getX() == spaceToCheckX && checkEntity.getY() == spaceToCheckY)) {
+	    	if (getTotalTokens() >= checkEntity.getTokensRequired()) {
+	    		tokenOpen = true;
+	    		return true;
+	    	} else {
+	    		return false;
+	    	}
 	    }
 	}
 	return true;
     }
     
     public void playerDead() {
-    	activeEntitys.clear();
+      
     	timeline.pause();
 		System.out.println("Time was: " + timerLabel.getText() + " seconds");
 		levelTime = Double.parseDouble(timerLabel.getText());
+    	drawGame();
+    	activeEntitys.clear();
     	try {
 			// Create a FXML loader for loading the Edit User FXML file.
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Dead.fxml"));
@@ -662,7 +697,6 @@ public class GameController {
 	    if (checkSpace(playerX + 1, playerY)) {
 		player = new Image("PlayerRight.png", 70, 70, false, false);
 		playerX = playerX + 1;
-		checkIfDead();
 	    } else {
 		break;
 	    }
@@ -672,7 +706,6 @@ public class GameController {
 	    if (checkSpace(playerX - 1, playerY)) {
 		player = new Image("PlayerLeft.png", 70, 70, false, false);
 		playerX = playerX - 1;
-		checkIfDead();
 	    } else {
 		break;
 	    }
@@ -682,7 +715,6 @@ public class GameController {
 	    if (checkSpace(playerX, playerY - 1)) {
 		player = new Image("PlayerUp.png", 70, 70, false, false);
 		playerY = playerY - 1;
-		checkIfDead();
 	    } else {
 		break;
 	    }
@@ -692,7 +724,6 @@ public class GameController {
 	    if (checkSpace(playerX, playerY + 1)) {
 		player = new Image("PlayerDown.png", 70, 70, false, false);
 		playerY = playerY + 1;
-		checkIfDead();
 	    } else {
 		break;
 	    }
@@ -721,7 +752,6 @@ public class GameController {
 	    if (s instanceof Enemy) {
 	    	((Enemy) s).getNextMove();
 	    	((Enemy) s).makeMove();
-	    	((Enemy) s).hasKilledPlayer();
 	    } else {
 	    	s.doTouched();
 	    }
@@ -793,7 +823,51 @@ public class GameController {
 
 		} else if (instance.equals("G")) {
 
-		    gc.drawImage(finish, XIso, YIso - 15, isoWidth, isoHeight);
+		    gc.drawImage(finish, XIso, YIso, isoWidth, isoHeight);
+		    
+		} else if (instance.equals("W")) {
+
+		    gc.drawImage(water, XIso, YIso + 8, isoWidth, isoHeight);
+		    
+		} else if (instance.equals("F")) {
+
+		    gc.drawImage(fire, XIso, YIso + 4, isoWidth, isoHeight);
+		
+		} else if (instance.equals("T")) {
+
+		    gc.drawImage(teleporter, XIso, YIso, isoWidth, isoWidth);
+		    
+		} else if (instance.equals("B")) {
+			
+			if (blueOpen) {
+				gc.drawImage(blueDoor, XIso, YIso, isoWidth, isoHeight);
+			} else {
+				gc.drawImage(blueDoor, XIso, YIso - 30, isoWidth, isoHeight);
+			}
+		    
+		} else if (instance.equals("R")) {
+
+			if (redOpen) {
+				gc.drawImage(redDoor, XIso, YIso, isoWidth, isoHeight);
+			} else {
+				gc.drawImage(redDoor, XIso, YIso - 30, isoWidth, isoHeight);
+			}
+		    
+		} else if (instance.equals("Y")) {
+
+			if (yellowOpen) {
+				gc.drawImage(yellowDoor, XIso, YIso, isoWidth, isoHeight);
+			} else {
+				gc.drawImage(yellowDoor, XIso, YIso - 30, isoWidth, isoHeight);
+			}
+			
+		} else if (instance.equals("D")) {
+
+			if (tokenOpen) {
+				gc.drawImage(tokenDoor, XIso, YIso, isoWidth, isoHeight);
+			} else {
+				gc.drawImage(tokenDoor, XIso, YIso - 30, isoWidth, isoHeight);
+			}
 
 		} else {
 		    System.out.println("Error: instance not found.");
@@ -850,10 +924,12 @@ public class GameController {
     public void resetInventory() {
 
 	collectedRed = false;
-	;
 	collectedYellow = false;
 	collectedBlue = false;
-	;
+	redOpen = false;
+	yellowOpen = false;
+	blueOpen = false;
+	tokenOpen = false;
 	collectedFlippers = false;
 	collectedFireBoots = false;
 	totalTokens = 0;
@@ -899,7 +975,7 @@ public class GameController {
 		    currentUser.setMaxCompletedLevel(levelNum);
 		}
 		if (levelNum < MenuController.noOfLevels) {
-			
+		
 			Level selectedLevel = ReadLevelFile.readDataFile("Level" + (levelNum + 1) + ".txt");
 	    	activeEntitys.clear();
 			resetInventory();

@@ -15,4 +15,11 @@ public class Fireboots extends Entity {
 		}
 	}
 
+	
+    public String toString() {
+    	String result = "FIREBOOTS " + x + " " + y + "\n";
+    	return result;
+    }
+
+
 }

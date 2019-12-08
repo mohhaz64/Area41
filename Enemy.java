@@ -53,7 +53,9 @@ public class Enemy extends Entity {
     }
 
     public boolean hasKilledPlayer() {
-	if (GameController.playerX == x && GameController.playerY == y) {
+
+	if (checkIfTouched()) {
+
 	    return true;
 	}
 	return false;

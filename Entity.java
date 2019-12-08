@@ -31,7 +31,9 @@ public class Entity {
     }
 
     public String toString() {
-	String result = "Entity " + x + " " + y + "\n";
+
+	String result = this.getClass().getName() + " " + x + " " + y + "\n";
+
 	return result;
     }
 
@@ -68,6 +70,14 @@ public class Entity {
      */
     public int getY() {
 	return y;
+    }
+    
+    public String getType() {
+    	return null;
+    }
+    
+    public int getTokensRequired() {
+    	return 0;
     }
     
     /**

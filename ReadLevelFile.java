@@ -17,7 +17,9 @@ public class ReadLevelFile {
     static Image tokenSprite = new Image("Token.png", 40, 40, false, false);
     static Image flippersSprite = new Image("Flippers.png", 40, 40, false, false);
     static Image keySprite;
+    static Image doorSprite;
     static Image enemySprite = new Image("Golem.png", 40, 40, false, false);
+    static Image nullSprite;
     
     static String levelFilename;
 
@@ -59,25 +61,44 @@ public class ReadLevelFile {
 	while (in.hasNextLine()) {
 
 	    String l = in.nextLine();
-	    System.out.println(l);
-
+	    
+	    Scanner newline = new Scanner(l);
+	    String lineString = newline.nextLine();
+	    
 	    Scanner line = new Scanner(l);
 	    String ent = line.next().toLowerCase();
 
 	    String entity = ent.substring(0, 1).toUpperCase()
 		    + ent.substring(1);
 
-	    try {
-		Class.forName(entity);
-	    } catch (ClassNotFoundException e) {
-		System.out.println("Error: " + entity + " class needed.");
-	    }
-
-	    if (entity.equalsIgnoreCase("DUMB")) {
+	    if (entity.equalsIgnoreCase("WATER")) {
+	    	map[readX(lineString)][readY(lineString)] = "W";
+			entityQueue.enqueue(readWater(line));
+			
+	    } else if (entity.equalsIgnoreCase("FIRE")) {
+	    	map[readX(lineString)][readY(lineString)] = "F";
+			entityQueue.enqueue(readFire(line));
+			
+		} else if (entity.equalsIgnoreCase("DUMB")) {
 		entityQueue.enqueue(readDumb(line));
 		
 	    } else if (entity.equalsIgnoreCase("DOOR")) {
 	    	
+	    	if (readType(lineString).equalsIgnoreCase("blue")) {
+	    		map[readX(lineString)][readY(lineString)] = "B";
+	    		entityQueue.enqueue(readDoor(line));
+	    	} else if (readType(lineString).equalsIgnoreCase("red")) {
+	    		map[readX(lineString)][readY(lineString)] = "R";
+	    		entityQueue.enqueue(readDoor(line));
+	    	} else if (readType(lineString).equalsIgnoreCase("yellow")) {
+	    		map[readX(lineString)][readY(lineString)] = "Y";
+	    		entityQueue.enqueue(readDoor(line));
+	    	} else if (readType(lineString).equalsIgnoreCase("token")) {
+	    		map[readX(lineString)][readY(lineString)] = "D";
+	    		entityQueue.enqueue(readTokenDoor(line));
+	    	} else {
+	    		System.out.println("Error: Door type not found");
+	    	}
 		
 	    } else if (entity.equalsIgnoreCase("FIREBOOTS")) {
 		entityQueue.enqueue(readFireBoots(line));
@@ -86,7 +107,8 @@ public class ReadLevelFile {
 		entityQueue.enqueue(readToken(line));
 		
 	    } else if (entity.equalsIgnoreCase("TELEPORTER")) {
-	    	
+	    	map[readX(lineString)][readY(lineString)] = "T";
+			entityQueue.enqueue(readTeleporter(line)); 	
 	    	
 	    } else if (entity.equalsIgnoreCase("KEY")) {
 		entityQueue.enqueue(readKey(line));
@@ -106,14 +128,34 @@ public class ReadLevelFile {
 	    } else {
 		System.out.println("Error: Entity not found.");
 	    }
+	    
+	    newline.close();
 
 	}
+	
 
 	Level level = new Level(levelFilename, name, width, height, xStart, yStart, map,
 		entityQueue);
 
 	return level;
 
+    }
+    
+    public static int readX(String line) {
+    	String[] data = line.split(" ");
+    	int x = Integer.parseInt(data[1]);
+    	return x;
+    }
+    
+    public static int readY(String line) {
+    	String[] data = line.split(" ");
+    	int y = Integer.parseInt(data[2]);
+    	return y;
+    }
+    
+    public static String readType(String line) {
+    	String[] data = line.split(" ");
+    	return data[3];
     }
 
     public static Entity readDumb(Scanner line) {
@@ -192,6 +234,39 @@ public class ReadLevelFile {
 	return flippers;
 
     }
+    
+    public static Water readWater(Scanner line) {
+
+    	int x = Integer.parseInt(line.next());
+    	int y = Integer.parseInt(line.next());
+    	
+    	Water water = new Water(nullSprite, x, y);
+
+    	return water;
+
+    }
+    
+    public static Fire readFire(Scanner line) {
+
+    	int x = Integer.parseInt(line.next());
+    	int y = Integer.parseInt(line.next());
+    	
+    	Fire fire = new Fire(nullSprite, x, y);
+
+    	return fire;
+
+    }
+    
+    public static Teleporter readTeleporter(Scanner line) {
+    	int x = Integer.parseInt(line.next());
+    	int y = Integer.parseInt(line.next());
+    	int xToGo = Integer.parseInt(line.next());
+    	int yToGo = Integer.parseInt(line.next());
+
+    	Teleporter teleporter = new Teleporter(nullSprite, x, y, xToGo, yToGo);
+
+    	return teleporter;
+	}
 
     public static Key readKey(Scanner line) {
 
@@ -215,6 +290,54 @@ public class ReadLevelFile {
 		}
 		keySprite = new Image("YellowKey.png", 40, 40, false, false);
 	}
+
+	Key key = new Key(keySprite, x, y, col);
+
+	return key;
+
+    }
+    
+    public static Door readDoor(Scanner line) {
+
+    	int x = Integer.parseInt(line.next());
+    	int y = Integer.parseInt(line.next());
+    	String col = line.next();
+
+    	Door door = new Door(nullSprite, x, y, col);
+
+    	return door;
+
+    }
+    
+    public static TokenDoor readTokenDoor(Scanner line) {
+
+    	int x = Integer.parseInt(line.next());
+    	int y = Integer.parseInt(line.next());
+    	line.next();
+    	int tokensRequired = Integer.parseInt(line.next());
+
+    	TokenDoor door = new TokenDoor(nullSprite, x, y, tokensRequired);
+
+    	return door;
+
+    }
+
+    public static Level readDataFile(String filename) throws NoSuchElementException {
+    	
+    levelFilename = filename;
+	Scanner in = null;
+
+	// Checks that the file exists.
+	try {
+	    in = new Scanner(new File(filename));
+	    System.out.println("File found.\n");
+	} catch (FileNotFoundException e) {
+	    e.printStackTrace();
+	}
+
+	return ReadLevelFile.readDataFile(in);
+
+    }
 
 	Key key = new Key(keySprite, x, y, col);
 

@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.FileReader;
 import java.io.InputStreamReader;
@@ -22,7 +21,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -284,7 +282,6 @@ public class MenuController {
     public void handleQuitButtonAction() {
     	System.exit(0);
     }
-    
     public void handleLeaderBoardButton() {
     	int selectedLevelIndex = levelList.getSelectionModel().getSelectedIndex();
 
@@ -331,7 +328,6 @@ public class MenuController {
 			}
 		}
     }
-
 	/**
 	 * Handle the Create New User button.
 	 * This will display a window allowing the user to create a new user with their desired name.
@@ -503,7 +499,7 @@ public class MenuController {
 
 			// Create a scene based on the loaded FXML scene graph
 			Scene gameScene = new Scene(gameRoot, Main.GAME_WINDOW_WIDTH, Main.GAME_WINDOW_HEIGHT);
-			
+
 			// Create a new stage for the game
 			Stage gameStage = new Stage();
 			gameStage.setScene(gameScene);

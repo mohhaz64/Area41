@@ -9,22 +9,20 @@ public class Door extends Entity {
 		this.col = colour;
 	}
 
-    public boolean isTouched() {
-	if (checkIfTouched()) {
-	    if (col == "blue") {
-		return GameController.isCollectedBlue();
-	    }
-	    if (col == "red") {
-		return GameController.isCollectedRed();
-	    }
-	    if (col == "yellow") {
-		return GameController.isCollectedYellow();
-	    } else {
-		return false;
-	    }
-	} else {
-	    return false;
+	public void doTouched () {
+		if (checkIfTouched()) {
+			x = -100;
+			y = -100;
+		}
 	}
+    
+    public String getType() {
+    	return col;
+    }
+    
+    public String toString() {
+    	String result = "DOOR " + x + " " + y + " " + col + "\n";
+    	return result;
     }
 
 }
