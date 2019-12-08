@@ -57,24 +57,6 @@ public class LeaderBoardController {
     		}
     	}
     	
-    	/*
-    	int first = times.indexOf(Collections.min(times));
-    	firstUser.setText(users.get(first));
-    	firstTime.setText(String.valueOf(times.get(first)));
-    	users.remove(first);
-    	times.remove(first);
-    	
-    	int second = times.indexOf(Collections.min(times));
-    	secondUser.setText(users.get(second));
-    	secondTime.setText(String.valueOf(times.get(second)));
-    	users.remove(second);
-    	times.remove(second);
-    	
-    	int third = times.indexOf(Collections.min(times));
-    	thirdUser.setText(users.get(third));
-    	thirdTime.setText(String.valueOf(times.get(third)));
-    	*/
-    	
     }
     
     /**
