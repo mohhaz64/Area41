@@ -2,6 +2,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 public class LeaderBoardController {
 
@@ -19,5 +20,13 @@ public class LeaderBoardController {
     public void setParentController(MenuController parentController) {
         this.parentController = parentController;
     }
+    
+    public void initialize() {
+       backButton.setOnAction(e -> {
+    	   Stage stage = (Stage) gridPane.getScene().getWindow();
+   	    	stage.close();
+       });
+    }
+    
 
 }
