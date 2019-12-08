@@ -1,6 +1,5 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 public class Entity {
 
@@ -16,7 +15,7 @@ public class Entity {
     /**
      * The sprite of the Entity.
      */
-    protected Image sprite = new Image("Golem.png", 60, 60, false, false);
+    protected Image sprite = new Image("Player.png", 60, 60, false, false);
 
     /**
      * Creates a closed Entity object.
@@ -25,13 +24,14 @@ public class Entity {
      * @param y      the y position.
      * @param sprite The Image of the entity.
      */
-    protected Entity(int x, int y) {
+    protected Entity(Image sprite, int x, int y) {
+    this.sprite = sprite;
 	this.x = x;
 	this.y = y;
     }
 
     public String toString() {
-	String result = "Its position is " + x + " " + y;
+	String result = "Entity " + x + " " + y + "\n";
 	return result;
     }
 
@@ -69,21 +69,50 @@ public class Entity {
     public int getY() {
 	return y;
     }
-
-    public void draw(GraphicsContext g) {
-	// System.out.println("Entity method 'draw' needs to be overwritten");
-	g.setFill(Color.RED);
-	g.drawImage(sprite,
-		(x - GameController.playerX + 3)
-			* GameController.getGridCellWidth(),
-		(y - GameController.playerY + 3)
-			* GameController.getGridCellHeight(),
-		GameController.getGridCellWidth(),
-		GameController.getGridCellHeight());
+    
+    /**
+     * @return The sprite image.
+     */
+    public Image getSprite() {
+    return sprite;
     }
 
-    public void checkIfTouched(GraphicsContext g) {
-	// System.out.println("Entity method 'onTouched' needs to be
-	// overwritten");
+    public void draw(GraphicsContext g, Image image) {
+
+    	double offsetX = 4.75;
+		double offsetY = 2;
+		
+		double X = (x - GameController.playerX + offsetX) * GameController.getGridCellWidth();
+		double Y = (y - GameController.playerY + offsetY) * GameController.getGridCellHeight();
+		
+		double XIso = xToIso(X,Y);
+		double YIso = yToIso(X,Y);
+			
+		g.drawImage(image, XIso, YIso, GameController.getGridCellWidth(), GameController.getGridCellHeight());
+    }
+
+    public boolean checkIfTouched() {
+    	if ((GameController.playerX == x) && (GameController.playerY == y)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+    
+    public void doTouched() {
+
+	}
+    
+    public boolean hasKilledPlayer() {
+    	return false;
+    }
+    
+    private double xToIso(double X, double Y) {
+    	return X - Y;
+    }
+    
+    private double yToIso(double X, double Y) {
+    	return (X + Y) / 2;
     }
 }

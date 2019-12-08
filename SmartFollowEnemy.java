@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 
+import javafx.scene.image.Image;
+
 public class SmartFollowEnemy extends Enemy {
-    public SmartFollowEnemy(int x, int y) {
-	super(x, y);
+    public SmartFollowEnemy(Image sprite, int x, int y) {
+	super(sprite, x, y);
     }
 
     public void getNextMove() {
@@ -10,8 +12,6 @@ public class SmartFollowEnemy extends Enemy {
 	Queue<Node> nodesToCheck = new Queue<Node>();
 	ArrayList<Node> checkedNodes = new ArrayList<Node>();
 	nodesToCheck.enqueue(enemyPosition);
-	System.out.println(
-		"Node added to check queue: " + enemyPosition.toString());
 	while (!(nodesToCheck.isEmpty()) && !(nodesToCheck.peek()
 		.getX() == GameController.playerX
 		&& nodesToCheck.peek().getY() == GameController.playerY)) {
@@ -22,8 +22,6 @@ public class SmartFollowEnemy extends Enemy {
 			nodesToCheck.peek().getY(), nodesToCheck.peek());
 		if (!searchChecked(checkedNodes, nodeToAdd)) {
 		    nodesToCheck.enqueue(nodeToAdd);
-		    System.out.println("Node added to check queue: "
-			    + nodeToAdd.toString());
 		}
 	    }
 	    if (checkSpace(nodesToCheck.peek().getX() - 1,
@@ -32,8 +30,6 @@ public class SmartFollowEnemy extends Enemy {
 			nodesToCheck.peek().getY(), nodesToCheck.peek());
 		if (!searchChecked(checkedNodes, nodeToAdd)) {
 		    nodesToCheck.enqueue(nodeToAdd);
-		    System.out.println("Node added to check queue: "
-			    + nodeToAdd.toString());
 		}
 	    }
 	    if (checkSpace(nodesToCheck.peek().getX(),
@@ -42,8 +38,6 @@ public class SmartFollowEnemy extends Enemy {
 			nodesToCheck.peek().getY() + 1, nodesToCheck.peek());
 		if (!searchChecked(checkedNodes, nodeToAdd)) {
 		    nodesToCheck.enqueue(nodeToAdd);
-		    System.out.println("Node added to check queue: "
-			    + nodeToAdd.toString());
 		}
 	    }
 	    if (checkSpace(nodesToCheck.peek().getX(),
@@ -52,12 +46,8 @@ public class SmartFollowEnemy extends Enemy {
 			nodesToCheck.peek().getY() - 1, nodesToCheck.peek());
 		if (!searchChecked(checkedNodes, nodeToAdd)) {
 		    nodesToCheck.enqueue(nodeToAdd);
-		    System.out.println("Node added to check queue: "
-			    + nodeToAdd.toString());
 		}
 	    }
-	    System.out.println(
-		    "Node added to checkedNodes: " + nodesToCheck.peek());
 	    checkedNodes.add(nodesToCheck.peek());
 	    nodesToCheck.dequeue();
 	}

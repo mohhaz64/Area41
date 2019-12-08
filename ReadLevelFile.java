@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import javafx.scene.image.Image;
+
 /**
  * This class scans the selected level, and returns the variables
  * 
@@ -10,6 +12,14 @@ import java.util.Scanner;
  *
  */
 public class ReadLevelFile {
+	
+	static Image fireBootsSprite = new Image("FireBoots.png", 40, 40, false, false);
+    static Image tokenSprite = new Image("Token.png", 40, 40, false, false);
+    static Image flippersSprite = new Image("Flippers.png", 40, 40, false, false);
+    static Image keySprite;
+    static Image enemySprite = new Image("Golem.png", 40, 40, false, false);
+    
+    static String levelFilename;
 
     /**
      * Scans each line within the txt file, and adds it to the designated array.
@@ -65,33 +75,41 @@ public class ReadLevelFile {
 
 	    if (entity.equalsIgnoreCase("DUMB")) {
 		entityQueue.enqueue(readDumb(line));
+		
 	    } else if (entity.equalsIgnoreCase("DOOR")) {
-
-		entityQueue.enqueue(readEntity(line));
+	    	
+		
 	    } else if (entity.equalsIgnoreCase("FIREBOOTS")) {
 		entityQueue.enqueue(readFireBoots(line));
+		
 	    } else if (entity.equalsIgnoreCase("TOKEN")) {
-
 		entityQueue.enqueue(readToken(line));
+		
 	    } else if (entity.equalsIgnoreCase("TELEPORTER")) {
-
-		entityQueue.enqueue(readEntity(line));
+	    	
+	    	
 	    } else if (entity.equalsIgnoreCase("KEY")) {
 		entityQueue.enqueue(readKey(line));
+		
 	    } else if (entity.equalsIgnoreCase("FLIPPERS")) {
-
 		entityQueue.enqueue(readFlippers(line));
+		
 	    } else if (entity.equalsIgnoreCase("SMART")) {
 		entityQueue.enqueue(readSmart(line));
+		
 	    } else if (entity.equalsIgnoreCase("STRAIGHT")) {
 		entityQueue.enqueue(readStraight(line));
+		
+	    } else if (entity.equalsIgnoreCase("WALL")) {
+			entityQueue.enqueue(readWall(line));
+		
 	    } else {
 		System.out.println("Error: Entity not found.");
 	    }
 
 	}
 
-	Level level = new Level(name, width, height, xStart, yStart, map,
+	Level level = new Level(levelFilename, name, width, height, xStart, yStart, map,
 		entityQueue);
 
 	return level;
@@ -101,7 +119,7 @@ public class ReadLevelFile {
     public static Entity readDumb(Scanner line) {
 	int x = Integer.parseInt(line.next());
 	int y = Integer.parseInt(line.next());
-	DumbFollowEnemy dumbEnemy = new DumbFollowEnemy(x, y);
+	DumbFollowEnemy dumbEnemy = new DumbFollowEnemy(enemySprite, x, y);
 	return dumbEnemy;
     }
 
@@ -110,7 +128,7 @@ public class ReadLevelFile {
 	int y = Integer.parseInt(line.next());
 	boolean moveInX = Boolean.parseBoolean(line.next());
 	boolean positiveDirection = Boolean.parseBoolean(line.next());
-	StraightLineEnemy straightEnemy = new StraightLineEnemy(x, y, moveInX,
+	StraightLineEnemy straightEnemy = new StraightLineEnemy(enemySprite, x, y, moveInX,
 		positiveDirection);
 	return straightEnemy;
     }
@@ -118,27 +136,28 @@ public class ReadLevelFile {
     public static Entity readSmart(Scanner line) {
 	int x = Integer.parseInt(line.next());
 	int y = Integer.parseInt(line.next());
-	SmartFollowEnemy smartEnemy = new SmartFollowEnemy(x, y);
+	SmartFollowEnemy smartEnemy = new SmartFollowEnemy(enemySprite, x, y);
 	return smartEnemy;
     }
-
-    public static Entity readEntity(Scanner line) {
-
+    
+    public static Entity readWall(Scanner line) {
 	int x = Integer.parseInt(line.next());
 	int y = Integer.parseInt(line.next());
-
-	Entity entity = new Entity(x, y);
-
-	return entity;
-
+	boolean preferRight = Boolean.parseBoolean(line.next());
+	WallFollowEnemy wallEnemy = new WallFollowEnemy(enemySprite, x, y, preferRight);
+	return wallEnemy;
     }
 
     public static Token readToken(Scanner line) {
 
 	int x = Integer.parseInt(line.next());
 	int y = Integer.parseInt(line.next());
+	
+	if (x == -100 && y ==-100) {
+		GameController.pickupToken();
+	}
 
-	Token token = new Token(x, y);
+	Token token = new Token(tokenSprite, x, y);
 
 	return token;
 
@@ -148,8 +167,12 @@ public class ReadLevelFile {
 
 	int x = Integer.parseInt(line.next());
 	int y = Integer.parseInt(line.next());
+	
+	if (x == -100 && y ==-100) {
+		GameController.pickUpFireboots();
+	}
 
-	Fireboots fireBoots = new Fireboots(x, y);
+	Fireboots fireBoots = new Fireboots(fireBootsSprite, x, y);
 
 	return fireBoots;
 
@@ -159,8 +182,12 @@ public class ReadLevelFile {
 
 	int x = Integer.parseInt(line.next());
 	int y = Integer.parseInt(line.next());
+	
+	if (x == -100 && y ==-100) {
+		GameController.pickupFlippers();
+	}
 
-	Flippers flippers = new Flippers(x, y);
+	Flippers flippers = new Flippers(flippersSprite, x, y);
 
 	return flippers;
 
@@ -171,16 +198,33 @@ public class ReadLevelFile {
 	int x = Integer.parseInt(line.next());
 	int y = Integer.parseInt(line.next());
 	String col = line.next();
+	
+	if (col.equalsIgnoreCase("blue")) {
+		if (x == -100 && y ==-100) {
+			GameController.pickupBlueKey();
+		}
+		keySprite = new Image("BlueKey.png", 40, 40, false, false);
+	} else if (col.equalsIgnoreCase("red")) {
+		if (x == -100 && y ==-100) {
+			GameController.pickupRedKey();
+		}
+		keySprite = new Image("RedKey.png", 40, 40, false, false);
+	} else if (col.equalsIgnoreCase("yellow")) {
+		if (x == -100 && y ==-100) {
+			GameController.pickupYellowKey();
+		}
+		keySprite = new Image("YellowKey.png", 40, 40, false, false);
+	}
 
-	Key key = new Key(x, y, col);
+	Key key = new Key(keySprite, x, y, col);
 
 	return key;
 
     }
 
-    public static Level readDataFile(String filename)
-	    throws NoSuchElementException {
-
+    public static Level readDataFile(String filename) throws NoSuchElementException {
+    	
+    levelFilename = filename;
 	Scanner in = null;
 
 	// Checks that the file exists.

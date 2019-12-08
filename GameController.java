@@ -4,9 +4,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javafx.application.Platform;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -15,7 +21,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * The controller for the Menu FXML
@@ -41,6 +49,15 @@ public class GameController {
     private Label projectLevel;
     @FXML
     private Label tokenCount;
+    @FXML 
+    private Label timerLabel;
+    
+    private Timeline timeline;
+    private DoubleProperty timeSeconds = new SimpleDoubleProperty();
+    private Duration time = Duration.ZERO;
+    private boolean hasStarted = false;
+    
+    double levelTime;
 
     // The dimensions of the canvas
     private static final int CANVAS_WIDTH = 420;
@@ -84,23 +101,21 @@ public class GameController {
 	collectedFlippers = true;
     }
 
-    public static void pickedUpFireBoots() {
+    public static void pickUpFireboots() {
 	collectedFireBoots = true;
     }
 
     // Loaded image for the players character
     static Image player = new Image("Player.png", 70, 70, false, false);
-    static Image wall = new Image("tile5.png", 60, 60, false, false);
-    static Image ground = new Image("Grass.png", 60, 60, false, false);
-    static Image finish = new Image("Grass2.png", 60, 60, false, false);
+    static Image wall = new Image("WallISO.png", 60, 60, false, false);
+    static Image ground = new Image("GrassISO.png", 60, 60, false, false);
+    static Image finish = new Image("Goal.png", 60, 60, false, false);
     static Image redKey = new Image("RedKey.png", 87, 44, false, false);
     static Image yellowKey = new Image("YellowKey.png", 87, 44, false, false);
     static Image blueKey = new Image("BlueKey.png", 87, 44, false, false);
     static Image emptyKey = new Image("emptyKey.png", 87, 44, false, false);
-    static Image flippers = new Image("GroundFlippers.png", 55, 55, false,
-	    false);
-    static Image fireBoots = new Image("GroundFireBoots.png", 55, 55, false,
-	    false);
+    static Image flippers = new Image("Flippers.png", 55, 55, false, false);
+    static Image fireBoots = new Image("FireBoots.png", 55, 55, false, false);
     static Image playerPickup = new Image("PlayerPickup.png", 60, 60, false,
 	    false);
 
@@ -110,12 +125,327 @@ public class GameController {
     private static boolean collectedFlippers;
     private static boolean collectedFireBoots;
 
+    private boolean isMute = true;
+
     // X and Y coordinate of player
     static int playerX;
     static int playerY;
 
     // Variables that are scanned in from the .txt level file.
     String name;
+
+    public Level getLevelBeingLoaded() {
+	return levelBeingLoaded;
+    }
+
+    public void setLevelBeingLoaded(Level levelBeingLoaded) {
+	this.levelBeingLoaded = levelBeingLoaded;
+    }
+
+    public User getCurrentUser() {
+	return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+	this.currentUser = currentUser;
+    }
+
+    public GridPane getGridPane() {
+	return gridPane;
+    }
+
+    public void setGridPane(GridPane gridPane) {
+	this.gridPane = gridPane;
+    }
+
+    public ImageView getImage() {
+	return Image;
+    }
+
+    public void setImage(ImageView image) {
+	Image = image;
+    }
+
+    public Canvas getCanvas() {
+	return canvas;
+    }
+
+    public void setCanvas(Canvas canvas) {
+	this.canvas = canvas;
+    }
+
+    public Canvas getInvCanvas() {
+	return invCanvas;
+    }
+
+    public void setInvCanvas(Canvas invCanvas) {
+	this.invCanvas = invCanvas;
+    }
+
+    public Label getProjectLevel() {
+	return projectLevel;
+    }
+
+    public void setProjectLevel(Label projectLevel) {
+	this.projectLevel = projectLevel;
+    }
+
+    public Label getTokenCount() {
+	return tokenCount;
+    }
+
+    public void setTokenCount(Label tokenCount) {
+	this.tokenCount = tokenCount;
+    }
+
+    public static int getTotalTokens() {
+	return totalTokens;
+    }
+
+    public static void setTotalTokens(int totalTokens) {
+	GameController.totalTokens = totalTokens;
+    }
+
+    public static Image getPlayer() {
+	return player;
+    }
+
+    public static void setPlayer(Image player) {
+	GameController.player = player;
+    }
+
+    public static Image getWall() {
+	return wall;
+    }
+
+    public static void setWall(Image wall) {
+	GameController.wall = wall;
+    }
+
+    public static Image getGround() {
+	return ground;
+    }
+
+    public static void setGround(Image ground) {
+	GameController.ground = ground;
+    }
+
+    public static Image getFinish() {
+	return finish;
+    }
+
+    public static void setFinish(Image finish) {
+	GameController.finish = finish;
+    }
+
+    public static Image getRedKey() {
+	return redKey;
+    }
+
+    public static void setRedKey(Image redKey) {
+	GameController.redKey = redKey;
+    }
+
+    public static Image getYellowKey() {
+	return yellowKey;
+    }
+
+    public static void setYellowKey(Image yellowKey) {
+	GameController.yellowKey = yellowKey;
+    }
+
+    public static Image getBlueKey() {
+	return blueKey;
+    }
+
+    public static void setBlueKey(Image blueKey) {
+	GameController.blueKey = blueKey;
+    }
+
+    public static Image getEmptyKey() {
+	return emptyKey;
+    }
+
+    public static void setEmptyKey(Image emptyKey) {
+	GameController.emptyKey = emptyKey;
+    }
+
+    public static Image getFlippers() {
+	return flippers;
+    }
+
+    public static void setFlippers(Image flippers) {
+	GameController.flippers = flippers;
+    }
+
+    public static Image getFireBoots() {
+	return fireBoots;
+    }
+
+    public static void setFireBoots(Image fireBoots) {
+	GameController.fireBoots = fireBoots;
+    }
+
+    public static Image getPlayerPickup() {
+	return playerPickup;
+    }
+
+    public static void setPlayerPickup(Image playerPickup) {
+	GameController.playerPickup = playerPickup;
+    }
+
+    public static boolean isCollectedRed() {
+	return collectedRed;
+    }
+
+    public static void setCollectedRed(boolean collectedRed) {
+	GameController.collectedRed = collectedRed;
+    }
+
+    public static boolean isCollectedYellow() {
+	return collectedYellow;
+    }
+
+    public static void setCollectedYellow(boolean collectedYellow) {
+	GameController.collectedYellow = collectedYellow;
+    }
+
+    public static boolean isCollectedBlue() {
+	return collectedBlue;
+    }
+
+    public static void setCollectedBlue(boolean collectedBlue) {
+	GameController.collectedBlue = collectedBlue;
+    }
+
+    public static boolean isCollectedFlippers() {
+	return collectedFlippers;
+    }
+
+    public static void setCollectedFlippers(boolean collectedFlippers) {
+	GameController.collectedFlippers = collectedFlippers;
+    }
+
+    public static boolean isCollectedFireBoots() {
+	return collectedFireBoots;
+    }
+
+    public static void setCollectedFireBoots(boolean collectedFireBoots) {
+	GameController.collectedFireBoots = collectedFireBoots;
+    }
+
+    public boolean isMute() {
+	return isMute;
+    }
+
+    public void setMute(boolean isMute) {
+	this.isMute = isMute;
+    }
+
+    public static int getPlayerX() {
+	return playerX;
+    }
+
+    public static void setPlayerX(int playerX) {
+	GameController.playerX = playerX;
+    }
+
+    public static int getPlayerY() {
+	return playerY;
+    }
+
+    public static void setPlayerY(int playerY) {
+	GameController.playerY = playerY;
+    }
+
+    public String getName() {
+	return name;
+    }
+
+    public void setName(String name) {
+	this.name = name;
+    }
+
+    public static int getWidth() {
+	return width;
+    }
+
+    public static void setWidth(int width) {
+	GameController.width = width;
+    }
+
+    public static int getHeight() {
+	return height;
+    }
+
+    public static void setHeight(int height) {
+	GameController.height = height;
+    }
+
+    public static String[][] getMap() {
+	return map;
+    }
+
+    public static void setMap(String[][] map) {
+	GameController.map = map;
+    }
+
+    public int getxStart() {
+	return xStart;
+    }
+
+    public void setxStart(int xStart) {
+	this.xStart = xStart;
+    }
+
+    public int getyStart() {
+	return yStart;
+    }
+
+    public void setyStart(int yStart) {
+	this.yStart = yStart;
+    }
+
+    public Queue<Entity> getEntitysToAdd() {
+	return entitysToAdd;
+    }
+
+    public void setEntitysToAdd(Queue<Entity> entitysToAdd) {
+	this.entitysToAdd = entitysToAdd;
+    }
+
+    public static ArrayList<Entity> getActiveEntitys() {
+	return activeEntitys;
+    }
+
+    public static void setActiveEntitys(ArrayList<Entity> activeEntitys) {
+	GameController.activeEntitys = activeEntitys;
+    }
+
+    public String getUserSavedGame() {
+	return userSavedGame;
+    }
+
+    public void setUserSavedGame(String userSavedGame) {
+	this.userSavedGame = userSavedGame;
+    }
+
+    public static int getCanvasWidth() {
+	return CANVAS_WIDTH;
+    }
+
+    public static int getCanvasHeight() {
+	return CANVAS_HEIGHT;
+    }
+
+    public static int getInvCanvasWidth() {
+	return INV_CANVAS_WIDTH;
+    }
+
+    public static int getInvCanvasHeight() {
+	return INV_CANVAS_HEIGHT;
+    }
+
     static int width;
     static int height;
     static String map[][];
@@ -133,10 +463,10 @@ public class GameController {
      * a key is pressed we send the event to the keyPressed method.
      */
     public void initialize() {
-	gridPane.addEventFilter(KeyEvent.KEY_PRESSED,
-		event -> keyPressed(event));
+    	gridPane.addEventFilter(KeyEvent.KEY_PRESSED,
+    			event -> keyPressed(event));
     }
-  
+
     /**
      * Setting the scanned in values to the designated variables, and then
      * calling the drawGame method.
@@ -183,10 +513,24 @@ public class GameController {
      *              pressed
      */
     void clickQuit(ActionEvent event) {
+    	activeEntitys.clear();
+		resetInventory();
+		drawInventory();
+		MenuController.mediaPlayer.stop();
+		Stage stage = (Stage) gridPane.getScene().getWindow();
+		stage.close();
+    }
 
-    	MenuController.mediaPlayer.setAutoPlay(false); 
-    	Stage stage = (Stage) gridPane.getScene().getWindow();
-	    stage.close();
+    @FXML
+    void clickMute(ActionEvent event) {
+
+	if (isMute) {
+	    MenuController.mediaPlayer.setVolume(0);
+	    isMute = !isMute;
+	} else if (!isMute) {
+	    MenuController.mediaPlayer.setVolume(0.7);
+	    isMute = !isMute;
+	}
     }
 
     @FXML
@@ -197,10 +541,9 @@ public class GameController {
      *              pressed
      */
     void clickRestart(ActionEvent event) {
-      
-      setLevel(levelBeingLoaded);
-    	resetInventory();
-    	drawInventory();
+    	
+    	reloadLevel();
+	
     }
 
     @FXML
@@ -236,35 +579,73 @@ public class GameController {
 	writer.newLine();
 
 	// Will finish when classes are created
-	writer.write("Entity classes needed");
-
+	for (Entity s : activeEntitys) {
+		writer.write(s.toString());
+	}
 	writer.close();
 
     }
-    
+
     public boolean checkSpace(int spaceToCheckX, int spaceToCheckY) {
-    	// if space is not floor, player or out of array's bounds then true,
-    	// else false
-    	if (spaceToCheckX < 0) {
-    	    return false;
-    	}
-    	if (spaceToCheckY < 0) {
-    	    return false;
-    	}
-    	if (spaceToCheckX > width) {
-    	    return false;
-    	}
-    	if (spaceToCheckY > height) {
-    	    return false;
-    	}
-    	if (map[spaceToCheckX][spaceToCheckY].equalsIgnoreCase("#")) {
-    	    return false;
-    	}
-    	if (map[spaceToCheckX][spaceToCheckY].equalsIgnoreCase("G")) {
-    	    return false;
-    	}
-    	return true;
-        }
+	// if space is not floor, player or out of array's bounds then true,
+	// else false
+	if (spaceToCheckX < 0) {
+	    return false;
+	}
+	if (spaceToCheckY < 0) {
+	    return false;
+	}
+	if (spaceToCheckX > width) {
+	    return false;
+	}
+	if (spaceToCheckY > height) {
+	    return false;
+	}
+	if (map[spaceToCheckX][spaceToCheckY].equalsIgnoreCase("#")) {
+	    return false;
+	}
+	for (Entity checkEntity : activeEntitys) {
+	    if (checkEntity instanceof Door) {
+		return ((Door) checkEntity).checkIfTouched();
+	    }
+	}
+	return true;
+    }
+    
+    public void playerDead() {
+    	activeEntitys.clear();
+    	timeline.pause();
+		System.out.println("Time was: " + timerLabel.getText() + " seconds");
+		levelTime = Double.parseDouble(timerLabel.getText());
+    	try {
+			// Create a FXML loader for loading the Edit User FXML file.
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Dead.fxml"));
+			GridPane deadUserRoot = (GridPane) fxmlLoader.load();
+
+			DeadController deadController = fxmlLoader.<DeadController>getController();
+			deadController.setParentController(this);
+
+			Scene deadUser = new Scene(deadUserRoot, Main.CREATE_USER_WINDOW_WIDTH, Main.CREATE_USER_WINDOW_HEIGHT);
+
+			// Create a new stage based on the NewUser scene
+			Stage deadUserStage = new Stage();
+			deadUserStage.setScene(deadUser);
+			deadUserStage.setTitle("Wasted");
+			deadUserStage.setResizable(false);
+
+			// Make the stage a modal window.
+			// This means that it must be closed before you can interact with any other window from this application.
+			deadUserStage.initModality(Modality.APPLICATION_MODAL);
+
+			// Show the Create New User scene and wait for it to be closed
+			deadUserStage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			// Quit the program (with an error code)
+			System.exit(-1);
+		}
+    }
 
     @FXML
     /**
@@ -274,55 +655,98 @@ public class GameController {
      * @param event The ActionEvent being handled when a key is pressed
      */
     void keyPressed(KeyEvent event) {
-    	switch (event.getCode()) {
-		
-	    case RIGHT:
-	    	// Right key was pressed. So move the player right by one cell.
-	    	if(checkSpace(playerX + 1, playerY)) {
-	    		player = new Image("PlayerRight.png",70,70,false,false);
-	        	playerX = playerX + 1;
-	    	} else {
-	    		break;
-	    	}
-        	break;	
-	    case LEFT:
-	    	// Left key was pressed. So move the player Left by one cell.
-	    	if(checkSpace(playerX - 1, playerY)) {
-		    	player = new Image("PlayerLeft.png",70,70,false,false);
-	        	playerX = playerX - 1;
-	    	} else {
-	    		break;
-	    	}
-        	break;	
-	    case UP:
-	    	// Up key was pressed. So move the player Up by one cell.
-	    	if(checkSpace(playerX, playerY - 1)) {
-		    	player = new Image("PlayerUp.png",70,70,false,false);
-	        	playerY = playerY - 1;
-	    	} else {
-	        		break;
-	        }
-        	break;	
-	    case DOWN:
-	    	// Down key was pressed. So move the player Down by one cell.
-	    	if(checkSpace(playerX, playerY + 1)) {
-		    	player = new Image("PlayerDown.png",70,70,false,false);
-	        	playerY = playerY + 1;
-	    	} else {
-	    		break;
-	    	}
-        	break;
-        default:
-        	// Do nothing
-        	break;
+	switch (event.getCode()) {
+
+	case RIGHT:
+	    // Right key was pressed. So move the player right by one cell.
+	    if (checkSpace(playerX + 1, playerY)) {
+		player = new Image("PlayerRight.png", 70, 70, false, false);
+		playerX = playerX + 1;
+		checkIfDead();
+	    } else {
+		break;
+	    }
+	    break;
+	case LEFT:
+	    // Left key was pressed. So move the player Left by one cell.
+	    if (checkSpace(playerX - 1, playerY)) {
+		player = new Image("PlayerLeft.png", 70, 70, false, false);
+		playerX = playerX - 1;
+		checkIfDead();
+	    } else {
+		break;
+	    }
+	    break;
+	case UP:
+	    // Up key was pressed. So move the player Up by one cell.
+	    if (checkSpace(playerX, playerY - 1)) {
+		player = new Image("PlayerUp.png", 70, 70, false, false);
+		playerY = playerY - 1;
+		checkIfDead();
+	    } else {
+		break;
+	    }
+	    break;
+	case DOWN:
+	    // Down key was pressed. So move the player Down by one cell.
+	    if (checkSpace(playerX, playerY + 1)) {
+		player = new Image("PlayerDown.png", 70, 70, false, false);
+		playerY = playerY + 1;
+		checkIfDead();
+	    } else {
+		break;
+	    }
+	    break;
+	default:
+	    // Do nothing
+	    break;
+	}
+
+	if(hasStarted == false) {
+		startTimer();
+		timeline.play();
+		hasStarted =! hasStarted;
+	}
+	//TODO::
+	if (map[playerX][playerY].equalsIgnoreCase("G")) {
+		timeline.pause();
+		System.out.println("Time was: " + timerLabel.getText() + " seconds");
+		levelTime = Double.parseDouble(timerLabel.getText());
+	    victory();
+	    
+	}
+	
+	for (Entity s : activeEntitys) {
+
+	    if (s instanceof Enemy) {
+	    	((Enemy) s).getNextMove();
+	    	((Enemy) s).makeMove();
+	    	((Enemy) s).hasKilledPlayer();
+	    } else {
+	    	s.doTouched();
+	    }
 	}
 
 	// Redraw game as the player may have moved.
 	drawGame();
 	drawInventory();
+	
+	checkIfDead();
 
 	// Consume the event, mark is as dealt with.
 	event.consume();
+    }
+    
+    public void checkIfDead() {
+    	boolean clearActiveEntities = false;
+    	for (Entity entity : GameController.activeEntitys) {
+    	    if (entity.hasKilledPlayer() == true) {
+    	    	clearActiveEntities = true;
+    	    }
+    	}
+    	if (clearActiveEntities) {
+    		playerDead();
+    	}
     }
 
     /**
@@ -347,21 +771,30 @@ public class GameController {
 
 		String instance = map[i][k];
 
+		double offsetX = 4.75;
+		double offsetY = 2.5;
+
+		double X = (i - playerX + offsetX) * GRID_CELL_WIDTH;
+		double Y = (k - playerY + offsetY) * GRID_CELL_WIDTH;
+
+		double XIso = xToIso(X, Y);
+		double YIso = yToIso(X, Y);
+
+		int isoWidth = GRID_CELL_WIDTH * 2;
+		int isoHeight = GRID_CELL_WIDTH * 2;
+
 		if (instance.equals("#")) {
-		    gc.setStroke(Color.BLACK);
-		    gc.drawImage(wall, (i - playerX + 3) * GRID_CELL_WIDTH,
-			    (k - playerY + 3) * GRID_CELL_HEIGHT,
-			    GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+
+		    gc.drawImage(wall, XIso, YIso - 30, isoWidth, isoHeight);
+
 		} else if (instance.equals(" ")) {
-		    gc.setFill(Color.WHITE);
-		    gc.drawImage(ground, (i - playerX + 3) * GRID_CELL_WIDTH,
-			    (k - playerY + 3) * GRID_CELL_HEIGHT,
-			    GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+
+		    gc.drawImage(ground, XIso, YIso, isoWidth, isoHeight);
+
 		} else if (instance.equals("G")) {
-		    gc.setFill(Color.GREEN);
-		    gc.drawImage(finish, (i - playerX + 3) * GRID_CELL_WIDTH,
-			    (k - playerY + 3) * GRID_CELL_HEIGHT,
-			    GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+
+		    gc.drawImage(finish, XIso, YIso - 15, isoWidth, isoHeight);
+
 		} else {
 		    System.out.println("Error: instance not found.");
 		}
@@ -371,19 +804,14 @@ public class GameController {
 	insertEntitys();
 
 	for (Entity s : activeEntitys) {
-
-	    s.draw(gc);
-	    if (s instanceof Enemy) {
-		((Enemy) s).getNextMove();
-		((Enemy) s).makeMove();
-		((Enemy) s).hasKilledPlayer();
-	    } else {
-		s.checkIfTouched(gc);
-	    }
+		
+		s.draw(gc, s.getSprite());
+		
 	}
 
 	// Draw player at center cell
 	gc.drawImage(player, 3 * GRID_CELL_WIDTH, 3 * GRID_CELL_HEIGHT);
+
     }
 
     public void drawInventory() {
@@ -418,17 +846,19 @@ public class GameController {
 
 	tokenCount.setText(String.valueOf(totalTokens));
     }
-  
-  public void resetInventory() {
-    	
-    	collectedRed = false;;
-     	collectedYellow = false;
-     	collectedBlue = false;;
-     	collectedFlippers = false;
-     	collectedFireBoots = false;
-     	totalTokens = 0;
-     	tokenCount.setText(String.valueOf(totalTokens));
-    	
+
+    public void resetInventory() {
+
+	collectedRed = false;
+	;
+	collectedYellow = false;
+	collectedBlue = false;
+	;
+	collectedFlippers = false;
+	collectedFireBoots = false;
+	totalTokens = 0;
+	tokenCount.setText(String.valueOf(totalTokens));
+
     }
 
     /**
@@ -439,7 +869,9 @@ public class GameController {
 	if (entitysToAdd.isEmpty()) {
 	    return;
 	}
-
+	if (activeEntitys.isEmpty()) {
+	    activeEntitys.clear();
+	}
 	Entity current = entitysToAdd.peek();
 	while (!entitysToAdd.isEmpty()) {
 	    activeEntitys.add(current);
@@ -450,4 +882,69 @@ public class GameController {
 	}
     }
 
+    private double xToIso(double X, double Y) {
+	return X - Y;
+    }
+
+    private double yToIso(double X, double Y) {
+	return (X + Y) / 2;
+    }
+
+    private void victory() {
+    	System.out.println("Victory!");
+		int levelNum = Integer.parseInt(Character.toString(name.charAt(6)));
+		System.out.println(levelNum);
+		if (currentUser.getMaxCompletedLevel() < levelNum) {
+			currentUser.updateTextFile();
+		    currentUser.setMaxCompletedLevel(levelNum);
+		}
+		if (levelNum < MenuController.noOfLevels) {
+			
+			Level selectedLevel = ReadLevelFile.readDataFile("Level" + (levelNum + 1) + ".txt");
+	    	activeEntitys.clear();
+			resetInventory();
+			drawInventory();
+			hasStarted =! hasStarted;
+			setLevel(selectedLevel);
+			
+		}  else {
+			System.out.println("All levels completed");
+		}
+    }
+    
+    public void reloadLevel() {
+    	
+    	Level selectedLevel = ReadLevelFile.readDataFile(levelBeingLoaded.getFilename());
+    	
+    	activeEntitys.clear();
+		resetInventory();
+		drawInventory();
+		setLevel(selectedLevel);
+		hasStarted = false;
+    	
+    }
+
+    public void startTimer() {
+    	timerLabel.textProperty().bind(timeSeconds.asString());
+
+        if (timeline != null) {
+            time = Duration.ZERO;
+            timeSeconds.set(time.toSeconds());
+        } else {
+            timeline = new Timeline(
+                new KeyFrame(Duration.millis(100),
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent t) {
+                        Duration duration = ((KeyFrame)t.getSource()).getTime();
+                        time = time.add(duration);
+                        timeSeconds.set(time.toSeconds());
+                    }
+                })
+            );
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.play();
+        }
+    }
+    
 }
