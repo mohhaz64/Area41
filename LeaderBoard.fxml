@@ -35,10 +35,6 @@
             <Insets top="20.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Level:" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-         <font>
-            <Font size="24.0" />
-         </font></Label>
       <Label text="Second:" textFill="#c9c9c9" GridPane.halignment="CENTER" GridPane.rowIndex="2">
          <font>
             <Font size="21.0" />
@@ -60,20 +56,20 @@
       </Label>
       <Label fx:id="levelBeingDisplayed" text="//LevelGoesHere" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
          <font>
-            <Font size="21.0" />
+            <Font size="24.0" />
          </font></Label>
-      <Label fx:id="firstUser" text="User" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <Label fx:id="firstUser" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <font>
             <Font size="20.0" />
          </font></Label>
-      <Label fx:id="secondUser" text="User" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <Label fx:id="secondUser" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <font>
             <Font size="20.0" />
          </font>
          <GridPane.margin>
             <Insets bottom="80.0" />
          </GridPane.margin></Label>
-      <Label fx:id="thirdUser" text="User" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Label fx:id="thirdUser" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="80.0" />
          </GridPane.margin>
@@ -81,7 +77,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="secondTime" text="Time" GridPane.columnIndex="2" GridPane.rowIndex="2">
+      <Label fx:id="secondTime" text="-" GridPane.columnIndex="2" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets bottom="80.0" />
          </GridPane.margin>
@@ -89,12 +85,12 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="firstTime" text="Time" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <Label fx:id="firstTime" text="-" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="thirdTime" text="Time" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Label fx:id="thirdTime" text="-" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="80.0" />
          </GridPane.margin>

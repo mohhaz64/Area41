@@ -107,25 +107,25 @@ public class GameController {
     }
 
     // Loaded image for the players character
-    static Image player = new Image("Player.png", 70, 70, false, false);
-    static Image wall = new Image("WallISO.png", 60, 60, false, false);
-    static Image ground = new Image("GrassISO.png", 60, 60, false, false);
-    static Image water = new Image("Water.png", 60, 60, false, false);
-    static Image fire = new Image("Fire.png", 60, 60, false, false);
-    static Image finish = new Image("Goal.png", 60, 60, false, false);
-    static Image redKey = new Image("RedKey.png", 87, 44, false, false);
-    static Image yellowKey = new Image("YellowKey.png", 87, 44, false, false);
-    static Image blueKey = new Image("BlueKey.png", 87, 44, false, false);
-    static Image emptyKey = new Image("emptyKey.png", 87, 44, false, false);
-    static Image flippers = new Image("Flippers.png", 55, 55, false, false);
-    static Image fireBoots = new Image("FireBoots.png", 55, 55, false, false);
-    static Image playerPickup = new Image("PlayerPickup.png", 60, 60, false, false);
-    static Image teleporter = new Image("Teleporter.png", 60, 60, false, false);
+    static Image player = new Image("PlayerRight.png", false);
+    static Image wall = new Image("WallISO.png", false);
+    static Image ground = new Image("GrassISO.png", false);
+    static Image water = new Image("Water.png", false);
+    static Image fire = new Image("Fire.png", false);
+    static Image finish = new Image("Goal.png", false);
+    static Image redKey = new Image("RedKey.png", false);
+    static Image yellowKey = new Image("YellowKey.png", false);
+    static Image blueKey = new Image("BlueKey.png", false);
+    static Image emptyKey = new Image("emptyKey.png", false);
+    static Image flippers = new Image("Flippers.png", false);
+    static Image fireBoots = new Image("FireBoots.png", false);
+    static Image playerPickup = new Image("PlayerPickup.png", false);
+    static Image teleporter = new Image("Teleporter.png", false);
     
-    static Image blueDoor = new Image("BlueDoor.png", 60, 60, false, false);
-    static Image redDoor = new Image("RedDoor.png", 60, 60, false, false);
-    static Image yellowDoor = new Image("YellowDoor.png", 60, 60, false, false);
-    static Image tokenDoor = new Image("TokenDoor.png", 60, 60, false, false);
+    static Image blueDoor = new Image("BlueDoor.png", false);
+    static Image redDoor = new Image("RedDoor.png", false);
+    static Image yellowDoor = new Image("YellowDoor.png", false);
+    static Image tokenDoor = new Image("TokenDoor.png", false);
    
     private static boolean redOpen;
     private static boolean yellowOpen;
@@ -694,8 +694,8 @@ public class GameController {
 
 	case RIGHT:
 	    // Right key was pressed. So move the player right by one cell.
+		player = new Image("PlayerRight.png", false);
 	    if (checkSpace(playerX + 1, playerY)) {
-		player = new Image("PlayerRight.png", 70, 70, false, false);
 		playerX = playerX + 1;
 	    } else {
 		break;
@@ -703,8 +703,8 @@ public class GameController {
 	    break;
 	case LEFT:
 	    // Left key was pressed. So move the player Left by one cell.
+		player = new Image("PlayerLeft.png", false);
 	    if (checkSpace(playerX - 1, playerY)) {
-		player = new Image("PlayerLeft.png", 70, 70, false, false);
 		playerX = playerX - 1;
 	    } else {
 		break;
@@ -712,8 +712,8 @@ public class GameController {
 	    break;
 	case UP:
 	    // Up key was pressed. So move the player Up by one cell.
+		player = new Image("PlayerUp.png", false);
 	    if (checkSpace(playerX, playerY - 1)) {
-		player = new Image("PlayerUp.png", 70, 70, false, false);
 		playerY = playerY - 1;
 	    } else {
 		break;
@@ -721,8 +721,8 @@ public class GameController {
 	    break;
 	case DOWN:
 	    // Down key was pressed. So move the player Down by one cell.
+		player = new Image("PlayerDown.png", false);
 	    if (checkSpace(playerX, playerY + 1)) {
-		player = new Image("PlayerDown.png", 70, 70, false, false);
 		playerY = playerY + 1;
 	    } else {
 		break;
@@ -888,7 +888,7 @@ public class GameController {
 	}
 
 	// Draw player at center cell
-	gc.drawImage(player, 3 * GRID_CELL_WIDTH, 3 * GRID_CELL_HEIGHT);
+	gc.drawImage(player, 3 * GRID_CELL_WIDTH, 3 * GRID_CELL_HEIGHT, 60, 60);
 
     }
 
@@ -901,25 +901,25 @@ public class GameController {
 	gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
 	if (collectedRed) {
-	    gc.drawImage(redKey, 10, 1);
+	    gc.drawImage(redKey, 10, 1, 100, 100);
 	} else {
-	    gc.drawImage(emptyKey, 10, 1);
+	    gc.drawImage(emptyKey, 10, 1, 100, 100);
 	}
 	if (collectedYellow) {
-	    gc.drawImage(yellowKey, 10, 62);
+	    gc.drawImage(yellowKey, 10, 62, 100, 100);
 	} else {
-	    gc.drawImage(emptyKey, 10, 62);
+	    gc.drawImage(emptyKey, 10, 62, 100, 100);
 	}
 	if (collectedBlue) {
-	    gc.drawImage(blueKey, 10, 123);
+	    gc.drawImage(blueKey, 10, 123, 100, 100);
 	} else {
-	    gc.drawImage(emptyKey, 10, 123);
+	    gc.drawImage(emptyKey, 10, 123, 100, 100);
 	}
 	if (collectedFlippers) {
-	    gc.drawImage(flippers, 60, 187);
+	    gc.drawImage(flippers, 40, 187, 80, 80);
 	}
 	if (collectedFireBoots) {
-	    gc.drawImage(fireBoots, 3, 187);
+	    gc.drawImage(fireBoots, -10, 187, 80, 80);
 	}
 
 	tokenCount.setText(String.valueOf(totalTokens));
@@ -974,6 +974,7 @@ public class GameController {
     	System.out.println("Victory!");
 		int levelNum = Integer.parseInt(Character.toString(name.charAt(6)));
 		System.out.println(levelNum);
+		levelBeingLoaded.updateTextFile(currentUser.getName(), Double.parseDouble(timerLabel.getText()));
 		if (currentUser.getMaxCompletedLevel() < levelNum) {
 			currentUser.updateTextFile();
 		    currentUser.setMaxCompletedLevel(levelNum);
