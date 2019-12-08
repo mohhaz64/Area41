@@ -95,6 +95,8 @@ public class GameController {
     static Image player = new Image("Player.png", 70, 70, false, false);
     static Image wall = new Image("WallISO.png", 60, 60, false, false);
     static Image ground = new Image("GrassISO.png", 60, 60, false, false);
+    static Image water = new Image("Water.png", 60, 60, false, false);
+    static Image fire = new Image("Fire.png", 60, 60, false, false);
     static Image finish = new Image("Goal.png", 60, 60, false, false);
     static Image redKey = new Image("RedKey.png", 87, 44, false, false);
     static Image yellowKey = new Image("YellowKey.png", 87, 44, false, false);
@@ -102,8 +104,7 @@ public class GameController {
     static Image emptyKey = new Image("emptyKey.png", 87, 44, false, false);
     static Image flippers = new Image("Flippers.png", 55, 55, false, false);
     static Image fireBoots = new Image("FireBoots.png", 55, 55, false, false);
-    static Image playerPickup = new Image("PlayerPickup.png", 60, 60, false,
-	    false);
+    static Image playerPickup = new Image("PlayerPickup.png", 60, 60, false, false);
 
     private static boolean collectedRed;
     private static boolean collectedYellow;
@@ -599,6 +600,7 @@ public class GameController {
     }
     
     public void playerDead() {
+    	drawGame();
     	activeEntitys.clear();
     	try {
 			// Create a FXML loader for loading the Edit User FXML file.
@@ -645,7 +647,6 @@ public class GameController {
 	    if (checkSpace(playerX + 1, playerY)) {
 		player = new Image("PlayerRight.png", 70, 70, false, false);
 		playerX = playerX + 1;
-		checkIfDead();
 	    } else {
 		break;
 	    }
@@ -655,7 +656,6 @@ public class GameController {
 	    if (checkSpace(playerX - 1, playerY)) {
 		player = new Image("PlayerLeft.png", 70, 70, false, false);
 		playerX = playerX - 1;
-		checkIfDead();
 	    } else {
 		break;
 	    }
@@ -665,7 +665,6 @@ public class GameController {
 	    if (checkSpace(playerX, playerY - 1)) {
 		player = new Image("PlayerUp.png", 70, 70, false, false);
 		playerY = playerY - 1;
-		checkIfDead();
 	    } else {
 		break;
 	    }
@@ -675,7 +674,6 @@ public class GameController {
 	    if (checkSpace(playerX, playerY + 1)) {
 		player = new Image("PlayerDown.png", 70, 70, false, false);
 		playerY = playerY + 1;
-		checkIfDead();
 	    } else {
 		break;
 	    }
@@ -684,6 +682,9 @@ public class GameController {
 	    // Do nothing
 	    break;
 	}
+	
+	checkIfDead();
+
 	
 	if (map[playerX][playerY].equalsIgnoreCase("G")) {
 	    victory();
@@ -694,7 +695,6 @@ public class GameController {
 	    if (s instanceof Enemy) {
 	    	((Enemy) s).getNextMove();
 	    	((Enemy) s).makeMove();
-	    	((Enemy) s).hasKilledPlayer();
 	    } else {
 	    	s.doTouched();
 	    }
@@ -767,6 +767,14 @@ public class GameController {
 		} else if (instance.equals("G")) {
 
 		    gc.drawImage(finish, XIso, YIso - 15, isoWidth, isoHeight);
+		    
+		} else if (instance.equals("W")) {
+
+		    gc.drawImage(water, XIso, YIso + 8, isoWidth, isoHeight);
+		    
+		} else if (instance.equals("F")) {
+
+		    gc.drawImage(fire, XIso, YIso + 4, isoWidth, isoHeight);
 
 		} else {
 		    System.out.println("Error: instance not found.");

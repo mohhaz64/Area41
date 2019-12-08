@@ -18,6 +18,7 @@ public class ReadLevelFile {
     static Image flippersSprite = new Image("Flippers.png", 40, 40, false, false);
     static Image keySprite;
     static Image enemySprite = new Image("Golem.png", 40, 40, false, false);
+    static Image nullSprite;
     
     static String levelFilename;
 
@@ -60,7 +61,10 @@ public class ReadLevelFile {
 
 	    String l = in.nextLine();
 	    System.out.println(l);
-
+	    
+	    Scanner test = new Scanner(l);
+	    String lineString = test.nextLine();
+	    
 	    Scanner line = new Scanner(l);
 	    String ent = line.next().toLowerCase();
 
@@ -73,7 +77,15 @@ public class ReadLevelFile {
 		System.out.println("Error: " + entity + " class needed.");
 	    }
 
-	    if (entity.equalsIgnoreCase("DUMB")) {
+	    if (entity.equalsIgnoreCase("WATER")) {
+	    	map[readX(lineString)][readY(lineString)] = "W";
+			entityQueue.enqueue(readWater(line));
+			
+	    } else if (entity.equalsIgnoreCase("FIRE")) {
+	    	map[readX(lineString)][readY(lineString)] = "F";
+			entityQueue.enqueue(readFire(line));
+			
+		} else if (entity.equalsIgnoreCase("DUMB")) {
 		entityQueue.enqueue(readDumb(line));
 		
 	    } else if (entity.equalsIgnoreCase("DOOR")) {
@@ -106,14 +118,30 @@ public class ReadLevelFile {
 	    } else {
 		System.out.println("Error: Entity not found.");
 	    }
+	    
+	    test.close();
 
 	}
+	
 
 	Level level = new Level(levelFilename, name, width, height, xStart, yStart, map,
 		entityQueue);
 
 	return level;
 
+    }
+    
+    public static int readX(String line) {
+    	String[] data = line.split(" ");
+    	System.out.println(data[1]);
+    	int x = Integer.parseInt(data[1]);
+    	return x;
+    }
+    
+    public static int readY(String line) {
+    	String[] data = line.split(" ");
+    	int y = Integer.parseInt(data[2]);
+    	return y;
     }
 
     public static Entity readDumb(Scanner line) {
@@ -190,6 +218,28 @@ public class ReadLevelFile {
 	Flippers flippers = new Flippers(flippersSprite, x, y);
 
 	return flippers;
+
+    }
+    
+    public static Water readWater(Scanner line) {
+
+    	int x = Integer.parseInt(line.next());
+    	int y = Integer.parseInt(line.next());
+    	
+    	Water water = new Water(nullSprite, x, y);
+
+    	return water;
+
+    }
+    
+    public static Fire readFire(Scanner line) {
+
+    	int x = Integer.parseInt(line.next());
+    	int y = Integer.parseInt(line.next());
+    	
+    	Fire fire = new Fire(nullSprite, x, y);
+
+    	return fire;
 
     }
 

@@ -6,24 +6,16 @@ public class Fire extends Entity {
 		super(sprite, x, y);
 	}
 	
-	public boolean checkIfTouched() {
-		if((GameController.playerX == x) && (GameController.playerY == y)) {
-			if(GameController.isCollectedFireboots() == true) {
-				GameController.playerX = x;
-				GameController.playerY = y;
-				x = -100;
-				y = -100;
-				return true;
-			} else {
-				//Player dies
-			}
-		} else {
-			return false;
-		}
+    public boolean hasKilledPlayer() {
+	if (checkIfTouched() && !GameController.isCollectedFireBoots()) {
+	    return true;
+	} else {
+		return false;
 	}
-	
-    public String toString() {
-    	String result = "FIRE " + x + " " + y + "\n";
-    	return result;
     }
+	
+	public String toString() {
+		String result = "FIRE " + x + " " + y + "\n";
+		return result;
+	}
 }
