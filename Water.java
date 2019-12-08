@@ -6,19 +6,21 @@ public class Water extends Entity {
 		super(sprite, x, y);
 	}
 	
-	public boolean checkIfTouched() {
-		if((GameController.playerX == x) && (GameController.playerY == y)) {
+	public void doTouched() {
+		if(checkIfTouched()) {
 			if(GameController.isCollectedFlippers() == true) {
 				GameController.playerX = x;
 				GameController.playerY = y;
-				x = -100;
-				y = -100;
-				return true;
 			} else {
 				//Player dies
 			}
 		} else {
 			return false;
 		}
+	}
+	
+	public String toString() {
+		String result = "WATER " + x + " " + y + "\n";
+		return result;
 	}
 }

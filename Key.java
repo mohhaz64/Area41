@@ -26,4 +26,9 @@ public class Key extends Entity {
 		}
 	}
 	
+    public String toString() {
+    	String result = "KEY " + x + " " + y  + " " + col + "\n";
+    	return result;
+    }
+	
 }

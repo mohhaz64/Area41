@@ -21,4 +21,9 @@ public class Fire extends Entity {
 			return false;
 		}
 	}
+	
+    public String toString() {
+    	String result = "FIRE " + x + " " + y + "\n";
+    	return result;
+    }
 }

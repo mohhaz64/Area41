@@ -27,4 +27,8 @@ public class TokenDoor extends Entity {
 			return false;
 		}
 	}
+	public String toString() {
+		String result = "DOOR " + x + " " + y + " TOKEN" + "\n";
+		return result;
+	}
 }

@@ -19,4 +19,9 @@ public class Teleporter extends Entity {
 			GameController.playerY = y;
 		}
 	}
+	
+	public String toString() {
+		String result = "TELEPORTER " + x + " " + y + " " + newX + " " + newY + "\n";
+		return result;
+	}
 }

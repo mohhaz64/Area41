@@ -60,4 +60,9 @@ public class DumbFollowEnemy extends Enemy {
 	    }
 	}
     }
+    
+    public String toString() {
+    	String result = "DUMB " + x + " " + y + "\n";
+    	return result;
+    }
 }

@@ -88,5 +88,10 @@ public class WallFollowEnemy extends Enemy {
 			}
 		}
     }
+    
+    public String toString() {
+    	String result = "WALL " + x + " " + y + " " + preferRight + "\n";
+    	return result;
+    }
 
 }

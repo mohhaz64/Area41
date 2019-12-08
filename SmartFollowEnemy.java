@@ -74,4 +74,9 @@ public class SmartFollowEnemy extends Enemy {
 	}
 	return false;
     }
+    
+    public String toString() {
+    	String result = "SMART " + x + " " + y + "\n";
+    	return result;
+    }
 }
