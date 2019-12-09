@@ -25,7 +25,7 @@ public class DeadController {
     @FXML
     void clickRestart(ActionEvent event) {
     	Stage stage = (Stage) gridPane.getScene().getWindow();
-    	parentController.restart();
+    	parentController.clickRestart(event);
     	stage.close();
     	
     }

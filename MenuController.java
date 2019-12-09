@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Scanner;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +23,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -32,15 +40,18 @@ public class MenuController {
     @FXML private Label messgeOfTheDay;
     @FXML private Button quitButton;
     @FXML private ComboBox<String> userList;
+    @FXML private Button leaderBoard;
+    @FXML private Label selectThemeLabel;
+    @FXML private ComboBox<String> themeList;
 
     private static HttpURLConnection connection;
 
     //Lists to hold game Levels as well as all the created Users.
     private ArrayList<User> users = new ArrayList<User>();
-    private static ArrayList<Level> levels = new ArrayList<Level>();
-	
+    private ArrayList<String> levels = new ArrayList<String>();
+    
+    static int noOfLevels = 5;
 	static MediaPlayer mediaPlayer;
-	
 	String path = "ChipsMusic2.mp3";  
 
     //Instantiating Media class  
@@ -48,15 +59,20 @@ public class MenuController {
     
     static Level selectedLevel;
     
-
 	/**
 	 * Initialize the controller.
 	 * This method is called automatically and everything within is run IN ORDER.
 	 */
     public void initialize() {
 
-    	addUsesrsToList();
-    	readLevels();
+    	addUsersToList();
+
+		// Level .txt files are read in and added to the list of levels
+		for (int i = 1; i <= noOfLevels; i++) {
+			levels.add("Level " + i);
+		}
+		
+		levels.add("Saved Game");
 
 
 		// Setup actions on buttons
@@ -75,24 +91,18 @@ public class MenuController {
 		createNewUserButton.setOnAction(e -> {
 			handleNewUserButton();
 		});
+		
+		leaderBoard.setOnAction(e -> {
+			handleLeaderBoardButton();
+		});
 
 		// Refreshing the User and Level lists in case of any changes (added, edited or deleted)
 		refreshUserList();
 		refreshLevelList();
 		messageOfTheDay();
 	}
-    
-    public static void readLevels() {
-		// Level .txt files are read in and added to the list of levels
-		Level level1 = ReadLevelFile.readDataFile("Level1.txt");
-		Level level2 = ReadLevelFile.readDataFile("Level2.txt");
-		Level level3 = ReadLevelFile.readDataFile("Level3.txt");
-		levels.add(level1);
-		levels.add(level2);
-		levels.add(level3);
-    }
 
-	private void addUsesrsToList() {
+	private void addUsersToList() {
 		BufferedReader reader;
 		try {
 			reader = new BufferedReader(new FileReader("users.txt"));
@@ -141,9 +151,20 @@ public class MenuController {
 		levelList.getItems().clear();
 
 		// Add each Level to the displayed list
-		for (Level c : levels) {
-			levelList.getItems().add(c.getName());
+		for (String c : levels) {
+			levelList.getItems().add(c);
 		}
+	}
+
+	public void removeUser(String userName) {
+		User userToRemove = null;
+		for (User user : users) {
+			if (user.getName().equals(userName)){
+				userToRemove = user;
+			}
+		}
+		users.remove(userToRemove);
+		refreshUserList();
 	}
 
 	private void messageOfTheDay(){
@@ -261,7 +282,53 @@ public class MenuController {
     public void handleQuitButtonAction() {
     	System.exit(0);
     }
+    public void handleLeaderBoardButton() {
+    	int selectedLevelIndex = levelList.getSelectionModel().getSelectedIndex();
 
+		if (selectedLevelIndex < 0) {
+			// Show a message
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText(null);
+			alert.setContentText("Please Select a level");
+			alert.showAndWait();
+
+		} else {
+
+			try {
+
+				// Create a FXML loader for loading the CreateUser FXML file.
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LeaderBoard.fxml"));
+
+				// Run the loader
+				GridPane leaderBoardRoot = (GridPane) fxmlLoader.load();
+				// Access the controller that was created by the FXML loader
+				LeaderBoardController leaderBoardController = fxmlLoader.<LeaderBoardController>getController();
+				leaderBoardController.setLevel(ReadLevelFile.readDataFile("Level" + (selectedLevelIndex + 1) + ".txt"));
+
+				Scene leaderBoardScene = new Scene(leaderBoardRoot, 300, 300);
+
+				// Create a new stage based on the editUser scene
+				Stage leaderBoardStage = new Stage();
+				leaderBoardStage.setScene(leaderBoardScene);
+				leaderBoardStage.setTitle("LeaderBoard");
+				leaderBoardStage.setResizable(false);
+
+				// Make the stage a modal window.
+				// This means that it must be closed before you can interact with any other window from this application.
+				leaderBoardStage.initModality(Modality.APPLICATION_MODAL);
+
+				// Show the edit scene and wait for it to be closed
+				leaderBoardStage.showAndWait();
+
+
+			} catch (IOException e) {
+				e.printStackTrace();
+				// Quit the program with an error code
+				System.exit(-1);
+			}
+		}
+    }
 	/**
 	 * Handle the Create New User button.
 	 * This will display a window allowing the user to create a new user with their desired name.
@@ -380,8 +447,30 @@ public class MenuController {
 		}
 
 		// Can only get to this line if user has selected a Level
-		selectedLevel = levels.get(selectedIndex);
 		User selectedUser = users.get(selectedUserIndex);
+		
+		String savedFile = selectedUser.getName() + "SavedGame.txt";
+		
+		if (!(selectedIndex < noOfLevels)) {
+	    	File temp = new File(savedFile);
+	    	if (!temp.isFile()) {
+	    		Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText(null);
+				alert.setContentText("You don't have a saved game yet!");
+				alert.showAndWait();
+				return;
+	    	}
+		} else {
+			if (selectedIndex > selectedUser.getMaxCompletedLevel()) {
+	    		Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText(null);
+				alert.setContentText("You haven't reached this level yet!");
+				alert.showAndWait();
+				return;
+	    	}
+		}
 
 		// We use a try-catch block as the loading of the FXML file can fail.
 		try {
@@ -397,10 +486,16 @@ public class MenuController {
 			mediaPlayer = new MediaPlayer(media);  
 
 	        //by setting this property to true, the audio will be played   
-			mediaPlayer.setVolume(0.1);
 	        mediaPlayer.setAutoPlay(true);  
-
-			game.setLevel(selectedLevel);
+	        
+	        if (selectedIndex < noOfLevels) {
+	        	game.setLevel(ReadLevelFile.readDataFile("Level" + (selectedIndex + 1) + ".txt"));
+	        }
+	        else {
+	        	game.setLevel(ReadLevelFile.readDataFile(savedFile));
+	        }
+			
+			
 			game.setUser(selectedUser);
 
 			// Create a scene based on the loaded FXML scene graph
@@ -421,17 +516,5 @@ public class MenuController {
 			System.exit(-1);
 		}
 	}
-	
-	public static String getSelectedLevel() {
-		String level = selectedLevel.getName();
-		String returnString = null;
-		if(level.equalsIgnoreCase("Level 1")) {
-			returnString = "Level1.txt";
-		} else if(level.equalsIgnoreCase("Level 2")) {
-			returnString = "Level2.txt";
-		} else if(level.equalsIgnoreCase("Level 3")) {
-			returnString = "Level3.txt";
-		}
-		return returnString;
-	}
+
 }

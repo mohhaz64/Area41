@@ -9,8 +9,6 @@ public class Enemy extends Entity {
 	nextXPosition = x;
 	nextYPosition = y;
     }
-    
-    String type = "enemy";
 
     public boolean checkSpace(int spaceToCheckX, int spaceToCheckY) {
 	// if space is not floor, player or out of array's bounds then true,
@@ -55,7 +53,9 @@ public class Enemy extends Entity {
     }
 
     public boolean hasKilledPlayer() {
-	if (GameController.playerX == x && GameController.playerY == y) {
+
+	if (checkIfTouched()) {
+
 	    return true;
 	}
 	return false;

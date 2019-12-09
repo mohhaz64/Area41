@@ -1,0 +1,67 @@
+Level 4
+5 36
+#####
+#   #
+#   #
+#   #
+## ##
+#   #
+#   #
+#   #
+#   #
+#   #
+#   #
+#   #
+#   #
+#   #
+## ##
+#   #
+#   #
+#   #
+## ##
+#   #
+#   #
+#   #
+## ##
+#   #
+#   #
+#   #
+## ##
+#   #
+#   #
+#   #
+#####
+#   #
+#   #
+#   #
+# G #
+#####
+START 2 2
+FIREBOOTS 1 6
+FIRE 1 7
+FIRE 2 7
+FIRE 3 7
+FLIPPERS 1 9
+WATER 1 10
+WATER 2 10
+WATER 3 10
+KEY 2 12 BLUE
+DOOR 2 14 BLUE
+KEY 2 16 YELLOW
+DOOR 2 18 YELLOW
+KEY 2 20 RED
+DOOR 2 22 RED
+TOKEN 1 24
+TOKEN 2 24
+TOKEN 3 24
+DOOR 2 26 TOKEN 3
+TELEPORTER 2 29 2 32
+TELEPORTER 2 31 2 28
+Ben 7.1
+hahaha 5.6
+Cal 16.4
+Ben 8.7
+Mo 9.9
+Mo 6.1
+Mo 7.0
+Cal 6.8

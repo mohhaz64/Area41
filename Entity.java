@@ -16,8 +16,6 @@ public class Entity {
      * The sprite of the Entity.
      */
     protected Image sprite = new Image("Player.png", 60, 60, false, false);
-    
-    protected String type = "basic";
 
     /**
      * Creates a closed Entity object.
@@ -33,7 +31,9 @@ public class Entity {
     }
 
     public String toString() {
-	String result = "Its position is " + x + " " + y;
+
+	String result = this.getClass().getName() + " " + x + " " + y + "\n";
+
 	return result;
     }
 
@@ -72,6 +72,14 @@ public class Entity {
 	return y;
     }
     
+    public String getType() {
+    	return null;
+    }
+    
+    public int getTokensRequired() {
+    	return 0;
+    }
+    
     /**
      * @return The sprite image.
      */
@@ -94,8 +102,17 @@ public class Entity {
     }
 
     public boolean checkIfTouched() {
-    	return false;
-    }
+    	if ((GameController.playerX == x) && (GameController.playerY == y)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+    
+    public void doTouched() {
+
+	}
     
     public boolean hasKilledPlayer() {
     	return false;
