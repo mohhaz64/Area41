@@ -19,9 +19,10 @@ public class WallFollowEnemy extends Enemy {
 
     /**
      * Creates instance of a wall following enemy
-     * @param sprite The image of an wall follow enemy
-     * @param x The x position of a wall follow enemy
-     * @param y The y position of a wall follow enemy
+     *
+     * @param sprite      The image of an wall follow enemy
+     * @param x           The x position of a wall follow enemy
+     * @param y           The y position of a wall follow enemy
      * @param preferRight true if the enemy prefers to turn right.
      */
     public WallFollowEnemy(Image sprite, int x, int y, boolean preferRight) {

@@ -37,10 +37,10 @@ public class Enemy extends Entity {
         if (spaceToCheckY < 0) {
             return false;
         }
-        if (spaceToCheckX > GameController.getWidth()) {
+        if (spaceToCheckX >= GameController.getWidth()) {
             return false;
         }
-        if (spaceToCheckY > GameController.getHeight()) {
+        if (spaceToCheckY >= GameController.getHeight()) {
             return false;
         }
         if (GameController.getMapValue(spaceToCheckX, spaceToCheckY)

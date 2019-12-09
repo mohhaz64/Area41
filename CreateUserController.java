@@ -2,21 +2,22 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.io.IOException;
 import javafx.stage.Stage;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
- *
  * @author Mo Hazrati, Jeffrey Edeh
  * @version 1.6
- *
  */
 public class CreateUserController {
 
-    @FXML private Button createUserButton;
-    @FXML private TextField newUserName;
+    @FXML
+    private Button createUserButton;
+    @FXML
+    private TextField newUserName;
     private MenuController parentController;
 
     /**
@@ -32,6 +33,7 @@ public class CreateUserController {
 
     /**
      * sets the local parent controller variable to reference the parent controller.
+     *
      * @param parentController parent controller reference.
      */
     public void setParentController(MenuController parentController) {
@@ -71,7 +73,7 @@ public class CreateUserController {
             alert.setContentText("User Has Been Created!");
             alert.showAndWait();
 
-         }
+        }
 
     }
 

@@ -349,6 +349,7 @@ public class GameController {
 
     /**
      * Allows GameController to access the current user's saved game.
+     *
      * @param selectedUser new user to set.
      */
     public void setUser(User selectedUser) {
@@ -842,63 +843,63 @@ public class GameController {
      */
     private void victory() {
 
-    	System.out.println("Victory!");
-		int levelNum = Integer.parseInt(Character.toString(name.charAt(6)));
-		System.out.println(levelNum);
-		levelBeingLoaded.updateTextFile(currentUser.getName(), Double.parseDouble(timerLabel.getText()));
-		if (currentUser.getMaxCompletedLevel() < levelNum) {
-			currentUser.updateTextFile();
-		    currentUser.setMaxCompletedLevel(levelNum);
-		}
-		if (levelNum < MenuController.noOfLevels) {
-		
-			Level selectedLevel = ReadLevelFile.readDataFile("Level" + (levelNum + 1) + ".txt");
-	    	activeEntitys.clear();
-			resetInventory();
-			drawInventory();
-			hasStarted =! hasStarted;
-			setLevel(selectedLevel);
-			
-		}  else {
-			System.out.println("All levels completed");
-			congratz();
-		}
+        System.out.println("Victory!");
+        int levelNum = Integer.parseInt(Character.toString(name.charAt(6)));
+        System.out.println(levelNum);
+        levelBeingLoaded.updateTextFile(currentUser.getName(), Double.parseDouble(timerLabel.getText()));
+        if (currentUser.getMaxCompletedLevel() < levelNum) {
+            currentUser.updateTextFile();
+            currentUser.setMaxCompletedLevel(levelNum);
+        }
+        if (levelNum < MenuController.noOfLevels) {
+
+            Level selectedLevel = ReadLevelFile.readDataFile("Level" + (levelNum + 1) + ".txt");
+            activeEntitys.clear();
+            resetInventory();
+            drawInventory();
+            hasStarted = !hasStarted;
+            setLevel(selectedLevel);
+
+        } else {
+            System.out.println("All levels completed");
+            congratz();
+        }
     }
-    
+
     public void congratz() {
-    	try {
+        try {
 
-			// Create a FXML loader for loading the CreateUser FXML file.
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Win.fxml"));
+            // Create a FXML loader for loading the CreateUser FXML file.
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Win.fxml"));
 
-			// Run the loader
-			GridPane winRoot = (GridPane) fxmlLoader.load();
-			// Access the controller that was created by the FXML loader
-			WinController winController = fxmlLoader.<WinController>getController();
-			
-			winController.setParentController(this);
+            // Run the loader
+            GridPane winRoot = (GridPane) fxmlLoader.load();
+            // Access the controller that was created by the FXML loader
+            WinController winController = fxmlLoader.<WinController>getController();
 
-			Scene winScene = new Scene(winRoot, 200, 184);
+            winController.setParentController(this);
 
-			// Create a new stage based on the editUser scene
-			Stage winStage = new Stage();
-			winStage.setScene(winScene);
-			winStage.setTitle("100%");
-			winStage.setResizable(false);
+            Scene winScene = new Scene(winRoot, 200, 184);
 
-			// Make the stage a modal window.
-			// This means that it must be closed before you can interact with any other window from this application.
-			winStage.initModality(Modality.APPLICATION_MODAL);
+            // Create a new stage based on the editUser scene
+            Stage winStage = new Stage();
+            winStage.setScene(winScene);
+            winStage.setTitle("100%");
+            winStage.setResizable(false);
 
-			// Show the edit scene and wait for it to be closed
-			winStage.showAndWait();
+            // Make the stage a modal window.
+            // This means that it must be closed before you can interact with any other window from this application.
+            winStage.initModality(Modality.APPLICATION_MODAL);
 
-		} catch (IOException e) {
-			e.printStackTrace();
-			// Quit the program with an error code
-			System.exit(-1);
-		}
-	}
+            // Show the edit scene and wait for it to be closed
+            winStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Quit the program with an error code
+            System.exit(-1);
+        }
+    }
 
     /**
      * Reloads a level.

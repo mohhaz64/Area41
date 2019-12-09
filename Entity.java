@@ -39,6 +39,7 @@ public class Entity {
 
     /**
      * Resets the x position.
+     *
      * @param x new x value.
      */
     public void setX(int x) {
@@ -47,6 +48,7 @@ public class Entity {
 
     /**
      * Resets the y position.
+     *
      * @param y new y value.
      */
     public void setY(int y) {
@@ -55,6 +57,7 @@ public class Entity {
 
     /**
      * Resets the sprite.
+     *
      * @param sprite the new sprite.
      */
     public void setImage(Image sprite) {
@@ -92,7 +95,8 @@ public class Entity {
 
     /**
      * Draw the entity onto the canvas.
-     * @param g The current graphics context.
+     *
+     * @param g     The current graphics context.
      * @param image The sprite image of the entity.
      */
     public void draw(GraphicsContext g, Image image) {
@@ -129,6 +133,7 @@ public class Entity {
 
     /**
      * Overidden by the enemy class.
+     *
      * @return false unless overridden.
      */
     public boolean hasKilledPlayer() {
@@ -137,6 +142,7 @@ public class Entity {
 
     /**
      * Converts the x position into an isometric version.
+     *
      * @param X currrent X position.
      * @param Y currrent Y position.
      * @return the new x value.
@@ -147,6 +153,7 @@ public class Entity {
 
     /**
      * Converts the y position into an isometric version.
+     *
      * @param X currrent X position.
      * @param Y currrent Y position.
      * @return the new Y value.

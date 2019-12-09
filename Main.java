@@ -1,5 +1,4 @@
 import javafx.application.Application;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -35,6 +34,7 @@ public class Main extends Application {
 
     /**
      * retrieves game window width.
+     *
      * @return game windows width.
      */
     public static int getGameWindowWidth() {

@@ -1,7 +1,7 @@
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 import java.util.Random;
-
-import javafx.scene.image.Image;
 
 /**
  * @author George

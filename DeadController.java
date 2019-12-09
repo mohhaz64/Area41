@@ -1,12 +1,6 @@
-import java.io.IOException;
-import java.util.ConcurrentModificationException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 public class DeadController {
@@ -17,34 +11,37 @@ public class DeadController {
 
     /**
      * Called when the quit button is pressed.
+     *
      * @param event
      */
     @FXML
     void clickQuit(ActionEvent event) {
-    	Stage stage = (Stage) gridPane.getScene().getWindow();
-    	parentController.clickQuit(event);
-	    stage.close();
+        Stage stage = (Stage) gridPane.getScene().getWindow();
+        parentController.clickQuit(event);
+        stage.close();
     }
 
     /**
      * Called when the restart button is pressed.
+     *
      * @param event
      */
     @FXML
     void clickRestart(ActionEvent event) {
-    	Stage stage = (Stage) gridPane.getScene().getWindow();
-    	parentController.clickRestart(event);
-    	stage.close();
-    	
+        Stage stage = (Stage) gridPane.getScene().getWindow();
+        parentController.clickRestart(event);
+        stage.close();
+
     }
 
     /**
      * Sets the controllers parent
+     *
      * @param gameController parent controller.
      */
-	public void setParentController(GameController gameController) {
-		this.parentController = gameController;
-		
-	}
+    public void setParentController(GameController gameController) {
+        this.parentController = gameController;
+
+    }
 
 }

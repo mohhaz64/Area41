@@ -30,6 +30,7 @@ public class Node {
 
     /**
      * Gets the current value of X
+     *
      * @return - Current value of X
      */
     public int getX() {
@@ -38,6 +39,7 @@ public class Node {
 
     /**
      * Sets x to a new value
+     *
      * @param x - New value of x
      */
     public void setX(int x) {
@@ -46,6 +48,7 @@ public class Node {
 
     /**
      * Gets the current value of y
+     *
      * @return - Current value of y
      */
     public int getY() {
@@ -54,6 +57,7 @@ public class Node {
 
     /**
      * Sets y to a new value
+     *
      * @param y - New value of y
      */
     public void setY(int y) {
@@ -62,6 +66,7 @@ public class Node {
 
     /**
      * Gets the parent node of this node
+     *
      * @return Previous node in the shortest path from the enemy to this node
      */
     public Node getParent() {
@@ -70,6 +75,7 @@ public class Node {
 
     /**
      * Sets the parent of this node to a new node
+     *
      * @param parent New parent of this node
      */
     public void setParent(Node parent) {

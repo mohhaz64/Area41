@@ -1,10 +1,10 @@
+import javafx.scene.image.Image;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-
-import javafx.scene.image.Image;
 
 /**
  * This class scans the selected level, and returns the variables
@@ -197,6 +197,7 @@ public class ReadLevelFile {
 
     /**
      * reads and creates a dumb enemy.
+     *
      * @param line The line to read.
      * @return The instance of the dumb enemy.
      */
@@ -209,6 +210,7 @@ public class ReadLevelFile {
 
     /**
      * reads and creates a straight line enemy.
+     *
      * @param line The line to read.
      * @return The instance of the straight line enemy.
      */
@@ -224,6 +226,7 @@ public class ReadLevelFile {
 
     /**
      * reads and creates a smart enemy.
+     *
      * @param line The line to read.
      * @return The instance of the smart enemy.
      */
@@ -236,6 +239,7 @@ public class ReadLevelFile {
 
     /**
      * reads and creates a wall following enemy.
+     *
      * @param line The line to read.
      * @return The instance of the wall following enemy.
      */
@@ -249,6 +253,7 @@ public class ReadLevelFile {
 
     /**
      * reads and creates a token instance.
+     *
      * @param line The line to read.
      * @return The instance of the token.
      */
@@ -269,6 +274,7 @@ public class ReadLevelFile {
 
     /**
      * reads and creates a Fireboots instance.
+     *
      * @param line The line to read.
      * @return The instance of the Fireboots.
      */
@@ -289,6 +295,7 @@ public class ReadLevelFile {
 
     /**
      * reads and creates a Flippers instance.
+     *
      * @param line The line to read.
      * @return The instance of the Flippers.
      */
@@ -309,6 +316,7 @@ public class ReadLevelFile {
 
     /**
      * reads and creates a Water instance.
+     *
      * @param line The line to read.
      * @return The instance of the Water.
      */
@@ -325,6 +333,7 @@ public class ReadLevelFile {
 
     /**
      * reads and creates a Fire instance.
+     *
      * @param line The line to read.
      * @return The instance of the Fire.
      */
@@ -341,6 +350,7 @@ public class ReadLevelFile {
 
     /**
      * reads and creates a Teleporter instance.
+     *
      * @param line The line to read.
      * @return The instance of the Teleporter.
      */
@@ -357,6 +367,7 @@ public class ReadLevelFile {
 
     /**
      * reads and creates a Key instance.
+     *
      * @param line The line to read.
      * @return The instance of the Key.
      */
@@ -391,6 +402,7 @@ public class ReadLevelFile {
 
     /**
      * reads and creates a Door instance.
+     *
      * @param line The line to read.
      * @return The instance of the Door.
      */
@@ -408,6 +420,7 @@ public class ReadLevelFile {
 
     /**
      * reads and creates a TokenDoor instance.
+     *
      * @param line The line to read.
      * @return The instance of the TokenDoor.
      */
@@ -426,6 +439,7 @@ public class ReadLevelFile {
 
     /**
      * Checks whether the entered file exists.
+     *
      * @param filename the name of the file.
      * @return sends the new scanner to be read.
      * @throws NoSuchElementException If file not found.

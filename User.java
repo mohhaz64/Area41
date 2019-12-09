@@ -1,11 +1,7 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import javafx.scene.control.Alert;
+
+import java.io.*;
+import java.util.ArrayList;
 
 /**
  * Implements User functionality including name validation and updating text file when needed.
@@ -20,6 +16,7 @@ public class User {
 
     /**
      * Sets User attributes including name, saved file and highest level completed.
+     *
      * @param line the input line to be read.
      */
     public User(String line) {
