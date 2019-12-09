@@ -1,0 +1,75 @@
+Level 6
+35 28
+              #########             
+ #######      #       #     ########
+ #     ##     #       #######      #
+ #      #######           #        #
+ #            #                    #
+ #      #######           #        #
+ #     ##     #       #######      #
+ #######      #       #     ########
+              #### ####             
+               #     #              
+               #     #              
+               #     #              
+              ##     ##             
+              #       #             
+              #       #             
+              #       #             
+              ##     ##             
+               #     #              
+               #     #              
+               #     #              
+               #     #              
+#######        ### ###              
+#     ##########     #########      
+#              #     #       #      
+#  G                         #      
+#              #     #       #      
+#     ##########     #########      
+#######        #######              
+START 18 24
+DOOR 15 24 RED
+DOOR 21 24 YELLOW
+TOKEN 16 22
+TOKEN 20 22
+TOKEN 20 26
+TOKEN 16 26
+FIREBOOTS 27 24
+FLIPPERS 7 24
+FIRE 2 23
+FIRE 3 23
+FIRE 4 23
+FIRE 2 24
+FIRE 4 24
+FIRE 2 25
+FIRE 3 25
+FIRE 4 25
+KEY 18 18 BLUE
+STRAIGHT 15 14 TRUE TRUE
+DOOR 18 8 BLUE
+WALL 21 7 LEFT
+KEY 18 4 RED
+TELEPORTER 16 4 12 4
+TELEPORTER 13 4 16 4
+DOOR 26 4 TOKEN 8
+KEY 32 4 YELLOW
+WATER 31 3
+WATER 32 3
+WATER 33 3
+WATER 31 4
+WATER 33 4
+WATER 31 5
+WATER 32 5
+WATER 33 5
+TOKEN 8 4
+TOKEN 7 3
+TOKEN 7 4
+TOKEN 7 5
+TOKEN 6 2
+TOKEN 6 3
+TOKEN 6 4
+TOKEN 6 5
+TOKEN 6 6
+SMART 2 4
+Ben 56.4

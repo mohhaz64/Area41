@@ -30,26 +30,3 @@ FLIPPERS 6 4
 WATER 6 5
 WATER 6 10
 WATER 6 15
-Ben 4.7
-hahaha 1.9
-hahaha 1.9
-hahaha 1.9
-hahaha 1.9
-hahaha 1.9
-hahaha 1.9
-hahaha 1.9
-hahaha 1.9
-hahaha 1.9
-hahaha 1.9
-hahaha 1.9
-hahaha 1.9
-hahaha 1.3
-hahaha 1.3
-hahaha 1.3
-hahaha 1.3
-hahaha 1.3
-hahaha 1.3
-hahaha 1.3
-hahaha 1.3
-hahaha 1.3
-hahaha 1.3

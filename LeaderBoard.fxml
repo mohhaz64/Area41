@@ -12,9 +12,9 @@
 
 <GridPane fx:id="gridPane" maxHeight="300.0" maxWidth="300.0" minHeight="300.0" minWidth="300.0" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="LeaderBoardController">
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.0" minWidth="10.0" prefWidth="139.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="68.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="111.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.0" minWidth="10.0" prefWidth="91.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="138.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="71.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints maxHeight="110.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
@@ -35,36 +35,39 @@
             <Insets top="20.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Second:" textFill="#c9c9c9" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+      <Label text="Second:" textFill="#c9c9c9" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
          <font>
             <Font size="21.0" />
          </font>
          <GridPane.margin>
             <Insets bottom="80.0" />
          </GridPane.margin></Label>
-      <Label text="First:" textFill="#d1d729" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <Label text="First:" textFill="#d1d729" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <font>
             <Font size="21.0" />
-         </font></Label>
-      <Label text="Third:" textFill="#ab8900" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+         </font>
          <GridPane.margin>
-            <Insets bottom="80.0" />
+            <Insets right="10.0" />
+         </GridPane.margin></Label>
+      <Label text="Third:" textFill="#ab8900" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+         <GridPane.margin>
+            <Insets bottom="80.0" right="10.0" />
          </GridPane.margin>
          <font>
             <Font size="21.0" />
          </font>
       </Label>
-      <Label fx:id="levelBeingDisplayed" text="//LevelGoesHere" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+      <Label fx:id="levelBeingDisplayed" text="//LevelGoesHere" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <font>
             <Font size="24.0" />
          </font></Label>
       <Label fx:id="firstUser" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <font>
-            <Font size="20.0" />
+            <Font size="17.0" />
          </font></Label>
       <Label fx:id="secondUser" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <font>
-            <Font size="20.0" />
+            <Font size="17.0" />
          </font>
          <GridPane.margin>
             <Insets bottom="80.0" />
@@ -74,7 +77,7 @@
             <Insets bottom="80.0" />
          </GridPane.margin>
          <font>
-            <Font size="20.0" />
+            <Font size="17.0" />
          </font>
       </Label>
       <Label fx:id="secondTime" text="-" GridPane.columnIndex="2" GridPane.rowIndex="2">

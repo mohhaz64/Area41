@@ -41,12 +41,15 @@ public class MenuController {
     @FXML private Button quitButton;
     @FXML private ComboBox<String> userList;
     @FXML private Button leaderBoard;
+    @FXML private Label selectThemeLabel;
+    @FXML private ComboBox<String> themeList;
 
     private static HttpURLConnection connection;
 
     //Lists to hold game Levels as well as all the created Users.
     private ArrayList<User> users = new ArrayList<User>();
     private ArrayList<String> levels = new ArrayList<String>();
+    private ArrayList<String> themes = new ArrayList<String>();
     
     static int noOfLevels = 5;
 	static MediaPlayer mediaPlayer;
@@ -71,7 +74,12 @@ public class MenuController {
 		}
 		
 		levels.add("Saved Game");
-
+		
+		themes.add("Default");
+		themes.add("Snowy");
+		themes.add("Sandy");
+		themes.add("Dungeon");
+		themes.add("Neon");
 
 		// Setup actions on buttons
 		quitButton.setOnAction(e -> {
@@ -97,6 +105,8 @@ public class MenuController {
 		// Refreshing the User and Level lists in case of any changes (added, edited or deleted)
 		refreshUserList();
 		refreshLevelList();
+		refreshThemeList();
+		themeList.getSelectionModel().selectFirst();
 		messageOfTheDay();
 	}
 
@@ -151,6 +161,19 @@ public class MenuController {
 		// Add each Level to the displayed list
 		for (String c : levels) {
 			levelList.getItems().add(c);
+		}
+	}
+	
+	/**
+	 * Refreshes the Theme List
+	 */
+	public void refreshThemeList() {
+		// Clear the displayed list
+		themeList.getItems().clear();
+
+		// Add each Theme to the displayed list
+		for (String c : themes) {
+			themeList.getItems().add(c);
 		}
 	}
 
@@ -432,6 +455,8 @@ public class MenuController {
 		// Get the index of the selected level & User in the displayed list
 		int selectedIndex = levelList.getSelectionModel().getSelectedIndex();
 		int selectedUserIndex = userList.getSelectionModel().getSelectedIndex();
+		int selectedThemeIndex = themeList.getSelectionModel().getSelectedIndex();
+		String selectedTheme = themes.get(selectedThemeIndex);
 
 		// Check if user selected an level
 		if (selectedIndex < 0 || selectedUserIndex < 0) {
@@ -493,7 +518,7 @@ public class MenuController {
 	        	game.setLevel(ReadLevelFile.readDataFile(savedFile));
 	        }
 			
-			
+			game.setTheme(selectedTheme);
 			game.setUser(selectedUser);
 
 			// Create a scene based on the loaded FXML scene graph
@@ -505,8 +530,6 @@ public class MenuController {
 			gameStage.setTitle(Main.WINDOW_TITLE);
 			gameStage.setResizable(false);
 			gameStage.show();
-
-			refreshLevelList();
 
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -34,6 +34,3 @@ FIRE 9 4
 FIRE 9 5
 TELEPORTER 2 3 2 7
 TELEPORTER 1 7 3 3
-Ben 2.4
-hahaha 2.0
-OnlyTwentyCharacters 1.7
