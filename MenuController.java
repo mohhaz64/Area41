@@ -1,48 +1,55 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Scanner;
-
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
+/**
+ * Provides functionality to the Menu FXML.
+ *
+ * @author Mo Hazrati, Callum Charalambides
+ * @version 1.0
+ */
 public class MenuController {
 
-    @FXML private Button startGameButton;
-    @FXML private Label selectUserButton;
-    @FXML private Button createNewUserButton;
-    @FXML private Label selectLevelButton;
-    @FXML private ComboBox<String> levelList;
-    @FXML private Button editUserButton;
-    @FXML private Label messgeOfTheDay;
-    @FXML private Button quitButton;
-    @FXML private ComboBox<String> userList;
-    @FXML private Button leaderBoard;
-    @FXML private Label selectThemeLabel;
-    @FXML private ComboBox<String> themeList;
+    @FXML
+    private Button startGameButton;
+    @FXML
+    private Label selectUserButton;
+    @FXML
+    private Button createNewUserButton;
+    @FXML
+    private Label selectLevelButton;
+    @FXML
+    private ComboBox<String> levelList;
+    @FXML
+    private Button editUserButton;
+    @FXML
+    private Label messgeOfTheDay;
+    @FXML
+    private Button quitButton;
+    @FXML
+    private ComboBox<String> userList;
+    @FXML
+    private Button leaderBoard;
+    @FXML
+    private Label selectThemeLabel;
+    @FXML
+    private ComboBox<String> themeList;
 
     private static HttpURLConnection connection;
 
@@ -50,492 +57,505 @@ public class MenuController {
     private ArrayList<User> users = new ArrayList<User>();
     private ArrayList<String> levels = new ArrayList<String>();
     private ArrayList<String> themes = new ArrayList<String>();
-    
+
     static int noOfLevels = 5;
-	static MediaPlayer mediaPlayer;
-	String path = "ChipsMusic2.mp3";  
+    static MediaPlayer mediaPlayer;
+    String path = "ChipsMusic2.mp3";
 
     //Instantiating Media class  
-    Media media = new Media(new File(path).toURI().toString());  
-    
+    Media media = new Media(new File(path).toURI().toString());
+
     static Level selectedLevel;
-    
-	/**
-	 * Initialize the controller.
-	 * This method is called automatically and everything within is run IN ORDER.
-	 */
-    public void initialize() {
-
-    	addUsersToList();
-
-		// Level .txt files are read in and added to the list of levels
-		for (int i = 1; i <= noOfLevels; i++) {
-			levels.add("Level " + i);
-		}
-		
-		levels.add("Saved Game");
-		
-		themes.add("Default");
-		themes.add("Snowy");
-		themes.add("Sandy");
-		themes.add("Dungeon");
-		themes.add("Neon");
-
-		// Setup actions on buttons
-		quitButton.setOnAction(e -> {
-			handleQuitButtonAction();
-		});
-
-		editUserButton.setOnAction(e -> {
-			handleEditButtonAction();
-		});
-
-		startGameButton.setOnAction(e -> {
-			startGame();
-		});
-
-		createNewUserButton.setOnAction(e -> {
-			handleNewUserButton();
-		});
-		
-		leaderBoard.setOnAction(e -> {
-			handleLeaderBoardButton();
-		});
-
-		// Refreshing the User and Level lists in case of any changes (added, edited or deleted)
-		refreshUserList();
-		refreshLevelList();
-		refreshThemeList();
-		themeList.getSelectionModel().selectFirst();
-		messageOfTheDay();
-	}
-
-	private void addUsersToList() {
-		BufferedReader reader;
-		try {
-			reader = new BufferedReader(new FileReader("users.txt"));
-			String line = reader.readLine();
-			while (line != null) {
-				users.add(new User(line));
-				line = reader.readLine();
-			}
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void addUser(String userName) {
-    	users.add(new User(userName));
-	}
-
-	public void editUser(String currentUserName, String newUserName) {
-    	for (User user : users) {
-    		if (user.getName().equals(currentUserName)){
-    			user.setName(newUserName);
-			}
-			user.updateSavedFile();
-		}
-	}
 
     /**
-	 * Refreshes the User List
-	 */
+     * Initialize the controller.
+     * This method is called automatically and everything within is run IN ORDER.
+     */
+    public void initialize() {
+
+        addUsersToList();
+
+        // Level .txt files are read in and added to the list of levels
+        for (int i = 1; i <= noOfLevels; i++) {
+            levels.add("Level " + i);
+        }
+
+        levels.add("Saved Game");
+
+        themes.add("Default");
+        themes.add("Snowy");
+        themes.add("Sandy");
+        themes.add("Dungeon");
+        themes.add("Neon");
+
+        // Setup actions on buttons
+        quitButton.setOnAction(e -> {
+            handleQuitButtonAction();
+        });
+
+        editUserButton.setOnAction(e -> {
+            handleEditButtonAction();
+        });
+
+        startGameButton.setOnAction(e -> {
+            startGame();
+        });
+
+        createNewUserButton.setOnAction(e -> {
+            handleNewUserButton();
+        });
+
+        leaderBoard.setOnAction(e -> {
+            handleLeaderBoardButton();
+        });
+
+        // Refreshing the User and Level lists in case of any changes (added, edited or deleted)
+        refreshUserList();
+        refreshLevelList();
+        refreshThemeList();
+        themeList.getSelectionModel().selectFirst();
+        messageOfTheDay();
+    }
+
+    /**
+     * Adds users to a users ArrayList.
+     */
+    private void addUsersToList() {
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader("users.txt"));
+            String line = reader.readLine();
+            while (line != null) {
+                users.add(new User(line));
+                line = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addUser(String userName) {
+        users.add(new User(userName));
+    }
+
+    public void editUser(String currentUserName, String newUserName) {
+        for (User user : users) {
+            if (user.getName().equals(currentUserName)) {
+                user.setName(newUserName);
+            }
+            user.updateSavedFile();
+        }
+    }
+
+    /**
+     * Refreshes the User List.
+     */
     public void refreshUserList() {
-		// Clear the displayed list
-		userList.getItems().clear();
+        // Clear the displayed list
+        userList.getItems().clear();
 
-		// Add each User to the displayed List
-		for (User c : users) {
-			userList.getItems().add(c.getName());
-		}
-	}
-	
-	/**
-	 * Refreshes the Level List
-	 */
-	public void refreshLevelList() {
-		// Clear the displayed list
-		levelList.getItems().clear();
+        // Add each User to the displayed List
+        for (User c : users) {
+            userList.getItems().add(c.getName());
+        }
+    }
 
-		// Add each Level to the displayed list
-		for (String c : levels) {
-			levelList.getItems().add(c);
-		}
-	}
-	
-	/**
-	 * Refreshes the Theme List
-	 */
-	public void refreshThemeList() {
-		// Clear the displayed list
-		themeList.getItems().clear();
+    /**
+     * Refreshes the Level List.
+     */
+    public void refreshLevelList() {
+        // Clear the displayed list
+        levelList.getItems().clear();
 
-		// Add each Theme to the displayed list
-		for (String c : themes) {
-			themeList.getItems().add(c);
-		}
-	}
+        // Add each Level to the displayed list
+        for (String c : levels) {
+            levelList.getItems().add(c);
+        }
+    }
 
-	public void removeUser(String userName) {
-		User userToRemove = null;
-		for (User user : users) {
-			if (user.getName().equals(userName)){
-				userToRemove = user;
-			}
-		}
-		users.remove(userToRemove);
-		refreshUserList();
-	}
+    /**
+     * Refreshes the Theme List.
+     */
+    public void refreshThemeList() {
+        // Clear the displayed list
+        themeList.getItems().clear();
 
-	private void messageOfTheDay(){
-		// Create buffer reader for getting connection response
-		// Create line string for each line of buffer reader
-		// Create string buffer to hold response text
-		BufferedReader reader;
-		String line;
-		StringBuffer responseContent = new StringBuffer();
+        // Add each Theme to the displayed list
+        for (String c : themes) {
+            themeList.getItems().add(c);
+        }
+    }
 
-		// get cipher text
-		// build string builder for appending solution chars
-		String puzzle = getPuzzle();
-		StringBuilder solution = new StringBuilder();
+    public void removeUser(String userName) {
+        User userToRemove = null;
+        for (User user : users) {
+            if (user.getName().equals(userName)) {
+                userToRemove = user;
+            }
+        }
+        users.remove(userToRemove);
+        refreshUserList();
+    }
 
-		//index through string if even increment char by one otherwise decrement by one and append to solution string
-		for (int i = 0; i < puzzle.length(); i++) {
-			char currentChar = puzzle.charAt(i);
-			if (i % 2 == 0) {
-				solution.append(Character.toString((char)(((int)currentChar + 1 - (int)'A') % 26 + (int)'A')));
-			} else {
-				solution.append(Character.toString((char)(((int)currentChar - 1 + (int)'A') % 26 + (int)'A')));
-			}
-		}
+    /**
+     * Solves the puzzle and forms GET request to retrieve message of the day using the solution.
+     */
+    private void messageOfTheDay() {
+        // Create buffer reader for getting connection response
+        // Create line string for each line of buffer reader
+        // Create string buffer to hold response text
+        BufferedReader reader;
+        String line;
+        StringBuffer responseContent = new StringBuffer();
 
-		// creates GET request to obtain message using the solution
-		try {
-			// Connect to URL
-			URL url = new URL("http://cswebcat.swan.ac.uk/message?solution=" + solution);
-			connection = (HttpURLConnection) url.openConnection();
+        // get cipher text
+        // build string builder for appending solution chars
+        String puzzle = getPuzzle();
+        StringBuilder solution = new StringBuilder();
 
-			// Setup request
-			connection.setRequestMethod("GET");
-			connection.setConnectTimeout(5000);
-			connection.setReadTimeout(5000);
+        //index through string if even increment char by one otherwise decrement by one and append to solution string
+        for (int i = 0; i < puzzle.length(); i++) {
+            char currentChar = puzzle.charAt(i);
+            if (i % 2 == 0) {
+                solution.append(Character.toString((char) (((int) currentChar + 1 - (int) 'A') % 26 + (int) 'A')));
+            } else {
+                solution.append(Character.toString((char) (((int) currentChar - 1 + (int) 'A') % 26 + (int) 'A')));
+            }
+        }
 
-			// Get request status code
-			int status = connection.getResponseCode();
+        // creates GET request to obtain message using the solution
+        try {
+            // Connect to URL
+            URL url = new URL("http://cswebcat.swan.ac.uk/message?solution=" + solution);
+            connection = (HttpURLConnection) url.openConnection();
 
-			//Check if request is valid
-			if (status == 403 ) {
-				// if error obtain error response
-				reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-				while ((line = reader.readLine()) != null) {
-					responseContent.append(line);
-				}
-			} else {
-				// otherwise get valid response
-				reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				while ((line = reader.readLine()) != null) {
-					responseContent.append(line);
-				}
-				reader.close();
-			}
+            // Setup request
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
 
-			// set FXML label to message text
-			String message = responseContent.toString();
-			messgeOfTheDay.setText(message);
+            // Get request status code
+            int status = connection.getResponseCode();
 
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			// disconnect from connection
-			connection.disconnect();
-		}
+            //Check if request is valid
+            if (status == 403) {
+                // if error obtain error response
+                reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                while ((line = reader.readLine()) != null) {
+                    responseContent.append(line);
+                }
+            } else {
+                // otherwise get valid response
+                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                while ((line = reader.readLine()) != null) {
+                    responseContent.append(line);
+                }
+                reader.close();
+            }
 
-	}
+            // set FXML label to message text
+            String message = responseContent.toString();
+            messgeOfTheDay.setText(message);
 
-	private String getPuzzle() {
-		BufferedReader reader;
-		String line;
-		StringBuilder responseContent = new StringBuilder();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // disconnect from connection
+            connection.disconnect();
+        }
 
-		try {
-			URL url = new URL("http://cswebcat.swan.ac.uk/puzzle");
-			connection = (HttpURLConnection) url.openConnection();
+    }
 
-			connection.setRequestMethod("GET");
-			connection.setConnectTimeout(5000);
-			connection.setReadTimeout(5000);
+    /**
+     * Forms GET request to retrieve puzzle string from the site given.
+     *
+     * @return string containing puzzle.
+     */
+    private String getPuzzle() {
+        BufferedReader reader;
+        String line;
+        StringBuilder responseContent = new StringBuilder();
 
-			int status = connection.getResponseCode();
+        try {
+            URL url = new URL("http://cswebcat.swan.ac.uk/puzzle");
+            connection = (HttpURLConnection) url.openConnection();
 
-			if (status > 299)  {
-				reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-				while ((line = reader.readLine()) != null) {
-					responseContent.append(line);
-				}
-			} else {
-				reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				while ((line = reader.readLine()) != null) {
-					responseContent.append(line);
-				}
-				reader.close();
-			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			connection.disconnect();
-		}
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
 
-		// return cipher text
-		return responseContent.toString();
+            int status = connection.getResponseCode();
 
-	}
+            if (status > 299) {
+                reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                while ((line = reader.readLine()) != null) {
+                    responseContent.append(line);
+                }
+            } else {
+                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                while ((line = reader.readLine()) != null) {
+                    responseContent.append(line);
+                }
+                reader.close();
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            connection.disconnect();
+        }
+
+        // return cipher text
+        return responseContent.toString();
+
+    }
 
 
-	/**
-	 * Exits the program the  the 'Quit' button is selected
-	 */
+    /**
+     * Exits the program the  the 'Quit' button is selected.
+     */
     public void handleQuitButtonAction() {
-    	System.exit(0);
+        System.exit(0);
     }
+
     public void handleLeaderBoardButton() {
-    	int selectedLevelIndex = levelList.getSelectionModel().getSelectedIndex();
+        int selectedLevelIndex = levelList.getSelectionModel().getSelectedIndex();
 
-		if (selectedLevelIndex < 0) {
-			// Show a message
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error");
-			alert.setHeaderText(null);
-			alert.setContentText("Please Select a level");
-			alert.showAndWait();
+        if (selectedLevelIndex < 0) {
+            // Show a message
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Select a level");
+            alert.showAndWait();
 
-		} else {
+        } else {
 
-			try {
+            try {
 
-				// Create a FXML loader for loading the CreateUser FXML file.
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LeaderBoard.fxml"));
+                // Create a FXML loader for loading the CreateUser FXML file.
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LeaderBoard.fxml"));
 
-				// Run the loader
-				GridPane leaderBoardRoot = (GridPane) fxmlLoader.load();
-				// Access the controller that was created by the FXML loader
-				LeaderBoardController leaderBoardController = fxmlLoader.<LeaderBoardController>getController();
-				leaderBoardController.setLevel(ReadLevelFile.readDataFile("Level" + (selectedLevelIndex + 1) + ".txt"));
+                // Run the loader
+                GridPane leaderBoardRoot = (GridPane) fxmlLoader.load();
+                // Access the controller that was created by the FXML loader
+                LeaderBoardController leaderBoardController = fxmlLoader.<LeaderBoardController>getController();
+                leaderBoardController.setLevel(ReadLevelFile.readDataFile("Level" + (selectedLevelIndex + 1) + ".txt"));
 
-				Scene leaderBoardScene = new Scene(leaderBoardRoot, 300, 300);
+                Scene leaderBoardScene = new Scene(leaderBoardRoot, 300, 300);
 
-				// Create a new stage based on the editUser scene
-				Stage leaderBoardStage = new Stage();
-				leaderBoardStage.setScene(leaderBoardScene);
-				leaderBoardStage.setTitle("LeaderBoard");
-				leaderBoardStage.setResizable(false);
+                // Create a new stage based on the editUser scene
+                Stage leaderBoardStage = new Stage();
+                leaderBoardStage.setScene(leaderBoardScene);
+                leaderBoardStage.setTitle("LeaderBoard");
+                leaderBoardStage.setResizable(false);
 
-				// Make the stage a modal window.
-				// This means that it must be closed before you can interact with any other window from this application.
-				leaderBoardStage.initModality(Modality.APPLICATION_MODAL);
+                // Make the stage a modal window.
+                // This means that it must be closed before you can interact with any other window from this application.
+                leaderBoardStage.initModality(Modality.APPLICATION_MODAL);
 
-				// Show the edit scene and wait for it to be closed
-				leaderBoardStage.showAndWait();
+                // Show the edit scene and wait for it to be closed
+                leaderBoardStage.showAndWait();
 
 
-			} catch (IOException e) {
-				e.printStackTrace();
-				// Quit the program with an error code
-				System.exit(-1);
-			}
-		}
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Quit the program with an error code
+                System.exit(-1);
+            }
+        }
     }
-	/**
-	 * Handle the Create New User button.
-	 * This will display a window allowing the user to create a new user with their desired name.
-	 * After the creation is complete, the displayed User list will be updated.
-	 */
-	public void handleNewUserButton() {
-		try {
-			// Create a FXML loader for loading the Edit User FXML file.
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CreateUser.fxml"));
-			GridPane newUserRoot = (GridPane) fxmlLoader.load();
 
-			CreateUserController createUserController = fxmlLoader.<CreateUserController>getController();
-			createUserController.setParentController(this);
+    /**
+     * Handle the Create New User button.
+     * This will display a window allowing the user to create a new user with their desired name.
+     * After the creation is complete, the displayed User list will be updated.
+     */
+    public void handleNewUserButton() {
+        try {
+            // Create a FXML loader for loading the Edit User FXML file.
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CreateUser.fxml"));
+            GridPane newUserRoot = (GridPane) fxmlLoader.load();
 
-			Scene newUserScene = new Scene(newUserRoot, Main.CREATE_USER_WINDOW_WIDTH, Main.CREATE_USER_WINDOW_HEIGHT);
+            CreateUserController createUserController = fxmlLoader.<CreateUserController>getController();
+            createUserController.setParentController(this);
 
-			// Create a new stage based on the NewUser scene
-			Stage newUserStage = new Stage();
-			newUserStage.setScene(newUserScene);
-			newUserStage.setTitle(Main.WINDOW_TITLE);
-			newUserStage.setResizable(false);
+            Scene newUserScene = new Scene(newUserRoot, Main.getCreateUserWindowWidth(), Main.getCreateUserWindowHeight());
 
-			// Make the stage a modal window.
-			// This means that it must be closed before you can interact with any other window from this application.
-			newUserStage.initModality(Modality.APPLICATION_MODAL);
+            // Create a new stage based on the NewUser scene
+            Stage newUserStage = new Stage();
+            newUserStage.setScene(newUserScene);
+            newUserStage.setTitle(Main.getWindowTitle());
+            newUserStage.setResizable(false);
 
-			// Show the Create New User scene and wait for it to be closed
-			newUserStage.showAndWait();
+            // Make the stage a modal window.
+            // This means that it must be closed before you can interact with any other window from this application.
+            newUserStage.initModality(Modality.APPLICATION_MODAL);
 
-			// Refresh the User List in order to add the created user to the list
-			refreshUserList();
+            // Show the Create New User scene and wait for it to be closed
+            newUserStage.showAndWait();
 
-		} catch (IOException e) {
-			e.printStackTrace();
-			// Quit the program (with an error code)
-			System.exit(-1);
-		}
-    };
+            // Refresh the User List in order to add the created user to the list
+            refreshUserList();
 
-	/**
-	 * Handle the Edit User button.
-	 * This will display a window allowing the user to Edit a selected User.
-	 * After the edit is complete, the displayed User list will be updated.
-	 */
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Quit the program (with an error code)
+            System.exit(-1);
+        }
+    }
+
+    ;
+
+    /**
+     * Handle the Edit User button.
+     * This will display a window allowing the user to Edit a selected User.
+     * After the edit is complete, the displayed User list will be updated.
+     */
     public void handleEditButtonAction() {
-		int selectedUserIndex = userList.getSelectionModel().getSelectedIndex();
+        int selectedUserIndex = userList.getSelectionModel().getSelectedIndex();
 
-		if (selectedUserIndex < 0) {
-			// Show a message
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error");
-			alert.setHeaderText(null);
-			alert.setContentText("Please Select a User");
-			alert.showAndWait();
+        if (selectedUserIndex < 0) {
+            // Show a message
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Select a User");
+            alert.showAndWait();
 
-		} else {
+        } else {
 
-			try {
+            try {
 
-				// Create a FXML loader for loading the CreateUser FXML file.
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditUser.fxml"));
+                // Create a FXML loader for loading the CreateUser FXML file.
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditUser.fxml"));
 
-				// Run the loader
-				GridPane editUserRoot = (GridPane) fxmlLoader.load();
-				// Access the controller that was created by the FXML loader
-				EditUserController editUserController = fxmlLoader.<EditUserController>getController();
-				editUserController.changeUserNameText(userList.getItems().get(selectedUserIndex));
-				editUserController.setParentController(this);
+                // Run the loader
+                GridPane editUserRoot = (GridPane) fxmlLoader.load();
+                // Access the controller that was created by the FXML loader
+                EditUserController editUserController = fxmlLoader.<EditUserController>getController();
+                editUserController.changeUserNameText(userList.getItems().get(selectedUserIndex));
+                editUserController.setParentController(this);
 
-				Scene editUserScene = new Scene(editUserRoot, Main.EDIT_USER_WINDOW_WIDTH, Main.EDIT_USER_WINDOW_HEIGHT);
+                Scene editUserScene = new Scene(editUserRoot, Main.getEditUserWindowWidth(), Main.getEditUserWindowHeight());
 
-				// Create a new stage based on the editUser scene
-				Stage editUserStage = new Stage();
-				editUserStage.setScene(editUserScene);
-				editUserStage.setTitle(Main.WINDOW_TITLE);
-				editUserStage.setResizable(false);
+                // Create a new stage based on the editUser scene
+                Stage editUserStage = new Stage();
+                editUserStage.setScene(editUserScene);
+                editUserStage.setTitle(Main.getWindowTitle());
+                editUserStage.setResizable(false);
 
-				// Make the stage a modal window.
-				// This means that it must be closed before you can interact with any other window from this application.
-				editUserStage.initModality(Modality.APPLICATION_MODAL);
+                // Make the stage a modal window.
+                // This means that it must be closed before you can interact with any other window from this application.
+                editUserStage.initModality(Modality.APPLICATION_MODAL);
 
-				// Show the edit scene and wait for it to be closed
-				editUserStage.showAndWait();
+                // Show the edit scene and wait for it to be closed
+                editUserStage.showAndWait();
 
-				// Refresh the user list to update any changes/deletes.
-				refreshUserList();
+                // Refresh the user list to update any changes/deletes.
+                refreshUserList();
 
 
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Quit the program with an error code
+                System.exit(-1);
+            }
+        }
+    }
 
-			} catch (IOException e) {
-				e.printStackTrace();
-				// Quit the program with an error code
-				System.exit(-1);
-			}
-		}
-	}
-	
-	/**
-	 * Handle the Start Game button.
-	 * This will display a window allowing the user to play the game with the selected level.
-	 */
-	private void startGame() {
-		// Get the index of the selected level & User in the displayed list
-		int selectedIndex = levelList.getSelectionModel().getSelectedIndex();
-		int selectedUserIndex = userList.getSelectionModel().getSelectedIndex();
-		int selectedThemeIndex = themeList.getSelectionModel().getSelectedIndex();
-		String selectedTheme = themes.get(selectedThemeIndex);
+    /**
+     * Handle the Start Game button.
+     * This will display a window allowing the user to play the game with the selected level.
+     */
+    private void startGame() {
+        // Get the index of the selected level & User in the displayed list
+        int selectedIndex = levelList.getSelectionModel().getSelectedIndex();
+        int selectedUserIndex = userList.getSelectionModel().getSelectedIndex();
+        int selectedThemeIndex = themeList.getSelectionModel().getSelectedIndex();
+        String selectedTheme = themes.get(selectedThemeIndex);
 
-		// Check if user selected an level
-		if (selectedIndex < 0 || selectedUserIndex < 0) {
-			// Show a message
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error");
-			alert.setHeaderText(null);
-			alert.setContentText("Please select a User AND a level");
-			alert.showAndWait();
-			return;
-		}
+        // Check if user selected an level
+        if (selectedIndex < 0 || selectedUserIndex < 0) {
+            // Show a message
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a User AND a level");
+            alert.showAndWait();
+            return;
+        }
 
-		// Can only get to this line if user has selected a Level
-		User selectedUser = users.get(selectedUserIndex);
-		
-		String savedFile = selectedUser.getName() + "SavedGame.txt";
-		
-		if (!(selectedIndex < noOfLevels)) {
-	    	File temp = new File(savedFile);
-	    	if (!temp.isFile()) {
-	    		Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error");
-				alert.setHeaderText(null);
-				alert.setContentText("You don't have a saved game yet!");
-				alert.showAndWait();
-				return;
-	    	}
-		} else {
-			if (selectedIndex > selectedUser.getMaxCompletedLevel()) {
-	    		Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error");
-				alert.setHeaderText(null);
-				alert.setContentText("You haven't reached this level yet!");
-				alert.showAndWait();
-				return;
-	    	}
-		}
+        // Can only get to this line if user has selected a Level
+        User selectedUser = users.get(selectedUserIndex);
 
-		// We use a try-catch block as the loading of the FXML file can fail.
-		try {
+        String savedFile = selectedUser.getName() + "SavedGame.txt";
 
-			// Create a FXML loader for loading the GameController FXML file.
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GameController.fxml"));
-			// Run the loader
-			GridPane gameRoot = (GridPane)fxmlLoader.load();
-			// Access the controller that was created by the FXML loader
-			GameController game = fxmlLoader.<GameController>getController();
+        if (!(selectedIndex < noOfLevels)) {
+            File temp = new File(savedFile);
+            if (!temp.isFile()) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("You don't have a saved game yet!");
+                alert.showAndWait();
+                return;
+            }
+        } else {
+            if (selectedIndex > selectedUser.getMaxCompletedLevel()) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("You haven't reached this level yet!");
+                alert.showAndWait();
+                return;
+            }
+        }
 
-	        //Instantiating MediaPlayer class   
-			mediaPlayer = new MediaPlayer(media);  
+        // We use a try-catch block as the loading of the FXML file can fail.
+        try {
 
-	        //by setting this property to true, the audio will be played   
-	        mediaPlayer.setAutoPlay(true);  
-	        
-	        if (selectedIndex < noOfLevels) {
-	        	game.setLevel(ReadLevelFile.readDataFile("Level" + (selectedIndex + 1) + ".txt"));
-	        }
-	        else {
-	        	game.setLevel(ReadLevelFile.readDataFile(savedFile));
-	        }
-			
-			game.setTheme(selectedTheme);
-			game.setUser(selectedUser);
+            // Create a FXML loader for loading the GameController FXML file.
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GameController.fxml"));
+            // Run the loader
+            GridPane gameRoot = (GridPane) fxmlLoader.load();
+            // Access the controller that was created by the FXML loader
+            GameController game = fxmlLoader.<GameController>getController();
 
-			// Create a scene based on the loaded FXML scene graph
-			Scene gameScene = new Scene(gameRoot, Main.GAME_WINDOW_WIDTH, Main.GAME_WINDOW_HEIGHT);
+            //Instantiating MediaPlayer class
+            mediaPlayer = new MediaPlayer(media);
 
-			// Create a new stage for the game
-			Stage gameStage = new Stage();
-			gameStage.setScene(gameScene);
-			gameStage.setTitle(Main.WINDOW_TITLE);
-			gameStage.setResizable(false);
-			gameStage.show();
+            //by setting this property to true, the audio will be played
+            mediaPlayer.setAutoPlay(true);
 
-		} catch (IOException e) {
-			e.printStackTrace();
-			// Quit the program (with an error code)
-			System.exit(-1);
-		}
-	}
+            if (selectedIndex < noOfLevels) {
+                game.setLevel(ReadLevelFile.readDataFile("Level" + (selectedIndex + 1) + ".txt"));
+            } else {
+                game.setLevel(ReadLevelFile.readDataFile(savedFile));
+            }
+
+            game.setTheme(selectedTheme);
+            game.setUser(selectedUser);
+
+            // Create a scene based on the loaded FXML scene graph
+            Scene gameScene = new Scene(gameRoot, Main.getGameWindowWidth(), Main.getGameWindowHeight());
+
+            // Create a new stage for the game
+            Stage gameStage = new Stage();
+            gameStage.setScene(gameScene);
+            gameStage.setTitle(Main.getWindowTitle());
+            gameStage.setResizable(false);
+            gameStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Quit the program (with an error code)
+            System.exit(-1);
+        }
+    }
 
 }

@@ -7,12 +7,21 @@ import java.io.PrintWriter;
 import java.io.IOException;
 import javafx.stage.Stage;
 
+/**
+ *
+ * @author Mo Hazrati, Jeffrey Edeh
+ * @version 1.6
+ *
+ */
 public class CreateUserController {
 
     @FXML private Button createUserButton;
     @FXML private TextField newUserName;
     private MenuController parentController;
 
+    /**
+     * Initializes create user functionality on create button click.
+     */
     public void initialize() {
 
         createUserButton.setOnAction(e -> {
@@ -21,10 +30,20 @@ public class CreateUserController {
 
     }
 
+    /**
+     * sets the local parent controller variable to reference the parent controller.
+     * @param parentController parent controller reference.
+     */
     public void setParentController(MenuController parentController) {
         this.parentController = parentController;
     }
 
+
+    /**
+     * this reads in the new userName from the text field.
+     * then runs check to see if the name is valid.
+     * if the name is valid it is added to the list of users.
+     */
     private void createUser() {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

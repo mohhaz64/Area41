@@ -10,6 +10,10 @@
 
 import java.util.NoSuchElementException;
 
+/**
+ * Implementation of Queue ADT
+ * @param <T> type of queue
+ */
 public class Queue<T> {
 
 	private QueueElement<T> head;
@@ -25,6 +29,7 @@ public class Queue<T> {
 	
 	/**
 	 * Returns true if the queue is empty
+	 * @return true if empty.
 	 */
 	public boolean isEmpty () {
 		return ((head == null) && (tail == null));
@@ -33,6 +38,7 @@ public class Queue<T> {
 	
 	/**
 	 * Returns the element at the head of the queue
+	 * @return first element in queue.
 	 */
 	public T peek () throws NoSuchElementException {
 		if (!isEmpty()) {
@@ -65,6 +71,7 @@ public class Queue<T> {
 	
 	/**
 	 * Puts an element on the back of the queue.
+	 * @param element to be added.
 	 */
 	public void enqueue (T element) {
 		

@@ -14,14 +14,16 @@ public class QueueElement<E> {
 	}
 	
 	/**
-	 * Method to set the element
+	 * Method to set the element.
+	 * @param e element to set.
 	 */
 	public void setElement (E e) {
 		this.e = e;
 	}
 	
 	/**
-	 * Method to set the next linked list element
+	 * Method to set the next linked list element.
+	 * @param e element to set next.
 	 */
 	public void setNext (QueueElement<E> e) {
 		this.next = e;
@@ -29,6 +31,7 @@ public class QueueElement<E> {
 	
 	/**
 	 * Method to get the element.
+	 * @return the current element.
 	 */
 	public E getElement () {
 		return this.e;
@@ -36,6 +39,7 @@ public class QueueElement<E> {
 	
 	/**
 	 * Method to get the next linked list element
+	 * @return the next element in queue.
 	 */
 	public QueueElement<E> getNext () {
 		return this.next;
