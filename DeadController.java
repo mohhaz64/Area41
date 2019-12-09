@@ -15,6 +15,10 @@ public class DeadController {
     private GridPane gridPane;
     private GameController parentController;
 
+    /**
+     * Called when the quit button is pressed.
+     * @param event
+     */
     @FXML
     void clickQuit(ActionEvent event) {
     	Stage stage = (Stage) gridPane.getScene().getWindow();
@@ -22,6 +26,10 @@ public class DeadController {
 	    stage.close();
     }
 
+    /**
+     * Called when the restart button is pressed.
+     * @param event
+     */
     @FXML
     void clickRestart(ActionEvent event) {
     	Stage stage = (Stage) gridPane.getScene().getWindow();
@@ -30,6 +38,10 @@ public class DeadController {
     	
     }
 
+    /**
+     * Sets the controllers parent
+     * @param gameController parent controller.
+     */
 	public void setParentController(GameController gameController) {
 		this.parentController = gameController;
 		

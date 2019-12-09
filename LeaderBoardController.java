@@ -7,6 +7,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+/**
+ * The controller for the leaderboard.
+ *
+ * @author Ben Hyde, Callum Charalambides
+ * @version 2.1
+ */
 public class LeaderBoardController {
 
 	@FXML private GridPane gridPane;
@@ -28,14 +34,21 @@ public class LeaderBoardController {
     public void setParentController(MenuController parentController) {
         this.parentController = parentController;
     }
-    
+
+	/**
+	 * Initialize the controller. This method is called automatically and everything within is run IN ORDER.
+	 */
     public void initialize() {
        backButton.setOnAction(e -> {
     	   Stage stage = (Stage) gridPane.getScene().getWindow();
    	    	stage.close();
        });
     }
-    public void findTimes() {
+
+	/**
+	 * Finds the user name and time of the top three fastest level completions.
+	 */
+	public void findTimes() {
     	
     	levelBeingDisplayed.setText(name);
     	
@@ -61,7 +74,7 @@ public class LeaderBoardController {
     
     /**
      * Setting the scanned in values to the designated variables, and then
-     * calling the drawGame method.
+     * calling the findTimes method.
      * 
      * @param levelToLoad The instance of Level which we want to load
      */

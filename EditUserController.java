@@ -11,7 +11,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import java.io.*;
+import java.util.ArrayList;
 
+/**
+ * Provides functionality to the EditUser FXML.
+ *
+ * @version 1.0
+ * @author Mo Hazrati,Jeffrey Edeh, Callum Charalambides
+ */
 public class EditUserController {
 
     @FXML
@@ -29,22 +37,28 @@ public class EditUserController {
     private String currentUserName;
 
     public void initialize() {
-	confirmButton.setOnAction(e -> {
-	    updateUser();
-	});
-	cancelButton.setOnAction(e -> {
-	    closeWindow();
-	});
-	deleteUserButton.setOnAction(e -> {
-	    deleteUser();
-	});
+        confirmButton.setOnAction(e -> {
+            updateUser();
+        });
+        cancelButton.setOnAction(e -> {
+            closeWindow();
+        });
+        deleteUserButton.setOnAction(e -> {
+            deleteUser();
+        });
     }
 
+    /**
+     * this method closes the edit user window.
+     */
     public void closeWindow() {
-	Stage stage = (Stage) gridPane.getScene().getWindow();
-	stage.close();
+        Stage stage = (Stage) gridPane.getScene().getWindow();
+        stage.close();
     }
 
+    /**
+     * Deletes user in users.txt and User instance.
+     */
     public void deleteUser() {
 	BufferedReader reader;
 	ArrayList<String> userList = new ArrayList<>();
@@ -106,15 +120,28 @@ public class EditUserController {
 	}
     }
 
+    /**
+     * sets the local parent controller variable to reference the parent controller.
+     *
+     * @param parentController the parent controller to reference.
+     */
     public void setParentController(MenuController parentController) {
 	this.parentController = parentController;
     }
 
+    /**
+     * Changes username text field to show current username.
+     *
+     * @param username useranme to change.
+     */
     public void changeUserNameText(String username) {
 	currentUserName = username;
 	userNameText.setText(username);
     }
 
+    /**
+     * Updates users name in users.txt and in User instance.
+     */
     private void updateUser() {
 	BufferedReader reader;
 	ArrayList<String> userList = new ArrayList<>();
