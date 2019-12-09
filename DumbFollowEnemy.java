@@ -1,10 +1,26 @@
 import javafx.scene.image.Image;
 
+/**
+ * Class represents the Dumb-Follow Enemy type
+ * 
+ * @author George
+ * @version 1.0
+ *
+ */
 public class DumbFollowEnemy extends Enemy {
+    /**
+     * @param sprite    - Image for the enemy
+     * @param xPosition - X coordinate of the enemy on the game map
+     * @param yPosition - X coordinate of the enemy on the game map
+     * 
+     */
     public DumbFollowEnemy(Image sprite, int xPosition, int yPosition) {
 	super(sprite, xPosition, yPosition);
     }
 
+    /*
+     * @see Enemy#getNextMove()
+     */
     public void getNextMove() {
 	if (Math.abs(GameController.playerX - x) > Math
 		.abs(GameController.playerY - y)) {
@@ -25,6 +41,10 @@ public class DumbFollowEnemy extends Enemy {
 	}
     }
 
+    /**
+     * Decides which direction (left or right) the enemy should move if the
+     * player is closer to the enemy in the x direction than the y direction.
+     */
     public void movingInX() {
 	if (GameController.playerX > x) {
 	    // Player is right of enemy
@@ -43,6 +63,10 @@ public class DumbFollowEnemy extends Enemy {
 	}
     }
 
+    /**
+     * Decides which direction (left or right) the enemy should move if the
+     * player is closer to the enemy in the x direction than the y direction.
+     */
     public void movingInY() {
 	if (GameController.playerY > y) {
 	    // Player is below enemy
@@ -60,9 +84,12 @@ public class DumbFollowEnemy extends Enemy {
 	    }
 	}
     }
-    
+
+    /*
+     * @see Entity#toString()
+     */
     public String toString() {
-    	String result = "DUMB " + x + " " + y + "\n";
-    	return result;
+	String result = "DUMB " + x + " " + y + "\n";
+	return result;
     }
 }

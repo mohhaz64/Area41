@@ -210,3 +210,10 @@ local.properties
 .sts4-cache/
 
 # End of https://www.gitignore.io/api/eclipse
+/DeadController.class
+/Fire.class
+/GameController$1.class
+/Teleporter.class
+/TokenDoor.class
+/WallFollowEnemy.class
+/Water.class
