@@ -51,7 +51,7 @@ public class MenuController {
     private ArrayList<String> levels = new ArrayList<String>();
     private ArrayList<String> themes = new ArrayList<String>();
     
-    static int noOfLevels = 5;
+    static int noOfLevels = 6;
 	static MediaPlayer mediaPlayer;
 	String path = "ChipsMusic2.mp3";  
 

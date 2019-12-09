@@ -3,24 +3,11 @@ import java.util.Random;
 
 import javafx.scene.image.Image;
 
-/**
- * @author George
- * @version 1.0
- *
- */
 public class SmartFollowEnemy extends Enemy {
-    /**
-     * @param sprite - Image of the Smart-Follow Enemy
-     * @param x      - X coordinate of the enemy on the game map
-     * @param y      - Y coordinate of the enemy on the game map
-     */
     public SmartFollowEnemy(Image sprite, int x, int y) {
 	super(sprite, x, y);
     }
 
-    /*
-     * @see Enemy#getNextMove()
-     */
     public void getNextMove() {
 	Node enemyPosition = new Node(x, y, null);
 	Queue<Node> nodesToCheck = new Queue<Node>();
@@ -96,18 +83,6 @@ public class SmartFollowEnemy extends Enemy {
 	}
     }
 
-    /**
-     * @param checkedNodes - ArrayList of all nodes that have been checked by
-     *                     the algorithm, with all possible movements from that
-     *                     node having been added to the nodesToCheck queue
-     * @param nodeToSearch - Node being searched for in the checkedNodes list
-     * @return - True if the node is already present in the list, false if it is
-     *         not
-     * 
-     *         Searches the checkedNodes list for a given node with the same
-     *         position (though not necessarily the same parent) as the node
-     *         being searched for
-     */
     public boolean searchChecked(ArrayList<Node> checkedNodes,
 	    Node nodeToSearch) {
 	for (Node nodeInList : checkedNodes) {
@@ -118,12 +93,9 @@ public class SmartFollowEnemy extends Enemy {
 	}
 	return false;
     }
-
-    /*
-     * @see Entity#toString()
-     */
+    
     public String toString() {
-	String result = "SMART " + x + " " + y + "\n";
-	return result;
+    	String result = "SMART " + x + " " + y + "\n";
+    	return result;
     }
 }

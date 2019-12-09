@@ -58,6 +58,7 @@ public class ReadLevelFile {
 	}
 
 	String startLine = in.nextLine();
+	System.out.println(startLine);
 	int xStart = Integer.parseInt(startLine.split(" ")[1]);
 	int yStart = Integer.parseInt(startLine.split(" ")[2]);
 	

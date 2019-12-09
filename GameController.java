@@ -1014,44 +1014,9 @@ public class GameController {
 			
 		}  else {
 			System.out.println("All levels completed");
-			congratz();
 		}
     }
     
-    public void congratz() {
-    	try {
-
-			// Create a FXML loader for loading the CreateUser FXML file.
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Win.fxml"));
-
-			// Run the loader
-			GridPane winRoot = (GridPane) fxmlLoader.load();
-			// Access the controller that was created by the FXML loader
-			WinController winController = fxmlLoader.<WinController>getController();
-			
-			winController.setParentController(this);
-
-			Scene winScene = new Scene(winRoot, 200, 184);
-
-			// Create a new stage based on the editUser scene
-			Stage winStage = new Stage();
-			winStage.setScene(winScene);
-			winStage.setTitle("100%");
-			winStage.setResizable(false);
-
-			// Make the stage a modal window.
-			// This means that it must be closed before you can interact with any other window from this application.
-			winStage.initModality(Modality.APPLICATION_MODAL);
-
-			// Show the edit scene and wait for it to be closed
-			winStage.showAndWait();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-			// Quit the program with an error code
-			System.exit(-1);
-		}
-	}
     public void reloadLevel() {
     	
     	Level selectedLevel = ReadLevelFile.readDataFile(levelBeingLoaded.getFilename());
