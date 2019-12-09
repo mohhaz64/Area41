@@ -218,3 +218,4 @@ local.properties
 /WallFollowEnemy.class
 /Water.class
 /LeaderBoardController.class
+/WinController.class

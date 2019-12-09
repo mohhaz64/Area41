@@ -119,13 +119,4 @@ public class StraightLineEnemy extends Enemy {
 	return result;
     }
 
-    /*
-     * @see Entity#toString()
-     */
-    public String toString() {
-	String result = "STRAIGHT " + x + " " + y + " " + moveInX + " "
-		+ positiveDirection + "\n";
-	return result;
-    }
-
 }
