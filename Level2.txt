@@ -20,3 +20,10 @@ TELEPORTER 1 7 2 1
 Ben 2.2
 hahaha 2.0
 OnlyTwentyCharacters 2.5
+Cal 4.4
+Ben 2.6
+Mo 4.4
+Mo 2.2
+Mo 2.2
+Cal 14.7
+Ben 2.0

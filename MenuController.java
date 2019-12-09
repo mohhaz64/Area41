@@ -41,6 +41,8 @@ public class MenuController {
     @FXML private Button quitButton;
     @FXML private ComboBox<String> userList;
     @FXML private Button leaderBoard;
+    @FXML private Label selectThemeLabel;
+    @FXML private ComboBox<String> themeList;
 
     private static HttpURLConnection connection;
 

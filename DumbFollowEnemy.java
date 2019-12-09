@@ -84,12 +84,12 @@ public class DumbFollowEnemy extends Enemy {
 	    }
 	}
     }
-
     /*
      * @see Entity#toString()
      */
     public String toString() {
 	String result = "DUMB " + x + " " + y + "\n";
 	return result;
+
     }
 }

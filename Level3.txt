@@ -28,3 +28,8 @@ Ben 16.3
 Cal 62.4
 hahaha 13.9
 OnlyTwentyCharacters 14.1
+Cal 14.3
+Ben 16.1
+Mo 31.9
+Mo 14.8
+Mo 14.4

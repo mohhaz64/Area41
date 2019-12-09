@@ -66,26 +66,26 @@ public class SmartFollowEnemy extends Enemy {
 	    nodesToCheck.dequeue();
 	}
 	if (nodesToCheck.isEmpty()) {
-	    Random r = new Random();
-	    int low = 1;
-	    int high = 4;
-	    int result = r.nextInt(high - low) + low;
-	    if (result == 1 && checkSpace(x + 1, y)) {
-		nextXPosition = x + 1;
-		nextYPosition = y;
-	    } else if (result == 2 && checkSpace(x - 1, y)) {
-		nextXPosition = x - 1;
-		nextYPosition = y;
-	    } else if (result == 3 && checkSpace(x, y + 1)) {
-		nextXPosition = x;
-		nextYPosition = y + 1;
-	    } else if (result == 3 && checkSpace(x, y - 1)) {
-		nextXPosition = x;
-		nextYPosition = y - 1;
-	    } else {
-		nextXPosition = x;
-		nextYPosition = y;
-	    }
+		Random r = new Random();
+		int low = 1;
+		int high = 4;
+		int result = r.nextInt(high - low) + low;
+		if (result == 1 && checkSpace(x + 1, y)) {
+			nextXPosition = x + 1;
+			nextYPosition = y;
+		} else if (result == 2 && checkSpace(x - 1, y)) {
+			nextXPosition = x - 1;
+			nextYPosition = y;
+		} else if (result == 3 && checkSpace(x, y + 1)) {
+			nextXPosition = x;
+			nextYPosition = y + 1;
+		} else if (result == 3 && checkSpace(x, y - 1)) {
+			nextXPosition = x;
+			nextYPosition = y - 1;
+		} else {
+			nextXPosition = x;
+			nextYPosition = y;
+		}
 	} else {
 	    Node nodeOnPath = nodesToCheck.peek();
 	    while (nodeOnPath.getParent() != enemyPosition) {

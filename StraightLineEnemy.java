@@ -109,6 +109,11 @@ public class StraightLineEnemy extends Enemy {
     public void setPositiveDirection(boolean positiveDirection) {
 	this.positiveDirection = positiveDirection;
     }
+  
+    public String toString() {
+    	String result = "STRAIGHT " + x + " " + y + " " + moveInX + " " + positiveDirection + "\n";
+    	return result;
+    }
 
     /*
      * @see Entity#toString()
