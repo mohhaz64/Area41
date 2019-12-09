@@ -6,6 +6,9 @@
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
+#Game-Specific Stuff
+users.txt
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -134,7 +137,6 @@ Temporary Items
 /Token.class
 /User.class
 
-
 # Created by https://www.gitignore.io/api/eclipse
 # Edit at https://www.gitignore.io/?templates=eclipse
 
@@ -208,3 +210,10 @@ local.properties
 .sts4-cache/
 
 # End of https://www.gitignore.io/api/eclipse
+/DeadController.class
+/Fire.class
+/GameController$1.class
+/Teleporter.class
+/TokenDoor.class
+/WallFollowEnemy.class
+/Water.class
