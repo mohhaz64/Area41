@@ -32,6 +32,10 @@ import javafx.util.Duration;
  *
  */
 
+/**
+ * @author 976045
+ *
+ */
 public class GameController {
 
     private Level levelBeingLoaded;
@@ -108,8 +112,8 @@ public class GameController {
 
     // Loaded image for the players character
     static Image player = new Image("PlayerRight.png", false);
-    static Image wall = new Image("WallISO.png", false);
-    static Image ground = new Image("GrassISO.png", false);
+    static Image wall;
+    static Image ground;
     static Image water = new Image("Water.png", false);
     static Image fire = new Image("Fire.png", false);
     static Image finish = new Image("Goal.png", false);
@@ -503,6 +507,26 @@ public class GameController {
 
 	drawGame();
 	drawInventory();
+    }
+    
+    public void setTheme(String theme) {
+    	if (theme.equals("Snowy")) {
+    	    wall = new Image("SnowyWall.png", false);
+    	    ground = new Image("SnowyFloor.png", false);
+    	} else if (theme.equals("Sandy")) {
+    		wall = new Image("SandyWall.png", false);
+    	    ground = new Image("SandyFloor.png", false);
+    	} else if (theme.equals("Dungeon")) {
+    		wall = new Image("DungeonWall.png", false);
+    	    ground = new Image("DungeonFloor.png", false);
+    	} else if (theme.equals("Neon")) {
+    		wall = new Image("NeonWall.png", false);
+    	    ground = new Image("NeonFloor.png", false);
+    	} else {
+    		wall = new Image("WallISO.png", false);
+    	    ground = new Image("GrassISO.png", false);
+    	}
+    	drawGame();
     }
 
     /**
