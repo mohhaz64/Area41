@@ -49,6 +49,8 @@ public class EditUserController {
     public void deleteUser() {
         BufferedReader reader;
         ArrayList<String> userList = new ArrayList<>();
+        ArrayList<Integer> userLevel = new ArrayList<>();
+        
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Delete");
@@ -61,7 +63,9 @@ public class EditUserController {
                 reader = new BufferedReader(new FileReader("users.txt"));
                 String line = reader.readLine();
                 while (line != null) {
-                    userList.add(line);
+                	String[] data = line.split(" ");
+            		userList.add(data[0]);
+            		userLevel.add(Integer.parseInt(data[1]));
                     line = reader.readLine();
                 }
                 reader.close();
@@ -72,6 +76,7 @@ public class EditUserController {
             for (int i = 0; i < userList.size(); i++) {
                 if (userList.get(i).equals(currentUserName)) {
                     userList.remove(i);
+                    userLevel.remove(i);
                     i--;
                 }
             }
@@ -80,7 +85,8 @@ public class EditUserController {
                 FileWriter fileWriter = new FileWriter("users.txt", false); //Set true for append mode
                 PrintWriter printWriter = new PrintWriter(fileWriter);
                 for (String user : userList) {
-                    printWriter.println(user);
+                	int index = userList.indexOf(user);
+                    printWriter.println(user + " " + userLevel.get(index));
                 }
                 printWriter.close();
             } catch (IOException e) {

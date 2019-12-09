@@ -105,7 +105,8 @@ public class User {
 	    reader = new BufferedReader(new FileReader("users.txt"));
 	    String line = reader.readLine();
 	    while (line != null) {
-		users.add(line);
+	    String[] data = line.split(" ");
+		users.add(data[0]);
 		line = reader.readLine();
 	    }
 	    reader.close();

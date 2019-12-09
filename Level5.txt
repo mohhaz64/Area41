@@ -30,7 +30,3 @@ FLIPPERS 6 4
 WATER 6 5
 WATER 6 10
 WATER 6 15
-Jack 7.0
-Jack 7.0
-Jack 7.0
-Jack 4.0
