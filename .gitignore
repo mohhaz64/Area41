@@ -217,3 +217,5 @@ local.properties
 /TokenDoor.class
 /WallFollowEnemy.class
 /Water.class
+/LeaderBoardController.class
+/WinController.class

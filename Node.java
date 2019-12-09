@@ -29,54 +29,48 @@ public class Node {
     }
 
     /**
+     * Gets the current value of X
      * @return - Current value of X
-     *
-     *         Gets the current value of X
      */
     public int getX() {
         return x;
     }
 
     /**
+     * Sets x to a new value
      * @param x - New value of x
-     *
-     *          Sets x to a new value
      */
     public void setX(int x) {
         this.x = x;
     }
 
     /**
+     * Gets the current value of y
      * @return - Current value of y
-     *
-     *         Gets the current value of y
      */
     public int getY() {
         return y;
     }
 
     /**
+     * Sets y to a new value
      * @param y - New value of y
-     *
-     *          Sets y to a new value
      */
     public void setY(int y) {
         this.y = y;
     }
 
     /**
+     * Gets the parent node of this node
      * @return Previous node in the shortest path from the enemy to this node
-     *
-     *         Gets the parent node of this node
      */
     public Node getParent() {
         return parent;
     }
 
     /**
+     * Sets the parent of this node to a new node
      * @param parent New parent of this node
-     *
-     *               Sets the parent of this node to a new node
      */
     public void setParent(Node parent) {
         this.parent = parent;
